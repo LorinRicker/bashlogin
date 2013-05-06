@@ -1,0 +1,221 @@
+#!/usr/bin/env bash
+
+# $HOME/bin/login/doc_function
+# Lorin Ricker: document functions (bash)
+
+shF="$( basename ${0#-} ) - doc_function"
+Ident="${shF}  # (LMR version 4.04 of 09/12/2012)"
+[ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
+
+dochandler()
+  { # $1 - filename to display
+    # $2 - display command to execute [with optional "CLS;" prefix]
+    # $3 - ampersand "&" to put display into background
+    if [ -a "$1" ]; then
+      if [ $( echo "$2" | grep --count "CLS;" ) = 1 ]; then
+        cmd="${2##CLS;} \"$1\""
+        clear  # the screen
+      else
+        cmd="$2 \"$1\""
+      fi
+      if [ "$3" = "&" ]; then
+        cmd="$cmd &"
+      fi
+      #echo "$ eval $cmd"
+      # Evince on PDF docs can cough up a lot of
+      #  "Error: Could not parse..." hairballs,
+      #  so redirect stderr to null-device:
+      eval $cmd 2>/dev/null
+    else
+      echo "%?-FNF, file not found \"$1\""
+    fi
+  }
+export -f dochandler
+
+# =========================
+
+doc()
+  {
+    d=$( echo "$1" | tr A-Z a-z )  #downcase
+    case $d in
+       aud* ) # Audacity manual
+         f="$DLB/Linux/Floss Manuals/Audacity User Manual (FM_24Sep09).pdf"
+         dochandler "$f" "evince >/dev/null" "&"
+         ;;
+       gimp* ) # Gimp User Manual
+         f="$DLB/Photography/Gimp/gimp2-2.pdf"
+         dochandler "$f" "evince >/dev/null" "&"
+         ;;
+       dig* ) # Digikam Handbook
+         f="$DLB/Photography/Digikam/Digikam Handbook.pdf"
+         dochandler "$f" "evince >/dev/null" "&"
+         ;;
+       sho* ) # Showfoto Handbook
+         f="$DLB/Photography/Digikam/Showfoto Handbook.pdf"
+         dochandler "$f" "evince >/dev/null" "&"
+         ;;
+       bas* ) # bash manual
+         f="$DLB/Linux/bash/Advanced Bash Scripting Guide (v6-2-01 May-2010).pdf"
+         dochandler "$f" "evince >/dev/null" "&"
+         ;;
+       bdb* ) # bashdb (debugger) manual
+         f="$DLB/Linux/bash/Bash Debugger Online Manual.pdf"
+         dochandler "$f" "evince >/dev/null" "&"
+         ;;
+       bpr* | poc* | ref* ) # bash Pocket Reference
+         f="$DLB/Linux/bash/bash Pocket Reference.pdf"
+         dochandler "$f" "evince >/dev/null" "&"
+         ;;
+       bit* ) # Azureus Bittorrent manual
+         f="$DLB/Linux/Floss Manuals/Azureus bittorrent User Manual (FM_Azureus_07May08).pdf"
+         dochandler "$f" "evince >/dev/null" "&"
+         ;;
+       ema* ) # GNU Emacs Manual
+         f="$DLB/Emacs/GNU Emacs Manual (16th ed v23-3).pdf"
+         dochandler "$f" "evince >/dev/null" "&"
+         ;;
+       lis* ) # GNU Emacs Lisp Manual
+         f="$DLB/Emacs/Emacs Lisp (rev3-0 v23-3).pdf"
+         dochandler "$f" "evince >/dev/null" "&"
+         ;;
+       wgr* ) # The Well-Grounded Rubyist
+         f="$DLB/Manning/The Well-Grounded Rubyist.pdf"
+         dochandler "$f" "evince >/dev/null" "&"
+         ;;
+       pup* ) # Puppet Labs Documentation
+         f="$DLB/Linux/Puppet/PuppetLabsDoc.pdf"
+         dochandler "$f" "evince >/dev/null" "&"
+         ;;
+       fir* | fox* ) # Firefox manual
+         f="$DLB/Linux/Floss Manuals/Firefox User Manual (FM_25Sep09).pdf"
+         dochandler "$f" "evince >/dev/null" "&"
+         ;;
+       gnu* | lin* ) # GNU-Linux manual
+         f="$DLB/Linux/Floss Manuals/Gnu-Linux Commands User Manual (FM_16Apr09).pdf"
+         dochandler "$f" "evince >/dev/null" "&"
+         ;;
+       ink* ) # Inkscape manual
+         f="$DLB/Linux/Floss Manuals/Inkscape User Manual (FM_25Nov09).pdf"
+         dochandler "$f" "evince >/dev/null" "&"
+         ;;
+       kre* ) # KRename manual
+         f="$DLB/Linux/KDE Components/krename-3.0.12.pdf"
+         dochandler "$f" "evince >/dev/null" "&"
+         ;;
+       mus* ) # MuseScore manual
+         f="$DLB/Music Notation/MuseScore/MuseScore-en.pdf"
+         dochandler "$f" "evince >/dev/null" "&"
+         ;;
+       upr* ) # Ubuntu Pocket Reference manual
+         f="$DLB/Linux/Ubuntu Linux/ubuntupocketguide-v1-1.pdf"
+         dochandler "$f" "evince >/dev/null" "&"
+         ;;
+       wor* ) # Wordpress manual
+         f="$DLB/Linux/Floss Manuals/WordPress User Manual (FM_17Sep09).pdf"
+         dochandler "$f" "evince >/dev/null" "&"
+         ;;
+       ckey* ) # Compose-Key Page
+         f="$DLB/Linux/ComposeKey.pdf"
+         dochandler "$f" "evince >/dev/null" "&"
+         ;;
+       ckt* ) # Compose-Key Table Reference Page
+         f="$DLB/Linux/GtkComposeTable.pdf"
+         dochandler "$f" "evince >/dev/null" "&"
+         ;;
+       lcl* ) # Lorin's Custom Command-line editing help
+         f="$DLB/Linux/HowTos/LMR-Custom Command-Line Editing (bash history).txt"
+         dochandler "$f" "CLS; cat"
+         ;;
+       cle* ) # Command-line editing help
+         f="$DLB/Linux/HowTos/Command-Line Editing (bash history).txt"
+         dochandler "$f" "CLS; cat"
+         ;;
+       com* | dcom* )  # doc commands
+         echo -e "\n  [4m[1mDocument commands:[0m"
+         echo "  [4mdoc[0m - open and read various manuals, books, etc."
+         echo "  [4mdlj[0m - open and read [4mDigital Linux Journal[0m issues"
+         echo "  [4mfcu[0m - open and read [4mFull Circle - Ubuntu[0m issues"
+         ;;
+       ? | -h | -? | * ) # ...what's available?
+         echo -e "\n  [4m[1mDocuments available:[0m"
+         echo "    [4mAuda[0m - Audacity User Manual"
+         echo "    [4mGimp[0m - Gimp User Manual"
+         echo "    [4mDig[0m  - Digikam Handbook"
+         echo "    [4mSho[0m  - Showfoto Handbook"
+         echo "    [4mBash[0m - Advanced Bash Scripting Guide"
+         echo "    [4mbdb[0m  - Bash Debugger Online Manual - bdb"
+         echo "    [4mBPR[0m  - Bash Pocket Reference"
+         echo "    [4mBit[0m  - Azureus Bittorrent User Manual"
+         echo "    [4mEmac[0m - Emacs Manual"
+         echo "    [4mLisp[0m - Emacs Lisp Manual"
+         echo "    [4mWGR[0m  - The Well-Grounded Rubyist"
+         echo "    [4mPup[0m  - Puppet Labs Documentation"
+         echo "    [4mFire[0m - Firefox User Manual"
+         echo "    [4mGNU[0m  - GNU/Linux Commands User Manual"
+         echo "    [4mInks[0m - Inkscape User Manual"
+         echo "    [4mKRen[0m - KRename User Guide"
+         echo "    [4mMuse[0m - MuseScore User Guide"
+         echo "    [4mUPR[0m  - Ubuntu Pocket Reference"
+         echo "    [4mWord[0m - WordPress User Manual"
+         echo "    [4mCKey[0m - Compose-Key Page"
+         echo "    [4mCKT[0m  - Compose-Key Reference Table Page"
+         echo "    [4mLCL[0m  - Lorin's Custom Command-Line Editing (bash history)"
+         echo "    [4mCLE[0m  - Command-Line Editing (bash history)"
+         ;;
+     esac
+  }
+export -f doc
+
+# =========================
+
+# read issues of Digital Linux Journal
+dlj()
+  { DLJ="/vm/Mirrors/LorinLibrary/DocLibrary/Magazines/DigitalLinuxJournal"
+    d=$( echo "$1" | tr a-z A-Z )  #upcase
+    case $d in
+    1?? | 2?? | 3?? | 4?? | 5?? | 6?? | 7?? | 8?? | 9?? )
+    issue="${DLJ}/dlj${d}.pdf"
+    if [ -e "$issue" ]; then
+      dochandler "$issue" "evince >/dev/null" "&"
+    else
+      echo "%dlj-e-fnf, no issue '${issue}'"
+    fi
+    ;;
+    ? | -h | -? | * )  # what issues are online?
+    cd "$DLJ"
+    echo -e "\n[1mDigital Linux Journal[0m\n[4mIssues in ${DLJ}[0m\n"
+    ls dlj*.pdf
+    cd
+    ;;
+    esac
+  }
+export -f dlj
+
+# =========================
+
+# read issues of Full Circle - Ubuntu
+fcu()
+  { FCU="/vm/Mirrors/LorinLibrary/DocLibrary/Magazines/FullCircle-Ubuntu"
+    d=$( echo "$1" | tr a-z A-Z )  #upcase
+    case $d in
+    0? | 1? | 2? | 3? | 4? | 5? | 6? | 7? | 8? | 9? | PY0? | SE0? )
+    issue="${FCU}/issue${d}_en.pdf"
+    if [ -e "$issue" ]; then
+      dochandler "$issue" "evince >/dev/null" "&"
+    else
+      echo "%dlj-e-fnf, no issue '${issue}'"
+    fi
+    ;;
+    ? | -h | -? | * )  # what issues are online?
+    cd "$FCU"
+    echo -e "\n[1mFull Circle - Ubuntu[0m\n[4mIssues in ${FCU}[0m\n"
+    ls issue*_en.pdf
+    cd
+    ;;
+    esac
+  }
+export -f fcu
+
+# =========================
+
+# exit 0

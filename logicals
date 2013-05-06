@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+
+# $HOME/bin/login/logicals
+# Lorin Ricker: "VMS logical names"
+
+shF="$( basename ${0#-} ) - logicals"
+Ident="${shF}  # (LMR version 4.07 of 11/06/2012)"
+[ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
+
+case ${HOSTNAME} in  # /vm/Mirrors or /usr/Mirrors ...?
+  burro )
+    deflogical "mirror"  "/usr/Mirrors"
+    ;;
+  music )
+    deflogical "mirror"  "/usr/Mirrors"
+    ;;
+esac
+
+deflogical "anc"     "$HOME/anchor"
+deflogical "bin"     "$HOME/bin"
+deflogical "prj"     "$HOME/projects"
+deflogical "com"     "$HOME/projects/com"
+deflogical "lgi"     "$HOME/projects/login"
+deflogical "rby"     "$HOME/projects/ruby"
+
+deflogical "bck"     "$HOME/anchor/Backups"
+deflogical "bus"     "$HOME/anchor/Businesses"
+deflogical "waw"     "$BUS/InternetRadio/WalkingAWalk"
+deflogical "prf"     "$HOME/anchor/Professional"
+deflogical "doc"     "$PRO/Documents"
+
+deflogical "scr"     "$HOME/scratch"
+deflogical "cut"     "$HOME/anchor/Shortcuts"
+
+deflogical "shr"     "/home/share"
+deflogical "drop"    "$HOME/Dropbox"
+
+deflogical "arc"     "$MIRROR/Archives"
+deflogical "tar"     "$MIRROR/TArchives"
+deflogical "llb"     "$MIRROR/LorinLibrary"
+deflogical "dlb"     "$LLB/DocLibrary"
+deflogical "mlb"     "$LLB/MusicLibrary"
+deflogical "kit"     "$LLB/SoftwareKits"
+deflogical "cat"     "$LLB/Photography/Catalog"
+
+deflogical "ssf"     "/media/sshfs"      # mount-point for SSH file systems
+
+# exit 0

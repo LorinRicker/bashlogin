@@ -1,0 +1,146 @@
+#!/usr/bin/env bash
+
+# $HOME/projects/login/login_setup
+# Lorin Ricker: set up bash-login environment & commands
+
+shF=$( basename $0 )
+Ident="${shF}  # (LMR version 1.09 of 11/05/2012)"
+[ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
+
+DST="$HOME/bin/login"
+SRC="$HOME/projects/login"
+STASH="$HOME/projects/login/stash"
+
+declare -i FCNT=0
+
+function copylogin()
+  {
+  local fnam=$1
+  local -i fcount=$2
+  local bckup="~"
+  if ! $( cmp --quiet $SRC/$fnam $DST/$fnam ); then
+    # rename previous version as backup...
+    [ -e $DST/$fnam ]           && mv $DST/$fnam $DST/${fnam}${bckup}
+    [ -e $DST/${fnam}${bckup} ] && chmod 600 $DST/${fnam}${bckup}
+    # copy the new...
+    cp $SRC/$fnam $DST/$fnam
+    chmod 700 $DST/$fnam
+    fcount=$((fcount + 1))
+  fi
+  # cleanup any source-backup copy...
+  [ -e "$SRC/${fnam}${bckup}" ] && rm -v $SRC/${fnam}${bckup}
+  echo $fcount  # the return value...
+  }
+
+function symlink()
+  {
+  local fnam=$1
+  if [ ! -L "$HOME/.$fnam" ]; then   # not a sym-link?
+    mv "$HOME/.$fnam" "$STASH/.${fnam}-original"
+    ln -s $TAR/$fnam $HOME/.$fnam
+  fi
+  }
+
+function list_binlogin()
+  {
+  local -i fcount=$1
+  echo -e "\n[ \033[1m\033[4m$DST\033[0m ]"
+  ls -lA $DST/
+  printf "  \033[4m\033[4mFiles released: %d\033[0m\n" $fcount
+  }
+
+function list_home()
+ {
+  echo -e "\n[ \033[1m\033[4m$HOME\033[0m ]"
+  ls -lA ~/.bashrc ~/.emacs ~/.inputrc ~/.bash_logout
+  }
+
+# ======================================================================
+
+opt=${1:-release}   # parameter-1 or default "release"
+opt=$( echo "$opt" | tr A-Z a-z );
+opt=${opt##-}       # remove any leading - or -- from option
+opt=${opt##-}
+
+case "$opt" in
+
+  abo* | hel* | inf* )  # spit out some documentation...
+    echo -e "\n$Ident\n"
+    cat <<EOD
+  Usage:  $ ./login_setup --[ release (D) | sym|link|ln | list | help|info|about ]
+
+  Summary: 1) Release (copy) bash-core login files
+              from ~/projects/login/ edit-directory
+              to   ~/bin/login/ operational directory
+           2) (re)Build ~/.bashrc as a sym-link which points
+              to $HOME/bin/login/bashrc, replacing any previous
+              .bashrc (renaming it to *-original)
+
+  Using ideas from the "bash Cookbook" (Albing, Vossen & Newham, O'Reilly, 2007),
+  this script establishes a system of bashrc login script files which:
+
+  a) Replaces the text/script file ~/.bashrc with a sym-link of the same name
+     which points at the actual script files in ~/bin/login/, including the
+     primary script file bashrc ...
+
+  b) That base ./bashrc file invokes other login component scripts, including
+     (but not limited to):
+
+        ~/bin/login/{aliases,functions,logicals,...}
+
+  c) All of these bash-login scripts are to be edited in the working directory
+     ~/projects/login/ and, when ready, can be released to the operational
+     directory ~/bin/login/ ...
+
+  d) Sym-links also replace these regular files:
+
+        ~/.bash_logout  ~/.inputrc  ~/.emacs
+
+  This approach simplifies bash-login file development and maintenance, and
+  limits the clutter of files in a user's $HOME directory...
+
+EOD
+    ;;
+
+  lis* )
+    list_binlogin
+    list_home
+    # ...and list $STASH/*-original versions, if any exist:
+    sf="$STASH/.*-original"
+    fc=$( ls -A $sf 2> /dev/null | wc -l )
+    if [ $fc -ge 1 ]; then
+      echo -e "\n[ $fc ./stash/*-original files ]"
+      ls -lA $sf
+    fi
+    ;;
+
+  sym* | lin* | ln* )  # create or replace sym-links...
+    symlink bashrc
+    symlink inputrc
+    symlink emacs
+    symlink bash_logout
+
+    list_home
+    ;;
+
+  rel* | * )  # default: copy bash-core login files
+              #          from edit-dir to ~/bin/login/
+    FCNT=$( copylogin bashrc       $FCNT )
+    FCNT=$( copylogin aliases      $FCNT )
+    FCNT=$( copylogin functions    $FCNT )
+    FCNT=$( copylogin logicals     $FCNT )
+    FCNT=$( copylogin ruby_setup   $FCNT )
+    FCNT=$( copylogin doc_function $FCNT )
+    FCNT=$( copylogin debugmode    $FCNT )
+    FCNT=$( copylogin tweak_path   $FCNT )
+    FCNT=$( copylogin inputrc      $FCNT )
+    FCNT=$( copylogin emacs        $FCNT )
+    FCNT=$( copylogin bash_logout  $FCNT )
+
+    list_binlogin $FCNT
+    list_home
+    ;;
+
+esac
+
+# exit 0

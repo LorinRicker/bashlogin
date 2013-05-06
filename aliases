@@ -1,0 +1,225 @@
+#!/bin/bash
+
+# $HOME/bin/login/aliases
+# Lorin Ricker: personal aliases
+
+shF="$( basename ${0#-} ) - aliases"
+Ident="${shF}  # (LMR version 4.09 of 01/06/2013)"
+[ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
+
+# Exports global variable DEBUGMODE (value 0|1):
+DMfile="$HOME/bin/Debug_Mode"
+if [ -a $DMfile ]; then
+  alias debug="source $DMfile"  # > source <, not subprocess...
+  source $DMfile OFF
+fi
+
+# =========================
+alias root="sudo -i"
+# don't forget "sudo !!" to put sudo in front of the previous command:
+# (but this won't work, either as an alias or a as a function:
+#    alias oops="sudo !!")
+
+alias shutdown="sudo shutdown -Pv now"
+alias   reboot="sudo shutdown -rv now"
+alias nologins="sudo shutdown -kv now"
+
+# =========================
+
+alias  verifyON='set -x'
+alias verifyOFF='set +x'
+
+# some more ls aliases:
+alias ll='ls -lAh --file-type'
+alias lr='ls -lARh --file-type'
+alias la='ls -Ah --file-type'
+# alias l='ls -CF'
+# alias dir='ls -Aghlp'  # obsolete? write a Ruby DCL-dir function!
+
+# aptitude/Synaptic package management:
+# List installed packages, CSV-formatted for spreadsheet uptake:
+alias instpkg='aptitude search -F "%p,%v,\"%d\"" --disable-columns ~i'
+
+# =========================
+# fine-tune some commands:
+alias mkdir='mkdir -pv'
+alias   ged='gksu gedit'
+alias gconf='gconf-editor &'
+
+alias  mx='chmod a+x'   #make All eXecutable (UGO)
+
+# DCL.sh -- Implements selected VMS/DCL command capabilities, using aliases --
+#           invoke with "." (source) to inherit export/globals:
+DCL="$HOME/anchor/Com/DCL.sh"
+if [ -e ${DCL} ]; then
+  alias   copy=". $DCL copy"
+  alias    del=". $DCL del"
+  alias    dif=". $DCL dif"
+  alias   move=". $DCL move"
+  alias rename=". $DCL rename"
+fi
+
+# more VMS-like stuff:
+alias    cls='clear'
+alias   myps='ps -U lorin'
+alias   ssys='ps -ef | less'
+alias   dwho='who -HbdprtTu'
+alias   duck='du -skch * | sort -rn'  # Top-level totals
+alias    du='du -h'
+alias    df='df -hT'
+alias  disk='df -hT -t ext3 -t ext4 -t cifs'
+alias    di='di -f SbcvpTM'
+alias   free='free -m'
+alias recall='history | grep '     # needs argument
+
+# Linux network stuff:
+# wireshark must run as privileged to access net-devices:
+alias wshark='sudo wireshark &'
+alias   ping='ping -c5 -W1'
+alias pingtr='mtr -c5 -i3'  # mtr combines ping and tracert
+alias publicip='curl icanhazip.com'  # fetch external/public IP-address
+
+alias net1='watch --interval=2 "sudo netstat -apn -l -A inet"'
+alias net2='watch --interval=2 "sudo netstat -anp --inet --inet6"'
+alias net3='sudo lsof -i'
+alias net4='watch --interval=2 "sudo netstat -p -e --inet --numeric-hosts"'
+alias net5='watch --interval=2 "sudo netstat -tulpan"'
+alias net6='sudo netstat -tulpan'
+alias net7='watch --interval=2 "sudo netstat -utapen"'
+alias net8='watch --interval=2 "sudo netstat -ano -l -A inet"'
+alias netl='sudo nmap -sT -O localhost'
+# more here http://www.redhat.com/docs/manuals/linux/RHL-9-Manual/security-guide/s1-server-ports.html
+alias whois='whois -H'
+
+# -------------------------
+# rsync's --archive = --recursive --links --perms --times --owner --group --devices --specials
+#        (-a = -rlptgoD)
+# (Note that "$ sudo backup ..." doesn't work, because root-proc doesn't inherit alias "backup"!)
+alias    backup="rsync -au --stats --human-readable"
+alias   backupv="rsync -auv --stats --human-readable --progress"
+alias  backupsu="sudo rsync -au --stats --human-readable"
+alias backupvsu="sudo rsync -auv --stats --human-readable --progress"
+# =========================
+
+# -------------------------
+# Note: In order for these scripts, bash: mkssf[.sh] and ruby: mkssfpath[.rb]
+#       to affect the current process environment -- i.e., to let them define
+#       "logical names" (bash variables) which are visible in the current
+#       process -- then this corresponding alias *must* be defined to *source*
+#       the script file...
+f="$HOME/bin/mkssf"
+if [ -a $f ]; then
+  alias mkssf="source $f"   # same as ". $f"
+else
+  echo "%${shF}-fnf, file not found \"$f\""
+fi
+
+#~ f="$HOME/bin/CopyLoginStash"
+#~ if [ -a $f ]; then
+  #~ alias stashlog="$f"
+#~ else
+  #~ echo "%${shF}-fnf, file not found \"$f\""
+#~ fi
+
+#~ f="$HOME/bin/release2bin"
+#~ if [ -a $f ]; then
+  #~ alias relbin="$f"
+#~ else
+  #~ echo "%${shF}-fnf, file not found \"$f\""
+#~ fi
+
+### Don't need aliases for these, as the filename suffices as the command,
+### and $HOME/bin is in the $PATH search-path...
+#~ f="$HOME/bin/essentials"
+#~ if [ -a $f ]; then
+  #~ alias essentials="$f"
+#~ else
+  #~ echo "%${shF}-fnf, file not found \"$f\""
+#~ fi
+
+#~ f="$HOME/bin/keepalive"
+#~ if [ -a $f ]; then
+  #~ alias keepalive="$f"
+#~ else
+  #~ echo "%${shF}-fnf, file not found \"$f\""
+#~ fi
+
+#~ f="$HOME/bin/mping"
+#~ if [ -a $f ]; then
+  #~ alias mping="$f"
+#~ else
+  #~ echo "%${shF}-fnf, file not found \"$f\""
+#~ fi
+
+#~ f="$HOME/bin/rollup"
+#~ if [ -a $f ]; then
+  #~ alias rollup="$f"
+#~ else
+  #~ echo "%${shF}-fnf, file not found \"$f\""
+#~ fi
+
+# support for personal backup logfile monitoring:
+f="$HOME/scratch/logfiles/rsynctrees-music.log"
+if [ -a $f ]; then
+  alias catblf="cat $f | less -N"
+fi
+
+f="$HOME/scratch/logfiles/rsynctrees-music.log"
+if [ -a $f ]; then
+  alias tailblf="tail -fn 40 $f"
+fi
+# -------------------------
+
+# =========================
+# enable color support of ls &/or grep:
+if [ "$TERM" != "dumb" ] && [ -x /usr/bin/dircolors ]; then
+    eval "`dircolors -b`"
+    alias grep='grep --color=auto'
+    # alias ls='ls --color=auto'
+    # alias dir='ls --color=auto --format=vertical'
+    # alias vdir='ls --color=auto --format=long'
+    # alias fgrep='fgrep --color=auto'
+    # alias egrep='egrep --color=auto'
+fi
+# -------------------------
+
+# =========================
+# ANSI renditions:
+# (Would like to use echo -e "${BOLD} bold-string ${NORM}",
+#  but recursive string-substitution doesn't work for bash!)
+alias   esc="\033"     # the "" (escape) character
+alias  NORM="\e[0m"
+alias  BOLD="\e[1m"
+alias ULINE="\e[4m"
+alias REVRS="\e[7m"
+
+## Some colors (but ditto...):
+alias        NC="\e[0m"       # No Color
+alias     WHITE="\e[1;37m"
+alias     BLACK="\e[0;30m"
+alias      BLUE="\e[0;34m"
+alias     GREEN="\e[0;32m"
+alias    YELLOW="\e[1;33m"
+alias      CYAN="\e[0;36m"
+alias       RED="\e[0;31m"
+alias    PURPLE="\e[0;35m"
+alias     BROWN="\e[0;33m"
+alias LIGHTGRAY="\e[0;37m"
+alias  DARKGRAY="\e[1;30m"
+# alias LIGHTBLUE="\e[1;34m"
+# alias LIGHTGREEN="\e[1;32m"
+# alias LIGHTCYAN="\e[1;36m"
+# alias LIGHTRED="\e[1;31m"
+# alias LIGHTPURPLE="\e[1;35m"
+# =========================
+
+# =========================
+# Show your own aliases & logicals at login-time:
+if [ "$DEBUGMODE" = 1 ]; then
+  alias -p   # display aliases
+  logicals   # display logical names
+  echo -e "\n%Ruby-I, aliases set for [1mRuby v${RBV}[0m"
+fi
+# =========================
+
+return 0  # don't: exit 0

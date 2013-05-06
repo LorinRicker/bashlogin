@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+
+shF="$( basename ${0#-} ) - debugmode"
+Ident="${shF}  # (LMR version 2.00 of 09/12/2012)"
+[ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
+
+dbgmode()
+  {
+    # Usage: $ DEBUGMODE=$(( dbgmode [ on | off ] ))
+    #    $1: [optional] if missing, toggle the value,
+    #                   else 0/1, "on"/"off" or "true/false"
+    local arg
+    arg=$( echo "$1" | tr '[a-z]' '[A-Z]' )
+    case "$arg" in
+      0 | OFF | FAL* )
+        dbm=0 ;;
+      1 | ON | TRU* )
+        dbm=1 ;;
+      "" | * )  # toggle it
+        if [ "$DEBUGMODE" = "1" ]; then
+          dbm=0
+        else
+          dbm=1
+        fi ;;
+    esac
+    echo "$dbm"  # the return value
+  }  # end dbgmode
+export -f dbgmode
+
+trcmode()
+  {
+    # Usage: $ trcmode [ on | off ]
+    #    $1: [optional] if missing, toggle the value,
+    #                   else 0/1, "on"/"off" or "true/false"
+    local arg
+    arg=$( echo "$1" | tr '[a-z]' '[A-Z]' )
+    case "$arg" in
+      0 | OFF | FAL* )
+        set +o xtrace ;;
+      1 | ON | TRU* )
+        set -o xtrace ;;
+      "" | * )  # toggle it
+        if [ "$DEBUGMODE" = "1" ]; then
+          set +o xtrace
+        else
+          set -o xtrace
+        fi ;;
+    esac
+    PS4="·$LINENO• "
+  }  # end trcmode
+export -f trcmode

@@ -1,0 +1,395 @@
+#!/usr/bin/env bash
+
+# $HOME/bin/login/functions
+# Lorin Ricker: bash functions
+
+shF="$( basename ${0#-} ) - functions"
+Ident="${shF}  # (LMR version 4.07 of 11/05/2012)"
+[ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
+
+# ===============================================================
+# Note: Each function definition includes an "export -f fname" so
+#       that these are "global", copied to forked sub-processes
+#       and can also be listed by Ruby script lsfunction.rb
+# ================================================================
+
+# prototype_func()
+#   {  #stuff...
+#      # Make the function result echo as a string (the only echo)...
+#      echo "func_result"
+#   }
+# export -f prototype_func
+# Use:  var=$( prototype_func )
+
+# =========================
+## sudo()
+##   {
+##     command="$@"
+##     if [ -z "$command" ]; then
+##       command sudo -s
+##     else
+##       command sudo "$@"
+##     fi
+##   }
+## export -f sudo
+
+# Command-recall lister support ("hist" derived from "history"):
+hist()
+  {
+    local -i ln
+    if [ -z "$1" ]; then
+      # fetch term-size: #rows - 4
+      ln=$( stty size | cut --fields=1 --delimiter=' ' )
+      ln=$(($ln - 4))
+    else  # use whatever #lines requested
+      ln=$1
+    fi
+    echo -en "\033[0;34m-----  History of most recent $ln commands -----\033[0m\n"
+    history | tail --lines=$ln
+  }
+export -f hist
+
+# subsystem restarts:
+## alias RScups='sudo /etc/init.d/cups restart'
+## alias RSsamba='sudo /etc/init.d/samba restart'
+restartd()
+  { # Subsystem daemons which commonly need restarting:  cups samba ntp pulseaudio rsync ssh tor
+    local daemon
+    daemon="$@"
+    if [ -z "$daemon" ]; then
+      echo "usage: $ restartd [ cups | crashplan | samba | ntp | pulseaudio | rsync | ssh | tor | ... ]"
+    else
+      command sudo /etc/init.d/${daemon} restart
+    fi
+  }
+export -f restartd
+
+distouchpad()
+  { # Disable/re-control the damn touchpad -- no fingerpainting!
+    local sd
+    local pid
+    local carg
+    local darg="-d -i 86400 -K -R" # wait all day to reenable touchpad
+    local re=""
+    echo "%distouchpad-I syndaemon on host: $HOSTNAME"
+    # Get the ps (system's) process entry for the syndaemon,
+    # extract that process's pid (2nd field), and extract the
+    # com-line args for that process (remainder after "syndaemon");
+    # establish the desired (re)start arguments (darg):
+      sd=$( ps aux | grep [s]yndaemon )
+     pid=$( echo "${sd}" | \
+            ruby -e 'puts gets.to_s.split[1]' )
+    carg=$( echo "${sd}" | \
+            ruby -e 'puts gets.to_s.split("syndaemon")[1].to_s.strip.rstrip' )
+    if [ "$pid" != "" ]; then          # a syndaemon already's running...
+      if [ "$carg" != "$darg" ]; then  # and doesn't have the right args...
+        re="re"
+        carg=""
+        kill -kill $pid                # so kill that one...
+        sleep 1                        # wait a sec to settle
+      fi
+    fi
+    if [ "$carg" != "$darg" ]; then
+      syndaemon $darg                    # (re)start syndaemon...
+      if [ $? = 0 ]; then
+        echo "%distouchpad-S syndaemon ${re}started..." >&2
+      fi
+    fi
+    ps aux | grep [s]yndaemon
+  }
+export -f distouchpad
+# =========================
+
+# =========================
+# Need a smart VMS-cd here...
+cd()
+  { # cd the way we did it in VMS,
+    # but can use bash's cd, pushd, popd and dirs commands:
+    local args="$*"
+    local d
+    if [ -z "$args" ]; then
+      popd >/dev/null              # same as native "cd -"
+    else
+      for d in "$@"; do            # "$@", not "$*"...!
+        if [ "$d" = "??" ] || [ "$d" = "-h" ] || [ "$d" = "--help" ]; then
+          echo "usage: $ cd [ directory | ? | ! ]"
+        elif [ "$d" = "?" ]; then  # list DIRSTACK
+          dirs -l -v               # must use two distinct switches, not "-lv"
+          return 0
+        elif [ "$d" = "!" ]; then  # clear DIRSTACK
+          dirs -c
+          return 0
+        else
+          pushd >/dev/null "$d"    # using DIRSTACK as "permanent stack"
+        fi
+      done
+    fi
+  }
+export -f cd
+
+where()
+  {
+    echo -en "\033[0;34m---- $( pwd ) ----\033[0m"
+  }
+export -f where
+# =========================
+
+# =========================
+# We can't have proper VMS logical names, but here's the next best --
+# analogous to $HOME, bash variables ('symbols') are close enough --
+# Don't add trailing '/', so symbols can be used as: $com, $com/, $com/filename, etc.
+deflogical()
+  { # Creates a logical name, both lower/UPPER case forms: "com" & "COM"
+    if [ "$1" = "" ]; then
+      echo "%IDENT-I, function deflogical"
+      echo "usage:  $ deflogical \"logical\" \"path\""
+      return
+    fi
+    L1=$( echo $1 | tr A-Z a-z )
+    U1=$( echo $1 | tr a-z A-Z )
+    eval "export $L1=\"$2\""
+    eval "export $U1=\"$2\""
+    if [ $( echo "$LNMList" | grep --count "\s$L1" ) = 0 ]; then
+      if [ "$LNMList" = "" ]; then
+        LNMList=" $L1"      # yes, the leading space is important!
+      else
+        LNMList="$LNMList $L1"
+      fi
+      export LNMList
+    fi
+  }
+export -f deflogical
+
+logicals()
+  { # List a logical name, or all of them...
+    local lnm
+    local ln
+    local lv
+    local lh
+    echo -e "\n%logicals-I-list, Logical names for user (process) \033[4m${HOME##/home/}\033[0m\n"
+    if [ "$1" = "" ]; then
+      lnm="$LNMList"
+    else
+      lnm="$@"
+    fi
+    for ln in $lnm ; do
+      Ul=$( echo $ln | tr a-z A-Z )
+      # Note: ${!ln} produces the value of the symbol named by ln:
+      lv=${!ln}
+      if [ "$lv" = "" ]; then
+        lh=$( echo -n "$ln ($Ul)" )
+        lv="[undefined]"
+      else
+        # bold-rendition for defined logicals:
+        lh=$( echo -n "\033[1m$ln\033[0m (\033[1m$Ul\033[0m)" )
+        lv="\033[1m$lv\033[0m"
+      fi
+      echo -e "  $lh = \"$lv\""
+#      printf "  %s = \"%s\"\n" $lh $lv
+    done
+  }
+export -f logicals
+# =========================
+
+# =========================
+# ls-type functions:
+ff()
+  { # Find a literally-named file from local directory recursively below
+    sudo find . -iname "$*" -type f -ls ;
+  }
+export -f ff
+
+fe()
+  { # Find a file with pattern $1 in name and execute $2 on it
+    find . -type f -iname '*'"$1"'*' -exec "${2:-file}" {} \; ;
+  }
+export -f fe
+
+fp()
+  { # Find a pattern-named file from local directory recursively below
+    find . -type f -iname '*'"$*"'*' -ls ;
+  }
+export -f fp
+
+lf()
+  { ls -1p $@ | grep -v '\/$' ;
+  }
+export -f lf
+
+# Advanced ls function
+# Counts files, subdirectories and directory size and displays details
+# about files depending on the available space
+lls()
+  {
+    local rows
+    local files
+    # count files
+    echo -n "<`find . -maxdepth 1 -mindepth 1 -type f | wc -l | tr -d '[:space:]'` files>"
+    # count sub-directories
+    echo -n " <`find . -maxdepth 1 -mindepth 1 -type d | wc -l | tr -d '[:space:]'` dirs/>"
+    # count links
+    echo -n " <`find . -maxdepth 1 -mindepth 1 -type l | wc -l | tr -d '[:space:]'` links@>"
+    # total disk space used by this directory and all subdirectories
+    echo " <~`du -sh . 2> /dev/null | cut -f1`>"
+    rows=$( stty size | cut -d' ' -f1 )
+    files=$( find . -maxdepth 1 -mindepth 1 |
+             wc -l | tr -d '[:space:]' )
+    # if the terminal has enough lines, do a long listing
+    if [ $( expr "${rows}" - 6 ) -lt "${files}" ]; then
+        ls
+    else
+        ls -hlAF
+    fi
+  }
+export -f lls
+# =========================
+
+# sshfs remote mount-point functions:
+# sshfs name@server:/path/to/folder /path/to/mount/point
+# fusermount -u /path/to/mount/point
+
+# =========================
+# Inserts a flag with the specified content
+# Usage: flag "comment"; If no comment, inserts the date
+flag()
+  {
+    if [ "$1" = "" ];
+    then
+        echo -e "\033[0;31m[====== " $(date +"%A %e %B %Y"), $(date +"%R") " ======]\033[0m"
+    else
+        echo -e "\033[0;31m[====== " $@ " ======]\033[0m"
+    fi
+  }
+export -f flag
+
+# Inserts a flag and executes command:
+# Usage: doflag "command"
+doflag()
+  {
+    if [ "$1" = "" ];
+    then
+        return
+    else
+        flag; flag $@
+        command $@
+        echo -e "\033[0;31m[============]\033[0m"
+    fi
+  }
+export -f doflag
+
+lcfname()
+  {
+    local file
+    local filename
+    local dirnam
+    local nf
+    local newname
+    for file ; do
+        filename=${file##*/}
+        case "$filename" in
+          */*) dirname=${file%/*} ;;
+            *) dirname=. ;;
+        esac
+        nf=$( echo $filename | tr A-Z a-z )
+        newname="${dirname}/${nf}"
+        if [ "$nf" != "$filename" ]; then
+            mv "$file" "$newname"
+            echo "lowercase: $file --> $newname" >&2
+        else
+            echo "lowercase: $file not changed" >&2
+        fi
+    done
+  }
+export -f lcfname
+# =========================
+
+# =========================
+ask()
+  {
+    local ans
+    echo -n "$@" '[y/n] ' ; read ans
+    case "$ans" in
+        y*|Y*) return 0 ;;
+            *) return 1 ;;
+    esac
+  }
+export -f ask
+
+extract()
+  {
+   if [ -f "$1" ] ; then
+     case "$1" in
+       *.tar.bz2) tar -xjf "$1"   ;;
+       *.tar.gz)  tar -xzf "$1"   ;;
+       *.bz2)     bunzip2 "$1"    ;;
+       *.rar)     rar -x "$1"     ;;
+       *.gz)      gunzip "$1"     ;;
+       *.tar)     tar -xf "$1"    ;;
+       *.tbz2)    tar -xjf "$1"   ;;
+       *.tgz)     tar -xzf "$1"   ;;
+       *.zip)     unzip "$1"      ;;
+       *.Z)       uncompress "$1" ;;
+       *.7z)      7z -x "$1"      ;;
+       *)         echo "'$1' cannot be extracted via extract()" >&2 ;;
+     esac
+   else
+     echo "'$1' is not a valid file" >&2
+   fi
+  }
+export -f extract
+
+netinfo()
+  {
+    local myip
+    echo "--------------- Network Information ---------------"
+    /sbin/ifconfig | awk /'inet addr/ {print $2}'
+    /sbin/ifconfig | awk /'Bcast/ {print $3}'
+    /sbin/ifconfig | awk /'inet addr/ {print $4}'
+    /sbin/ifconfig | awk /'HWaddr/ {print $4,$5}'
+    myip=$( lynx -dump -hiddenlinks=ignore -nolist http://checkip.dyndns.org:8245/ | sed '/^$/d; s/^[ ]*//g; s/[ ]*$//g' )
+    echo "${myip}"
+    echo "---------------------------------------------------"
+  }
+export -f netinfo
+
+# =========================
+# Define a word - USAGE: define dog
+### define()
+###   {
+###     local response
+###     lynx -dump "http://www.google.com/search?hl=en&q=define%3A+${1}&btnG=Google+Search" | grep -m 3 -w "*"  | sed 's/;/ -/g' | cut -d- -f1 > /tmp/templookup.txt
+###       if [[ -s  /tmp/templookup.txt ]] ;then
+###         until ! read response
+###           do
+###           echo "${response}"
+###           done < /tmp/templookup.txt
+###         else
+###           echo "Sorry, cannot find term \"${1}\"" >&2
+###       fi
+###     \rm -f /tmp/templookup.txt
+###   }
+### export -f define
+# =========================
+
+# =========================  (some currently unused ones, as exemplars or for future use):
+### # clock - A bash clock that can run in your terminal window.
+### clock()
+###   {
+###     while true; do clear; echo "==========="; date +"%r"; echo "==========="; sleep 1; done
+###   }
+### export -f clock
+
+### pg()
+###   {
+###     if pgrep -f $@ > /dev/null;
+###     then
+###         pgrep -f $@ | xargs ps -o user,pid,stat,rss,vsz,pcpu,args \
+###                                --sort -pcpu,-rss;
+###     else
+###         exit 1;
+###     fi
+###   }
+### export -f pg
+# =========================
+
+# exit 0
