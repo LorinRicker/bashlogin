@@ -4,7 +4,7 @@
 # Lorin Ricker: personal aliases
 
 shF="$( basename ${0#-} ) - aliases"
-Ident="${shF}  # (LMR version 4.09 of 01/06/2013)"
+Ident="${shF}  # (LMR version 4.15 of 01/06/2014)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
 
 # Exports global variable DEBUGMODE (value 0|1):
@@ -24,6 +24,8 @@ alias shutdown="sudo shutdown -Pv now"
 alias   reboot="sudo shutdown -rv now"
 alias nologins="sudo shutdown -kv now"
 
+alias sukill="sudo $HOME/bin/process --kill"
+
 # =========================
 
 alias  verifyON='set -x'
@@ -36,10 +38,6 @@ alias la='ls -Ah --file-type'
 # alias l='ls -CF'
 # alias dir='ls -Aghlp'  # obsolete? write a Ruby DCL-dir function!
 
-# aptitude/Synaptic package management:
-# List installed packages, CSV-formatted for spreadsheet uptake:
-alias instpkg='aptitude search -F "%p,%v,\"%d\"" --disable-columns ~i'
-
 # =========================
 # fine-tune some commands:
 alias mkdir='mkdir -pv'
@@ -47,6 +45,11 @@ alias   ged='gksu gedit'
 alias gconf='gconf-editor &'
 
 alias  mx='chmod a+x'   #make All eXecutable (UGO)
+
+# mount/dismount sshfs/fuse remote disks in one motion --
+# see ~/projects/com/mount-sshfs.sh (executed from ~/bin/):
+alias mntMusic='mount-sshfs lorin && mount-sshfs mirrors'
+alias disMusic='mount-sshfs lorin dismount && mount-sshfs mirrors dismount'
 
 # DCL.sh -- Implements selected VMS/DCL command capabilities, using aliases --
 #           invoke with "." (source) to inherit export/globals:
@@ -67,10 +70,20 @@ alias   dwho='who -HbdprtTu'
 alias   duck='du -skch * | sort -rn'  # Top-level totals
 alias    du='du -h'
 alias    df='df -hT'
-alias  disk='df -hT -t ext3 -t ext4 -t cifs'
+alias  disk='df -hT -t ext3 -t ext4 -t fuse.sshfs -t cifs'
 alias    di='di -f SbcvpTM'
 alias   free='free -m'
 alias recall='history | grep '     # needs argument
+
+# aptitude/Synaptic package management:
+# List installed packages, CSV-formatted for spreadsheet uptake:
+alias instpkg='aptitude search -F "%p,%v,\"%d\"" --disable-columns ~i'
+
+# Simplify dpkg-* lookups/queries:
+alias dpi="dpkg --get-selections | grep "  # dpi pkg* (wildcards permitted)
+alias dpq="dpkg-query --list"              # dpq pkg* (wildcards permitted)
+alias dpr="dpkg-query --show --showformat='\${Package;-42} \${Version;-16} \${Architecture}\\n \${Description}\\n\\n'"
+alias dps="dpkg-query --status"            # dps package_name (no wildcard)
 
 # Linux network stuff:
 # wireshark must run as privileged to access net-devices:
@@ -79,14 +92,15 @@ alias   ping='ping -c5 -W1'
 alias pingtr='mtr -c5 -i3'  # mtr combines ping and tracert
 alias publicip='curl icanhazip.com'  # fetch external/public IP-address
 
-alias net1='watch --interval=2 "sudo netstat -apn -l -A inet"'
-alias net2='watch --interval=2 "sudo netstat -anp --inet --inet6"'
+alias ssh-stat='sudo netstat -nlp | grep ssh'
+alias net1='watch --interval=8 "sudo netstat -apn -l -A inet"'
+alias net2='watch --interval=8 "sudo netstat -anp --inet --inet6"'
 alias net3='sudo lsof -i'
-alias net4='watch --interval=2 "sudo netstat -p -e --inet --numeric-hosts"'
-alias net5='watch --interval=2 "sudo netstat -tulpan"'
+alias net4='watch --interval=8 "sudo netstat -p -e --inet --numeric-hosts"'
+alias net5='watch --interval=8 "sudo netstat -tulpan"'
 alias net6='sudo netstat -tulpan'
-alias net7='watch --interval=2 "sudo netstat -utapen"'
-alias net8='watch --interval=2 "sudo netstat -ano -l -A inet"'
+alias net7='watch --interval=8 "sudo netstat -utapen"'
+alias net8='watch --interval=8 "sudo netstat -ano -l -A inet"'
 alias netl='sudo nmap -sT -O localhost'
 # more here http://www.redhat.com/docs/manuals/linux/RHL-9-Manual/security-guide/s1-server-ports.html
 alias whois='whois -H'
@@ -220,6 +234,11 @@ if [ "$DEBUGMODE" = 1 ]; then
   logicals   # display logical names
   echo -e "\n%Ruby-I, aliases set for [1mRuby v${RBV}[0m"
 fi
+# =========================
+
+# =========================
+# QR code tools:
+alias qrcgen="java -jar /home/lorin/.qrcodegen/QRCodeGen.jar &"
 # =========================
 
 return 0  # don't: exit 0
