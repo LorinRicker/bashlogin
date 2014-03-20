@@ -4,12 +4,14 @@
 # Lorin Ricker: set up bash-login environment & commands
 
 shF=$( basename $0 )
-Ident="${shF}  # (LMR version 1.09 of 11/05/2012)"
+Ident="${shF}  # (LMR version 1.12 of 03/19/2014)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
 
 DST="$HOME/bin/login"
 SRC="$HOME/projects/login"
 STASH="$HOME/projects/login/stash"
+BCKSYM="~"
+LS_RELEASED="test"
 
 declare -i FCNT=0
 
@@ -17,19 +19,23 @@ function copylogin()
   {
   local fnam=$1
   local -i fcount=$2
-  local bckup="~"
   if ! $( cmp --quiet $SRC/$fnam $DST/$fnam ); then
     # rename previous version as backup...
-    [ -e $DST/$fnam ]           && mv $DST/$fnam $DST/${fnam}${bckup}
-    [ -e $DST/${fnam}${bckup} ] && chmod 600 $DST/${fnam}${bckup}
+    [ -e $DST/$fnam ]            && mv $DST/$fnam $DST/${fnam}${BCKSYM}
+    [ -e $DST/${fnam}${BCKSYM} ] && chmod 600 $DST/${fnam}${BCKSYM}
     # copy the new...
     cp $SRC/$fnam $DST/$fnam
     chmod 700 $DST/$fnam
+    # account for the release...
     fcount=$((fcount + 1))
+    LS_RELEASED="${LS_RELEASED} ${fnam}"
   fi
   # cleanup any source-backup copy...
-  [ -e "$SRC/${fnam}${bckup}" ] && rm -v $SRC/${fnam}${bckup}
-  echo $fcount  # the return value...
+  [ -e "$SRC/${fnam}${BCKSYM}" ] && rm $SRC/${fnam}${BCKSYM}
+  #  !>> Don't allow "-v" or any other output in this function <<!
+  #  see: http://www.linuxjournal.com/content/return-values-bash-functions
+  # also: http://bash.cyberciti.biz/guide/Returning_from_a_function
+  echo "${fcount}"  # the return value...
   }
 
 function symlink()
@@ -37,7 +43,7 @@ function symlink()
   local fnam=$1
   if [ ! -L "$HOME/.$fnam" ]; then   # not a sym-link?
     mv "$HOME/.$fnam" "$STASH/.${fnam}-original"
-    ln -s $TAR/$fnam $HOME/.$fnam
+    ln -s $DST/$fnam $HOME/.$fnam
   fi
   }
 
@@ -46,13 +52,16 @@ function list_binlogin()
   local -i fcount=$1
   echo -e "\n[ \033[1m\033[4m$DST\033[0m ]"
   ls -lA $DST/
-  printf "  \033[4m\033[4mFiles released: %d\033[0m\n" $fcount
+  printf "  \033[4mFiles released: %d\033[0m\n" $fcount
+  if [ "$fcount" -ge 1 ]; then
+    printf "    \033[1m%s\033[0m\n" "${LS_RELEASED}"
+  fi
   }
 
 function list_home()
  {
   echo -e "\n[ \033[1m\033[4m$HOME\033[0m ]"
-  ls -lA ~/.bashrc ~/.emacs ~/.inputrc ~/.bash_logout
+  ls -lA ~/.bashrc ~/.bash_profile ~/.emacs ~/.inputrc ~/.bash_logout
   }
 
 # ======================================================================
@@ -109,13 +118,14 @@ EOD
     sf="$STASH/.*-original"
     fc=$( ls -A $sf 2> /dev/null | wc -l )
     if [ $fc -ge 1 ]; then
-      echo -e "\n[ $fc ./stash/*-original files ]"
+      echo -e "\n[ $fc $STASH/*-original files ]"
       ls -lA $sf
     fi
     ;;
 
   sym* | lin* | ln* )  # create or replace sym-links...
     symlink bashrc
+    symlink bash_profile
     symlink inputrc
     symlink emacs
     symlink bash_logout
@@ -125,6 +135,7 @@ EOD
 
   rel* | * )  # default: copy bash-core login files
               #          from edit-dir to ~/bin/login/
+    FCNT=$( copylogin bash_profile $FCNT )
     FCNT=$( copylogin bashrc       $FCNT )
     FCNT=$( copylogin aliases      $FCNT )
     FCNT=$( copylogin functions    $FCNT )
@@ -138,6 +149,7 @@ EOD
     FCNT=$( copylogin bash_logout  $FCNT )
 
     list_binlogin $FCNT
+#    echo "rl: '${LS_RELEASED}'"
     list_home
     ;;
 

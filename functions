@@ -4,7 +4,7 @@
 # Lorin Ricker: bash functions
 
 shF="$( basename ${0#-} ) - functions"
-Ident="${shF}  # (LMR version 4.07 of 11/05/2012)"
+Ident="${shF}  # (LMR version 4.08 of 03/19/2014)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
 
 # ===============================================================
@@ -32,6 +32,17 @@ Ident="${shF}  # (LMR version 4.07 of 11/05/2012)"
 ##     fi
 ##   }
 ## export -f sudo
+
+# Pretty-print PATH environment:
+path()
+  {
+    echo "=== PATH is ==="
+    old=$IFS
+    IFS=:
+    printf "%s\n" $PATH
+    IFS=$old
+  }
+export -f path
 
 # Command-recall lister support ("hist" derived from "history"):
 hist()

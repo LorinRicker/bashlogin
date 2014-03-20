@@ -7,23 +7,24 @@
 
 # Lorin Ricker -- personal version
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc) for examples
+# ==========================================================================================
+# To make PATH fix-ups stick, declare these in .bash_profile -> ~/bin/login/bash_profile ...
+# ==========================================================================================
 
 shF="$HOME/bin/login/bashrc"
-Ident="${shF}  # (LMR version 4.02 of 09/12/2012)"
+Ident="${shF}  # (LMR version 4.07 of 03/19/2014)"
 [ "$DEBUGMODE" = "1" ] && echo "%bashrc:login-I, ${Ident}"
 
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
 
+# Establish PATH *before* doing RVM Ruby setup:
+source "$HOME/.bash_profile"
+
+# -----------------------------
+
 # -----------------------------
 set -o emacs
-
-export CDPATH=.:~:~/anchor:~/scratch:~/projects  #LMR
-# export PATH=$PATH:~/projects/ruby              #LMR
-
-# Don't put duplicate lines in the history, and ignore same successive entries:
-export HISTCONTROL=ignoreboth
-export IGNOREEOF=2   # at least two Ctrl/D's to exit shell
 
 # Check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
@@ -104,10 +105,6 @@ f="$HOME/bin/login/doc_function"
 f="$HOME/bin/login/tweak_path"
 [ -f "$f" ] && . $f
 
-# Ruby setup:
-f="$HOME/bin/login/ruby_setup"
-[ -f "$f" ] && . $f
-
 # Alias definitions:
 f="$HOME/bin/login/aliases"
 [ -f "$f" ] && . $f
@@ -121,6 +118,32 @@ f="/etc/bash_completion"
 # -----------------------------
 # Disable/modify laptop's touchpad:
 [ ${HOSTNAME} = 'burro' ] && distouchpad  # in functions
+
+# -----------------------------
+
+## Ruby setup:  <<<--- Now obsolete, using RVM (see below):
+## f="$HOME/bin/login/ruby_setup"
+## [ -f "$f" ] && . $f
+
+# Install Ruby Version Manager, rvm, first (see http://rvm.io/rvm/install for help):
+#
+#   $ curl -L https://get.rvm.io | bash -s -- --ignore-dotfiles
+#
+# Be sure that .bashrc -> ~bin/login/bashrc contains this line at its end (see below):
+#   source $HOME/.rvm/scripts/rvm
+#
+# Logout and then login to activate rvm commands, then install Ruby versions this way:
+#
+#   $ rvm install 1.9.3     # Note! Ruby installs this way
+#   $ rvm install 2.0.0     #       take a long time!
+#
+# Then set/use Ruby versions:
+#
+#   $ rvm use --default 2.1
+
+# Ruby Version Manager -- RVM setup:
+source "$HOME/.rvm/scripts/rvm"
+echo "Using Ruby version: $( rvm current )   # (rvm current/RUBY_VERSION)"
 
 # -----------------------------
 
