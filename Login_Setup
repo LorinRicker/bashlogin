@@ -4,21 +4,19 @@
 # Lorin Ricker: set up bash-login environment & commands
 
 shF=$( basename $0 )
-Ident="${shF}  # (LMR version 1.12 of 03/19/2014)"
+Ident="${shF}  # (LMR version 1.21 of 03/21/2014)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
 
 DST="$HOME/bin/login"
 SRC="$HOME/projects/login"
 STASH="$HOME/projects/login/stash"
 BCKSYM="~"
-LS_RELEASED="test"
-
-declare -i FCNT=0
+RELEASED=""
 
 function copylogin()
   {
   local fnam=$1
-  local -i fcount=$2
+  local rel=$RELEASED
   if ! $( cmp --quiet $SRC/$fnam $DST/$fnam ); then
     # rename previous version as backup...
     [ -e $DST/$fnam ]            && mv $DST/$fnam $DST/${fnam}${BCKSYM}
@@ -27,19 +25,24 @@ function copylogin()
     cp $SRC/$fnam $DST/$fnam
     chmod 700 $DST/$fnam
     # account for the release...
-    fcount=$((fcount + 1))
-    LS_RELEASED="${LS_RELEASED} ${fnam}"
+    FCNT=$((FCNT + 1))
+    if [ "$rel" = "" ]; then
+      rel="${fnam}"
+    else
+      rel="${rel} ${fnam}"
+    fi
   fi
   # cleanup any source-backup copy...
   [ -e "$SRC/${fnam}${BCKSYM}" ] && rm $SRC/${fnam}${BCKSYM}
   #  !>> Don't allow "-v" or any other output in this function <<!
   #  see: http://www.linuxjournal.com/content/return-values-bash-functions
   # also: http://bash.cyberciti.biz/guide/Returning_from_a_function
-  echo "${fcount}"  # the return value...
+  echo "${rel}"  # the return value...
   }
 
 function symlink()
   {
+  # Create a sym-link for each bash login script in $HOME:
   local fnam=$1
   if [ ! -L "$HOME/.$fnam" ]; then   # not a sym-link?
     mv "$HOME/.$fnam" "$STASH/.${fnam}-original"
@@ -49,17 +52,23 @@ function symlink()
 
 function list_binlogin()
   {
-  local -i fcount=$1
+  local -i fcount=0
+  # Show the released (...bin/) directory:
   echo -e "\n[ \033[1m\033[4m$DST\033[0m ]"
   ls -lA $DST/
+  # Count and report released files:
+  for r in $RELEASED ; do
+    fcount=$(( fcount + 1 ))
+  done
   printf "  \033[4mFiles released: %d\033[0m\n" $fcount
   if [ "$fcount" -ge 1 ]; then
-    printf "    \033[1m%s\033[0m\n" "${LS_RELEASED}"
+    printf "    \033[1m%s\033[0m\n" "${RELEASED}"
   fi
   }
 
 function list_home()
  {
+  # Show the hidden sym-link files in $HOME:
   echo -e "\n[ \033[1m\033[4m$HOME\033[0m ]"
   ls -lA ~/.bashrc ~/.bash_profile ~/.emacs ~/.inputrc ~/.bash_logout
   }
@@ -135,21 +144,19 @@ EOD
 
   rel* | * )  # default: copy bash-core login files
               #          from edit-dir to ~/bin/login/
-    FCNT=$( copylogin bash_profile $FCNT )
-    FCNT=$( copylogin bashrc       $FCNT )
-    FCNT=$( copylogin aliases      $FCNT )
-    FCNT=$( copylogin functions    $FCNT )
-    FCNT=$( copylogin logicals     $FCNT )
-    FCNT=$( copylogin ruby_setup   $FCNT )
-    FCNT=$( copylogin doc_function $FCNT )
-    FCNT=$( copylogin debugmode    $FCNT )
-    FCNT=$( copylogin tweak_path   $FCNT )
-    FCNT=$( copylogin inputrc      $FCNT )
-    FCNT=$( copylogin emacs        $FCNT )
-    FCNT=$( copylogin bash_logout  $FCNT )
+    RELEASED=$( copylogin bash_profile $FCNT )
+    RELEASED=$( copylogin bashrc       $FCNT )
+    RELEASED=$( copylogin aliases      $FCNT )
+    RELEASED=$( copylogin functions    $FCNT )
+    RELEASED=$( copylogin logicals     $FCNT )
+    RELEASED=$( copylogin ruby_setup   $FCNT )
+    RELEASED=$( copylogin doc_function $FCNT )
+    RELEASED=$( copylogin debugmode    $FCNT )
+    RELEASED=$( copylogin inputrc      $FCNT )
+    RELEASED=$( copylogin emacs        $FCNT )
+    RELEASED=$( copylogin bash_logout  $FCNT )
 
     list_binlogin $FCNT
-#    echo "rl: '${LS_RELEASED}'"
     list_home
     ;;
 

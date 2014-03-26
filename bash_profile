@@ -9,7 +9,7 @@
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc) for examples
 
 shF="$HOME/bin/login/bash_profile"
-Ident="${shF}  # (LMR version 1.00 of 03/19/2014)"
+Ident="${shF}  # (LMR version 1.01 of 03/25/2014)"
 [ "$DEBUGMODE" = "1" ] && echo "%bash_profile:login-I, ${Ident}"
 
 # PATH environment variable declared here --
@@ -23,3 +23,6 @@ export PATH=~/bin:$PATH                          #LMR
 export HISTCONTROL=ignoreboth
 export IGNOREEOF=2   # at least two Ctrl/D's to exit shell
 
+# .bashrc is only read by a shell that's both interactive and non-login,
+# so force its execution here for a login/interactive shell...
+##[[ -r ~/.bashrc ]] && . ~/.bashrc
