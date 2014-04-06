@@ -4,7 +4,7 @@
 # Lorin Ricker: bash functions
 
 shF="$( basename ${0#-} ) - functions"
-Ident="${shF}  # (LMR version 4.21 of 03/21/2014)"
+Ident="${shF}  # (LMR version 4.23 of 03/31/2014)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
 
 # ===============================================================
@@ -175,7 +175,7 @@ export -f pathclean
 function pathcat()
   {
     local dir=$1
-    local loc=$( echo $2 | tr A-Z a-z )
+    local loc=$( echo $2 | tr [A-Z] [a-z] )
 
     # Make sure we have something to work with
     if [ -z "$loc" -o  -z "$dir" ]; then
@@ -224,7 +224,7 @@ export -f pathcat
 # use: $ pathmunge "/directory/to/add" [ pre (D) | post | before | after ]
 function pathmunge()
   {
-    local loc=$( echo $2 | tr A-Z a-z )
+    local loc=$( echo $2 | tr [A-Z] [a-z] )
     if ! echo $PATH | /bin/egrep -q "(^|:)$1($|:)" ; then
       # Figure out what to do -- prepend (before) is the default:
       case $loc in
@@ -253,13 +253,34 @@ export -f pathrm
 
 # =========================
 
+# Fetch terminal (tty) dimensions (rows columns):
+termdim()
+  {
+    local dim=$( echo "$1" | tr [A-Z] [a-z] )
+    local -i rows=$( stty size | cut --fields=1 --delimiter=' ' )
+    local -i cols=$( stty size | cut --fields=2 --delimiter=' ' )
+    if [ "${dim}" = "" ] ; then
+      echo -en "\033[0;34mTerminal dimensions -- rows: ${rows} cols: ${cols}\033[0m"
+    else
+      case "${dim}" in
+        row* )
+          echo "${rows}"
+          ;;
+        col* )
+          echo "${cols}"
+          ;;
+      esac
+    fi
+  }
+export -f termdim
+
 # Command-recall lister support ("hist" derived from "history"):
 hist()
   {
     local -i ln
     if [ -z "$1" ]; then
       # fetch term-size: #rows - 4
-      ln=$( stty size | cut --fields=1 --delimiter=' ' )
+      ln=$( termdim rows )
       ln=$(($ln - 4))
     else  # use whatever #lines requested
       ln=$1
@@ -365,8 +386,8 @@ deflogical()
       echo "usage:  $ deflogical \"logical\" \"path\""
       return
     fi
-    L1=$( echo $1 | tr A-Z a-z )
-    U1=$( echo $1 | tr a-z A-Z )
+    L1=$( echo $1 | tr [A-Z] [a-z] )
+    U1=$( echo $1 | tr [A-Z] [a-z] )
     eval "export $L1=\"$2\""
     eval "export $U1=\"$2\""
     if [ $( echo "$LNMList" | grep --count "\s$L1" ) = 0 ]; then
@@ -393,7 +414,7 @@ logicals()
       lnm="$@"
     fi
     for ln in $lnm ; do
-      Ul=$( echo $ln | tr a-z A-Z )
+      Ul=$( echo $ln | tr [A-Z] [a-z] )
       # Note: ${!ln} produces the value of the symbol named by ln:
       lv=${!ln}
       if [ "$lv" = "" ]; then
@@ -418,6 +439,27 @@ lastfield()
   ruby -ne 'f = $_.tr("\t"," ").squeeze(" ").split; puts "#{f[-1]}"'
   }
 export -f lastfield
+
+# a VMS-like listing from find:
+fdir()
+  {
+    path=""
+    if [ "$1" != "" ] ; then
+      path="$1"
+    else
+      path='./'
+    fi
+    fname=""
+    if [ "$2" != "" ] ; then
+      fname="-name '$2'"
+    fi
+    # TO-DO: Add options-parse for cmd-line -opt for datetime, size, owner, prot-mask
+    #        and detection/sensitivity to current terminal screen width...
+    #        Could also sort by-date, by-size, reverse (etc)
+    fstr="%-36f %10s·%-6b %Td-%Tb-%TY %Tk:%TM  %u:%g %M"
+    find "${path}" -maxdepth 1 -type f ${fname} -printf "${fstr}\n" | sort
+  }
+export -f fdir
 
 # ls-type functions:
 ff()
@@ -519,7 +561,7 @@ lcfname()
           */*) dirname=${file%/*} ;;
             *) dirname=. ;;
         esac
-        nf=$( echo $filename | tr A-Z a-z )
+        nf=$( echo $filename | tr [A-Z] [a-z] )
         newname="${dirname}/${nf}"
         if [ "$nf" != "$filename" ]; then
             mv "$file" "$newname"
