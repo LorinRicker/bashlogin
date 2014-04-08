@@ -4,7 +4,7 @@
 # Lorin Ricker: personal aliases
 
 shF="$( basename ${0#-} ) - aliases"
-Ident="${shF}  # (LMR version 4.22 of 03/31/2014)"
+Ident="${shF}  # (LMR version 4.23 of 04/07/2014)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
 
 # Exports global variable DEBUGMODE (value 0|1):
@@ -87,6 +87,10 @@ alias    di='di -f SbcvpTM'
 alias  freek='free -ktl'
 alias  freem='free -mtl'
 alias recall='history | grep '     # needs argument
+
+# Just be sure that my "main printer" is named "sysprint"
+# (not something printer-model-number-specific):
+alias sysprint='lpr -P sysprint'
 
 # aptitude/Synaptic package management:
 # List installed packages, CSV-formatted for spreadsheet uptake:
