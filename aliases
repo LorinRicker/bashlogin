@@ -4,7 +4,7 @@
 # Lorin Ricker: personal aliases
 
 shF="$( basename ${0#-} ) - aliases"
-Ident="${shF}  # (LMR version 4.23 of 04/07/2014)"
+Ident="${shF}  # (LMR version 4.25 of 04/09/2014)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
 
 # Exports global variable DEBUGMODE (value 0|1):
@@ -102,25 +102,12 @@ alias dpq='dpkg-query --list'              # dpq pkg* (wildcards permitted)
 alias dpr="dpkg-query --show --showformat='\${Package;-42} \${Version;-16} \${Architecture}\\n \${Description}\\n\\n'"
 alias dps='dpkg-query --status'            # dps package_name (no wildcard)
 
-# Linux network stuff:
-# wireshark must run as privileged to access net-devices:
-alias wshark='sudo wireshark &'
+# Linux network stuff --
+# See ~/projects/login/NetCommands for more network monitoring commands:
 alias   ping='ping -c5 -W1'
 alias pingtr='mtr -c5 -i3'  # mtr combines ping and tracert
-alias publicip='curl icanhazip.com'  # fetch external/public IP-address
-
-alias ssh-stat='sudo netstat -nlp | grep ssh'
-alias net1='watch --interval=8 "sudo netstat -apn -l -A inet"'
-alias net2='watch --interval=8 "sudo netstat -anp --inet --inet6"'
-alias net3='sudo lsof -i'
-alias net4='watch --interval=8 "sudo netstat -p -e --inet --numeric-hosts"'
-alias net5='watch --interval=8 "sudo netstat -tulpan"'
-alias net6='sudo netstat -tulpan'
-alias net7='watch --interval=8 "sudo netstat -utapen"'
-alias net8='watch --interval=8 "sudo netstat -ano -l -A inet"'
-alias netl='sudo nmap -sT -O localhost'
-# more here http://www.redhat.com/docs/manuals/linux/RHL-9-Manual/security-guide/s1-server-ports.html
-alias whois='whois -H'
+# Define a group of network monitoring commands:
+alias netcmd='source ~/bin/login/NetCommands'
 
 # -------------------------
 # rsync's --archive = --recursive --links --perms --times --owner --group --devices --specials

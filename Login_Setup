@@ -4,7 +4,7 @@
 # Lorin Ricker: set up bash-login environment & commands
 
 shF=$( basename $0 )
-Ident="${shF}  # (LMR version 1.21 of 03/21/2014)"
+Ident="${shF}  # (LMR version 1.22 of 04/09/2014)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
 
 DST="$HOME/bin/login"
@@ -70,7 +70,7 @@ function list_home()
  {
   # Show the hidden sym-link files in $HOME:
   echo -e "\n[ \033[1m\033[4m$HOME\033[0m ]"
-  ls -lA ~/.bashrc ~/.bash_profile ~/.emacs ~/.inputrc ~/.bash_logout
+  ls -lA ~/.bashrc ~/.bash_profile ~/.emacs ~/.inputrc ~/.bash_logout ~/.pryrc ~/.rdebugrc
   }
 
 # ======================================================================
@@ -112,7 +112,9 @@ case "$opt" in
 
   d) Sym-links also replace these regular files:
 
+        ~/.bash_profile
         ~/.bash_logout  ~/.inputrc  ~/.emacs
+        ~/.pryrc        ~/.rdebugrc
 
   This approach simplifies bash-login file development and maintenance, and
   limits the clutter of files in a user's $HOME directory...
@@ -138,6 +140,8 @@ EOD
     symlink inputrc
     symlink emacs
     symlink bash_logout
+    symlink pryrc
+    symlink rdebugrc
 
     list_home
     ;;
@@ -147,6 +151,7 @@ EOD
     RELEASED=$( copylogin bash_profile $FCNT )
     RELEASED=$( copylogin bashrc       $FCNT )
     RELEASED=$( copylogin aliases      $FCNT )
+    RELEASED=$( copylogin NetCommands  $FCNT )
     RELEASED=$( copylogin functions    $FCNT )
     RELEASED=$( copylogin logicals     $FCNT )
     RELEASED=$( copylogin ruby_setup   $FCNT )
@@ -155,6 +160,8 @@ EOD
     RELEASED=$( copylogin inputrc      $FCNT )
     RELEASED=$( copylogin emacs        $FCNT )
     RELEASED=$( copylogin bash_logout  $FCNT )
+    RELEASED=$( copylogin pryrc        $FCNT )
+    RELEASED=$( copylogin rdebugrc     $FCNT )
 
     list_binlogin $FCNT
     list_home

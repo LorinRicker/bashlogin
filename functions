@@ -4,7 +4,7 @@
 # Lorin Ricker: bash functions
 
 shF="$( basename ${0#-} ) - functions"
-Ident="${shF}  # (LMR version 4.23 of 03/31/2014)"
+Ident="${shF}  # (LMR version 4.24 of 04/22/2014)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
 
 # ===============================================================
@@ -253,7 +253,28 @@ export -f pathrm
 
 # =========================
 
-# Fetch terminal (tty) dimensions (rows columns):
+# Pretty-Print a man page --
+#        use:  $ ppmanpage topic [printer_name]
+# parameters: $1 = the man page topic to print
+#             $2 = printer name
+#             $3 = PDF-formatted (any non-empty string)
+ppmanpage()
+  {
+  if [ -n "$2" ]; then
+    printer="$2"
+  else
+    printer="sysprint"   # otherwise, use my personal default printer
+  fi
+
+  if [ -n "$3" ]; then   # PDF-formatted?
+    man -t $1 | ps2pdf - | lpr -P$printer
+  else
+    man -t $1 | lpr -P$printer
+  fi
+  }
+export -f ppmanpage
+
+# Fetch terminal (tty) dimensions (rows columns) --
 termdim()
   {
     local dim=$( echo "$1" | tr [A-Z] [a-z] )
