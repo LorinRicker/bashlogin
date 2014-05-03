@@ -12,7 +12,7 @@
 # ==========================================================================================
 
 shF="$HOME/bin/login/bashrc"
-Ident="${shF}  # (LMR version 4.07 of 03/19/2014)"
+Ident="${shF}  # (LMR version 4.08 of 04/29/2014)"
 [ "$DEBUGMODE" = "1" ] && echo "%bashrc:login-I, ${Ident}"
 
 # If not running interactively, don't do anything
@@ -125,21 +125,33 @@ f="/etc/bash_completion"
 ## f="$HOME/bin/login/ruby_setup"
 ## [ -f "$f" ] && . $f
 
-# Install Ruby Version Manager, rvm, first (see http://rvm.io/rvm/install for help):
+#  == RVM ===
+#    Note: For Ruby development work, install Ruby using the great
+#          Ruby enVironment Manager (RVM, http://rvm.io -- and see
+#          http://rvm.io/rvm/install for help):
 #
-#   $ curl -L https://get.rvm.io | bash -s -- --ignore-dotfiles
+#          $ \curl -L https://get.rvm.io | bash -s stable
 #
-# Be sure that .bashrc -> ~bin/login/bashrc contains this line at its end (see below):
-#   source $HOME/.rvm/scripts/rvm
+#          Be sure that .bashrc -> ~bin/login/bashrc contains this
+#          line at its end, or execute this command interactively:
 #
-# Logout and then login to activate rvm commands, then install Ruby versions this way:
+#            source $HOME/.rvm/scripts/rvm
 #
-#   $ rvm install 1.9.3     # Note! Ruby installs this way
-#   $ rvm install 2.0.0     #       take a long time!
+#          Logout and then login to activate rvm commands, then
+#          install Ruby version(s) of your choice:
 #
-# Then set/use Ruby versions:
+#          $ rvm install 1.9.3     # Note! These Ruby installs may
+#          $ rvm install 2.1       #       take 'a long time'!
 #
-#   $ rvm use --default 2.1
+#          Don't forget Ruby online documentation:
+#
+#          $ rvm docs generate-ri
+#
+#          Finally, set your desired Ruby version for use:
+#
+#          $ rvm use --default 2.1
+#          $ rvm current   # to see/confirm
+#  == end RVM ===
 
 # Ruby Version Manager -- RVM setup:
 source "$HOME/.rvm/scripts/rvm"

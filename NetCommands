@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+# $HOME/projects/login/NetCommands
+# Lorin Ricker: network commands
+
+shF="$( basename ${0#-} ) - NetCommands"
+Ident="${shF}  # (LMR version 1.00 of 04/08/2014)"
+[ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
+
+# Linux network stuff:
+# wireshark must run as privileged to access net-devices:
+alias   wshark='sudo wireshark &'
+alias publicip='curl icanhazip.com'  # fetch external/public IP-address
+
+alias ssh-stat='sudo netstat -nlp | grep ssh'
+
+alias net1='watch --interval=4 "sudo netstat -apn -l -A inet"'
+alias net2='watch --interval=4 "sudo netstat -anp --inet --inet6"'
+alias net3='sudo lsof -i'
+alias net4='watch --interval=4 "sudo netstat -p -e --inet --numeric-hosts"'
+alias net5='watch --interval=4 "sudo netstat -tulpan"'
+alias net6='sudo netstat -tulpan'
+alias net7='watch --interval=4 "sudo netstat -utapen"'
+alias net8='watch --interval=4 "sudo netstat -ano -l -A inet"'
+alias netl='sudo nmap -sT -O localhost'
+
+# more here: http://www.redhat.com/docs/manuals/linux/RHL-9-Manual/security-guide/s1-server-ports.html
+alias whois='whois -H'
+
+return 0  # don't: exit 0

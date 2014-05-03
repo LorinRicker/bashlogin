@@ -4,7 +4,7 @@
 # Lorin Ricker: bash functions
 
 shF="$( basename ${0#-} ) - functions"
-Ident="${shF}  # (LMR version 4.24 of 04/22/2014)"
+Ident="${shF}  # (LMR version 4.29 of 04/29/2014)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
 
 # ===============================================================
@@ -22,7 +22,7 @@ Ident="${shF}  # (LMR version 4.24 of 04/22/2014)"
 # Use:  var=$( prototype_func )
 
 # =========================
-## sudo()
+## superman()
 ##   {
 ##     command="$@"
 ##     if [ -z "$command" ]; then
@@ -31,7 +31,7 @@ Ident="${shF}  # (LMR version 4.24 of 04/22/2014)"
 ##       command sudo "$@"
 ##     fi
 ##   }
-## export -f sudo
+## export -f superman
 
 # Correct way to set IFS to a newline is:
 #    IFS=$"\n"   <-- where the leading-$ forces control-char expansion
@@ -256,8 +256,7 @@ export -f pathrm
 # Pretty-Print a man page --
 #        use:  $ ppmanpage topic [printer_name]
 # parameters: $1 = the man page topic to print
-#             $2 = printer name
-#             $3 = PDF-formatted (any non-empty string)
+#             $2 = printer name, or "PDF"|"pdf" to produce PDF-file "$1.pdf"
 ppmanpage()
   {
   if [ -n "$2" ]; then
@@ -266,8 +265,8 @@ ppmanpage()
     printer="sysprint"   # otherwise, use my personal default printer
   fi
 
-  if [ -n "$3" ]; then   # PDF-formatted?
-    man -t $1 | ps2pdf - | lpr -P$printer
+  if [ "$( echo $2 | tr [A-Z] [a-z] )" = "pdf" ]; then   # PDF-formatted?
+    man -t $1 | ps2pdf - >"./$1.pdf"
   else
     man -t $1 | lpr -P$printer
   fi
@@ -408,7 +407,7 @@ deflogical()
       return
     fi
     L1=$( echo $1 | tr [A-Z] [a-z] )
-    U1=$( echo $1 | tr [A-Z] [a-z] )
+    U1=$( echo $1 | tr [a-z] [A-Z] )
     eval "export $L1=\"$2\""
     eval "export $U1=\"$2\""
     if [ $( echo "$LNMList" | grep --count "\s$L1" ) = 0 ]; then
@@ -435,7 +434,7 @@ logicals()
       lnm="$@"
     fi
     for ln in $lnm ; do
-      Ul=$( echo $ln | tr [A-Z] [a-z] )
+      Ul=$( echo $ln | tr [a-z] [A-Z] )
       # Note: ${!ln} produces the value of the symbol named by ln:
       lv=${!ln}
       if [ "$lv" = "" ]; then
@@ -455,8 +454,64 @@ export -f logicals
 
 # =========================
 
+# Start a text-editor as sudo/root --
+sysed()
+  {
+    ed='subl'   # want to use Sublime Text...
+    dpkg-query --show 2>/dev/null 1>/dev/null sublime-text
+    if [ $? != 0 ]; then
+      ed='gedit'  # ...but will settle for default editor
+    fi
+    if [ "$1" != "" ]; then
+      ans="$1"
+    else
+      echo -n "System file to edit: "; read ans
+    fi
+    gksu -- ${ed} --new-window ${ans} &
+  }
+export -f sysed
+
+# Run ~/bin/autoinstall as sudo/root, prompting for PIF --
+# Use: $ sysintstall [-options] ['package']...
+sysinstall()
+  {
+    pif=$( echo ./P*.list )  # glob onto first matching file, if any...
+    echo -en "Package file (${pif}): "; read ans
+    if [ "$ans" != "" ]; then
+      pif=ans
+    fi
+    sudo $HOME/bin/autoinstall --pif=${pif} $*
+  }
+export -f sysinstall
+
+lsppa()
+  { # Derived from webupd8.org/2012/12/how-to-list-packages-from-ppa.html
+    # by Alin Andrei (Andrew)
+    #  use: $ lsppa ppa-source [pkgname]
+    # e.g.: $ lsppa webupd8 sublime
+    if [ "$2" != "" ]; then
+      ppaf="*${1}*${2}*"
+    else
+      ppaf="*${1}*"
+    fi
+    ppafile="/var/lib/apt/lists/${ppaf}Packages"
+    # Globbing is weird!  echo "/var/foobar/*" will just print "/var/foobar/*"
+    #   (the original string with wildcards) when file-not-found...
+    if [ "$( echo "${ppafile}" )" != "${ppafile}" ]; then
+      awk '$1 == "Package:" { if (a[$2]++ == 0) print $2; }' ${ppafile}
+      return 0  # success (as per dpkg-query)
+    else
+      echo "%lsppa-E-FNF, file '${ppafile}' not found"
+      return 1  # fail (as per dpkg-query)
+    fi
+  }
+export -f lsppa
+
+# =========================
+
+# Display only filespec (last field from squeezed-split-fields line):
 lastfield()
-  { # display only filespec (last field from squeezed-split-fields line):
+  {
   ruby -ne 'f = $_.tr("\t"," ").squeeze(" ").split; puts "#{f[-1]}"'
   }
 export -f lastfield
@@ -634,10 +689,11 @@ netinfo()
   {
     local myip
     echo "--------------- Network Information ---------------"
-    /sbin/ifconfig | awk /'inet addr/ {print $2}'
-    /sbin/ifconfig | awk /'Bcast/ {print $3}'
-    /sbin/ifconfig | awk /'inet addr/ {print $4}'
-    /sbin/ifconfig | awk /'HWaddr/ {print $4,$5}'
+    /sbin/ifconfig | awk '/inet addr/ {print $2}'
+    /sbin/ifconfig | awk '/inet6 addr/ {print $3}'
+    /sbin/ifconfig | awk '/Bcast/ {print $3}'
+    /sbin/ifconfig | awk '/Mask/ {print $4}'
+    /sbin/ifconfig | awk '/HWaddr/ {print $4,$5}'
     myip=$( lynx -dump -hiddenlinks=ignore -nolist http://checkip.dyndns.org:8245/ | sed '/^$/d; s/^[ ]*//g; s/[ ]*$//g' )
     echo "${myip}"
     echo "---------------------------------------------------"

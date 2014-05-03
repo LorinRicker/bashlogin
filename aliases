@@ -4,7 +4,7 @@
 # Lorin Ricker: personal aliases
 
 shF="$( basename ${0#-} ) - aliases"
-Ident="${shF}  # (LMR version 4.25 of 04/09/2014)"
+Ident="${shF}  # (LMR version 4.26 of 04/29/2014)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
 
 # Exports global variable DEBUGMODE (value 0|1):
@@ -21,7 +21,10 @@ alias   fixpath='PATH=$( perfectpath )'
 
 # =========================
 
-alias root='sudo -i'
+# A means to show all "sys" functions and aliases:
+alias showsys="alias | grep [s]ys ; $HOME/bin/lsfunction -f sys%"
+
+alias system='sudo -i'
 # don't forget "sudo !!" to put sudo in front of the previous command:
 # (but this won't work, either as an alias or a as a function:
 #    alias oops="sudo !!")
@@ -30,13 +33,17 @@ alias shutdown='sudo shutdown -Pv now'
 alias   reboot='sudo shutdown -rv now'
 alias nologins='sudo shutdown -kv now'
 
-alias mykill="$HOME/bin/process --kill"
-alias sukill="sudo $HOME/bin/process --kill"
+alias  mykill="$HOME/bin/process --kill"
+alias syskill="sudo $HOME/bin/process --kill"
+## alias   sysed='gksu gedit &'
 
 # Create a new, system-wide application launcher (but does not add this to Unity's
 # side/task-bar or to user's ~/Desktop; see also ~/bin/tomyDesktop script to copy
 # a sys-wide *.desktop to ~/Desktop) --
-alias newLauncher='sudo gnome-desktop-item-edit /usr/share/applications/ --create-new'
+alias sysLauncher='sudo gnome-desktop-item-edit /usr/share/applications/ --create-new'
+
+# Login setup tool:
+alias loginsetup="$lgi/Login_Setup"
 
 # =========================
 
@@ -53,7 +60,6 @@ alias la='ls -Ah --file-type'
 # =========================
 # fine-tune some commands:
 alias mkdir='mkdir -pv'
-alias   ged='gksu gedit'
 alias gconf='gconf-editor &'
 
 alias  mx='chmod a+x'   #make All eXecutable (UGO)
@@ -76,6 +82,7 @@ fi
 
 # more VMS-like stuff:
 alias    cls='clear'
+alias    glo='alias | grep -i -e'
 alias   myps='ps -U lorin'
 alias   ssys='ps -ef | less'
 alias   dwho='who -HbdprtTu'
@@ -113,10 +120,10 @@ alias netcmd='source ~/bin/login/NetCommands'
 # rsync's --archive = --recursive --links --perms --times --owner --group --devices --specials
 #        (-a = -rlptgoD)
 # (Note that "$ sudo backup ..." doesn't work, because root-proc doesn't inherit alias "backup"!)
-alias    backup='rsync -au --stats --human-readable'
-alias   backupv='rsync -auv --stats --human-readable --progress'
-alias  backupsu='sudo rsync -au --stats --human-readable'
-alias backupvsu='sudo rsync -auv --stats --human-readable --progress'
+alias     backup='rsync -au --stats --human-readable'
+alias    backupv='rsync -auv --stats --human-readable --progress'
+alias  sysbackup='sudo rsync -au --stats --human-readable'
+alias sysbackupv='sudo rsync -auv --stats --human-readable --progress'
 # =========================
 
 # -------------------------
@@ -242,7 +249,11 @@ fi
 
 # =========================
 # QR code tools:
-alias qrcgen='java -jar /home/lorin/.qrcodegen/QRCodeGen.jar &'
+f="$HOME/.qrcodegen/QRCodeGen.jar"
+if [ -a $f ]; then
+  alias qrcgen="java -jar $f &"
+fi
+alias qrcgen="java -jar $f &"
 # =========================
 
 return 0  # don't: exit 0

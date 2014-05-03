@@ -1,0 +1,7 @@
+# ~/.rdebugrc -> ~/bin/login/rdebugrc -- version 1.0 of 04/09/2014
+#
+
+set forcestep on
+set listsize 32
+set width 80
+set autoirb on

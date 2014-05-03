@@ -4,14 +4,14 @@
 # Lorin Ricker: "VMS logical names"
 
 shF="$( basename ${0#-} ) - logicals"
-Ident="${shF}  # (LMR version 4.08 of 03/20/2014)"
+Ident="${shF}  # (LMR version 4.10 of 04/23/2014)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
 
 case ${HOSTNAME} in  # /vm/Mirrors or /usr/Mirrors ...?
-  burro )
+  burro | music )
     deflogical "mirror"  "/usr/Mirrors"
     ;;
-  music )
+  * )
     deflogical "mirror"  "/usr/Mirrors"
     ;;
 esac
