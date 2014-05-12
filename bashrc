@@ -12,14 +12,15 @@
 # ==========================================================================================
 
 shF="$HOME/bin/login/bashrc"
-Ident="${shF}  # (LMR version 4.08 of 04/29/2014)"
+Ident="${shF}  # (LMR version 4.09 of 05/11/2014)"
 [ "$DEBUGMODE" = "1" ] && echo "%bashrc:login-I, ${Ident}"
 
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
 
 # Establish PATH *before* doing RVM Ruby setup:
-source "$HOME/.bash_profile"
+f="$HOME/.bash_profile"
+[ -f "$f" ] && source $f
 
 # -----------------------------
 
@@ -116,8 +117,8 @@ f="/etc/bash_completion"
 [ -f "$f" ] && . $f
 
 # -----------------------------
-# Disable/modify laptop's touchpad:
-[ ${HOSTNAME} = 'burro' ] && distouchpad  # in functions
+# Disable/modify laptop's touchpad (tpad & distouchpad defined in functions):
+tpad OFF 1>/dev/null 2>/dev/null ; tpad show 1>/dev/null 2>/dev/null
 
 # -----------------------------
 
@@ -154,8 +155,9 @@ f="/etc/bash_completion"
 #  == end RVM ===
 
 # Ruby Version Manager -- RVM setup:
-source "$HOME/.rvm/scripts/rvm"
-echo "Using Ruby version: $( rvm current )   # (rvm current/RUBY_VERSION)"
+f="$HOME/.rvm/scripts/rvm"
+[ -f "$f" ] && source $f && \
+  echo "Using Ruby version: $( rvm current )   # (rvm current/RUBY_VERSION)"
 
 # -----------------------------
 

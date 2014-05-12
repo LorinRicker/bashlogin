@@ -4,7 +4,7 @@
 # Lorin Ricker: bash functions
 
 shF="$( basename ${0#-} ) - functions"
-Ident="${shF}  # (LMR version 4.29 of 04/29/2014)"
+Ident="${shF}  # (LMR version 4.30 of 05/11/2014)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
 
 # ===============================================================
@@ -324,6 +324,23 @@ restartd()
     fi
   }
 export -f restartd
+
+# Turn off, or on, the damn fingerpainter touchpad --
+tpad()
+  {
+    cond=$( echo "$*" | tr [A-Z] [a-z] )
+    case $cond in
+      of* | 0 | - )
+        synclient TouchpadOff=1;;
+      on* | 1 | + )
+        synclient TouchpadOff=0;;
+      sho* | sta* )
+        echo "%tpad-S-state," $( synclient -l | grep -i "touchpadoff" );;
+      * )
+        echo "%tpad-I-use, $ tpad [ off | 0 | - | on | 1 | + ]";;
+    esac
+  }
+export -f tpad
 
 distouchpad()
   { # Disable/re-control the damn touchpad -- no fingerpainting!
