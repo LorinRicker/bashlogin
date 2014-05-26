@@ -4,7 +4,7 @@
 # Lorin Ricker: personal aliases
 
 shF="$( basename ${0#-} ) - aliases"
-Ident="${shF}  # (LMR version 4.26 of 04/29/2014)"
+Ident="${shF}  # (LMR version 4.29 of 05/25/2014)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
 
 # Exports global variable DEBUGMODE (value 0|1):
@@ -64,10 +64,10 @@ alias gconf='gconf-editor &'
 
 alias  mx='chmod a+x'   #make All eXecutable (UGO)
 
-# mount/dismount sshfs/fuse remote disks in one motion --
+# mount/dismount sshfs/fuse remote disks independently in one motion --
 # see ~/projects/com/mount-sshfs.sh (executed from ~/bin/):
-alias mntMusic='mount-sshfs lorin && mount-sshfs mirrors'
-alias disMusic='mount-sshfs lorin dismount && mount-sshfs mirrors dismount'
+alias mntMusic='mount-sshfs lorin ; mount-sshfs mirrors'
+alias disMusic='mount-sshfs lorin dismount ; mount-sshfs mirrors dismount'
 
 # DCL.sh -- Implements selected VMS/DCL command capabilities, using aliases --
 #           invoke with "." (source) to inherit export/globals:
@@ -254,6 +254,23 @@ if [ -a $f ]; then
   alias qrcgen="java -jar $f &"
 fi
 alias qrcgen="java -jar $f &"
+# =========================
+
+# =========================
+#      PARSEC specific:
+# =========================
+# Need these at office and home; be sure that all VPNs are turned off:
+alias cl2="ssh lricker@class2.parsec.com"
+alias cl6="ssh lricker@class6.parsec.com"
+alias cl8="ssh lricker@class8.parsec.com"
+
+if [ "$HOSTNAME" == "alikot" ]; then   # I'm at work...
+
+  # Be sure that the Denver Post VPN is up for these:
+  alias DRAX01="telnet 172.24.65.21"
+  alias DRAX02="telnet 172.24.65.22"
+
+fi
 # =========================
 
 return 0  # don't: exit 0
