@@ -1,4 +1,4 @@
-# $HOME/bin/login/inputrc  -- LMR v4.01 09/11/2012
+# $HOME/bin/login/inputrc  -- LMR v4.02 05/28/2014
 
 # /etc/inputrc - global inputrc for libreadline:
 $include /etc/inputrc                 # Start from here...
@@ -39,10 +39,11 @@ set visible-stats On
 # set bell-style none
 # set bell-style visible
 
-$if mode=emacs
+##$if mode=emacs
 
 "\C-y": shell-expand-line       # Ctrl/Y      [[LMR]]
 "\C-\M-y": menu-complete        # Ctrl-Alt/Y  [[LMR]]
+"\C-8": insert-completions      # Ctrl-*      [[LMR]]
 
 "\C-t": kill-whole-line         # Ctrl/T      [[LMR]]
 
@@ -73,4 +74,4 @@ $if mode=emacs
 "\e[6~": history-search-forward   # PgDn
 "\e[5~": history-search-backward  # PgUp
 
-$endif
+##$endif

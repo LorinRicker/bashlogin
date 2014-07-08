@@ -12,7 +12,7 @@
 # ==========================================================================================
 
 shF="$HOME/bin/login/bashrc"
-Ident="${shF}  # (LMR version 4.09 of 05/11/2014)"
+Ident="${shF}  # (LMR version 4.11 of 06/26/2014)"
 [ "$DEBUGMODE" = "1" ] && echo "%bashrc:login-I, ${Ident}"
 
 # If not running interactively, don't do anything
@@ -94,6 +94,10 @@ f="$HOME/bin/login/debugmode"
 f="$HOME/bin/login/functions"
 [ -f "$f" ] && . $f
 
+# DCLfunction definitions:
+f="$HOME/bin/login/DCLfunctions"
+[ -f "$f" ] && . $f
+
 # Logical-name definitions:
 f="$HOME/bin/login/logicals"
 [ -f "$f" ] && . $f
@@ -160,5 +164,9 @@ f="$HOME/.rvm/scripts/rvm"
   echo "Using Ruby version: $( rvm current )   # (rvm current/RUBY_VERSION)"
 
 # -----------------------------
+
+# cleanpath is defined in aliases; exeucte it to remove any
+# accumulated duplicates from PATH, and show the PATH here:
+cleanpath ; path
 
 # exit 0

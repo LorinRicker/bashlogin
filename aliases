@@ -4,7 +4,7 @@
 # Lorin Ricker: personal aliases
 
 shF="$( basename ${0#-} ) - aliases"
-Ident="${shF}  # (LMR version 4.29 of 05/25/2014)"
+Ident="${shF}  # (LMR version 4.33 of 07/08/2014)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
 
 # Exports global variable DEBUGMODE (value 0|1):
@@ -66,8 +66,8 @@ alias  mx='chmod a+x'   #make All eXecutable (UGO)
 
 # mount/dismount sshfs/fuse remote disks independently in one motion --
 # see ~/projects/com/mount-sshfs.sh (executed from ~/bin/):
-alias mntMusic='mount-sshfs lorin ; mount-sshfs mirrors'
-alias disMusic='mount-sshfs lorin dismount ; mount-sshfs mirrors dismount'
+alias mntMusic='mount-sshfs lorin ; sleep 1 ; mount-sshfs mirrors'
+alias disMusic='mount-sshfs lorin dismount ; sleep 3 ; mount-sshfs mirrors dismount'
 
 # DCL.sh -- Implements selected VMS/DCL command capabilities, using aliases --
 #           invoke with "." (source) to inherit export/globals:
@@ -93,6 +93,9 @@ alias  disk='df -hT -t ext3 -t ext4 -t fuse.sshfs -t cifs'
 alias    di='di -f SbcvpTM'
 alias  freek='free -ktl'
 alias  freem='free -mtl'
+# e2label /dev/sdb1 newLabel  # to "set volume /dev/sdb1 newLabel"
+alias initx3='sudo mke2fs -t ext3 -L'
+alias initx4='sudo mke2fs -t ext4 -L'
 alias recall='history | grep '     # needs argument
 
 # Just be sure that my "main printer" is named "sysprint"
@@ -121,9 +124,9 @@ alias netcmd='source ~/bin/login/NetCommands'
 #        (-a = -rlptgoD)
 # (Note that "$ sudo backup ..." doesn't work, because root-proc doesn't inherit alias "backup"!)
 alias     backup='rsync -au --stats --human-readable'
-alias    backupv='rsync -auv --stats --human-readable --progress'
+alias    backupv='rsync -au --stats --human-readable --progress --itemize-changes'
 alias  sysbackup='sudo rsync -au --stats --human-readable'
-alias sysbackupv='sudo rsync -auv --stats --human-readable --progress'
+alias sysbackupv='sudo rsync -au --stats --human-readable --progress --itemize-changes'
 # =========================
 
 # -------------------------
