@@ -4,7 +4,7 @@
 # Lorin Ricker: personal aliases
 
 shF="$( basename ${0#-} ) - aliases"
-Ident="${shF}  # (LMR version 4.33 of 07/08/2014)"
+Ident="${shF}  # (LMR version 4.34 of 07/22/2014)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
 
 # Exports global variable DEBUGMODE (value 0|1):
@@ -35,7 +35,7 @@ alias nologins='sudo shutdown -kv now'
 
 alias  mykill="$HOME/bin/process --kill"
 alias syskill="sudo $HOME/bin/process --kill"
-## alias   sysed='gksu gedit &'
+##alias   sysed="gksudo subl"
 
 # Create a new, system-wide application launcher (but does not add this to Unity's
 # side/task-bar or to user's ~/Desktop; see also ~/bin/tomyDesktop script to copy

@@ -4,7 +4,7 @@
 # Lorin Ricker: bash functions
 
 shF="$( basename ${0#-} ) - functions"
-Ident="${shF}  # (LMR version 4.30 of 05/11/2014)"
+Ident="${shF}  # (LMR version 4.32 of 07/27/2014)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
 
 # ===============================================================
@@ -484,7 +484,12 @@ sysed()
     else
       echo -n "System file to edit: "; read ans
     fi
-    gksu -- ${ed} --new-window ${ans} &
+    case $ed in
+      subl )
+        sudo subl ${ans} ;;
+      gedit )
+        gksudo -- gedit ${ans} ;;
+    esac
   }
 export -f sysed
 
@@ -526,12 +531,19 @@ export -f lsppa
 
 # =========================
 
-# Display only filespec (last field from squeezed-split-fields line):
+# Display only last field from squeezed-split-fields line:
 lastfield()
   {
   ruby -ne 'f = $_.tr("\t"," ").squeeze(" ").split; puts "#{f[-1]}"'
   }
 export -f lastfield
+
+# Display only filespec (filename fields from standard find output-line):
+fnamefield()
+  {
+  ruby -ne 'f = $_.tr("\t"," ").squeeze(" ").split; puts "#{f[10..-1].join(" ")}"'
+  }
+export -f fnamefield
 
 # a VMS-like listing from find:
 fdir()
@@ -557,7 +569,7 @@ export -f fdir
 # ls-type functions:
 ff()
   { # Find a literally-named file from local directory recursively below current-dir:
-      sudo find . -iname "$*" -type f -ls | lastfield
+      sudo find . -iname "$*" -type f -ls | fnamefield
     # ...same as:
     #    sudo find . -iname "$*" -type f -printf "%p\n"    ## %p = filename
   }
