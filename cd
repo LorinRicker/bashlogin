@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+
+# $HOME/bin/login/cd
+# Lorin Ricker: bash functions
+
+shF="$( basename ${0#-} ) - functions"
+Ident="${shF}  # (LMR version 1.00 of 08/23/2014)"
+[ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
+
+# =========================
+# Need a smart VMS-cd here...
+cd()
+  { # cd the way we did it in VMS,
+    # but can use bash's cd, pushd, popd and dirs commands:
+    local args="$*"
+    local d
+    if [ -z "$args" ]; then
+      popd >/dev/null              # same as native "cd -"
+    else
+      for d in "$@"; do            # "$@", not "$*"...!
+        if [ "$d" = "??" ] || [ "$d" = "-h" ] || [ "$d" = "--help" ]; then
+          echo "usage: $ cd [ directory | ? | ! ]"
+        elif [ "$d" = "?" ]; then  # list DIRSTACK
+          dirs -l -v               # must use two distinct switches, not "-lv"
+          return 0
+        elif [ "$d" = "!" ]; then  # clear DIRSTACK
+          dirs -c
+          return 0
+        else
+          pushd >/dev/null "$d"    # using DIRSTACK as "permanent stack"
+        fi
+      done
+    fi
+  }
+export -f cd
+
+where()
+  {
+    echo -en "\033[0;34m---- $( pwd ) ----\033[0m"
+  }
+export -f where
+# =========================

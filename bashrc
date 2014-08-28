@@ -12,7 +12,7 @@
 # ==========================================================================================
 
 shF="$HOME/bin/login/bashrc"
-Ident="${shF}  # (LMR version 4.11 of 06/26/2014)"
+Ident="${shF}  # (LMR version 4.12 of 08/23/2014)"
 [ "$DEBUGMODE" = "1" ] && echo "%bashrc:login-I, ${Ident}"
 
 # If not running interactively, don't do anything
@@ -164,6 +164,13 @@ f="$HOME/.rvm/scripts/rvm"
   echo "Using Ruby version: $( rvm current )   # (rvm current/RUBY_VERSION)"
 
 # -----------------------------
+
+# --- Supercede RVM's cd function here...
+#     (RVM's own cd supercedes bash built-in cd, and
+#      breaks things like Atom.io's package manager)
+# cd and where functions:
+f="$HOME/bin/login/cd"
+[ -f "$f" ] && . $f
 
 # cleanpath is defined in aliases; exeucte it to remove any
 # accumulated duplicates from PATH, and show the PATH here:

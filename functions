@@ -4,8 +4,15 @@
 # Lorin Ricker: bash functions
 
 shF="$( basename ${0#-} ) - functions"
-Ident="${shF}  # (LMR version 4.32 of 07/27/2014)"
+Ident="${shF}  # (LMR version 4.33 of 08/23/2014)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
+
+# -----
+# Moved definition of function cd() to its own file cd
+# so that it can be (re)invoked following RVM's setup
+# at the end of bashrc -- RVM imposes its own "cd",
+# and we need to supercede that...
+# -----
 
 # ===============================================================
 # Note: Each function definition includes an "export -f fname" so
@@ -376,40 +383,6 @@ distouchpad()
     ps aux | grep [s]yndaemon
   }
 export -f distouchpad
-# =========================
-
-# =========================
-# Need a smart VMS-cd here...
-cd()
-  { # cd the way we did it in VMS,
-    # but can use bash's cd, pushd, popd and dirs commands:
-    local args="$*"
-    local d
-    if [ -z "$args" ]; then
-      popd >/dev/null              # same as native "cd -"
-    else
-      for d in "$@"; do            # "$@", not "$*"...!
-        if [ "$d" = "??" ] || [ "$d" = "-h" ] || [ "$d" = "--help" ]; then
-          echo "usage: $ cd [ directory | ? | ! ]"
-        elif [ "$d" = "?" ]; then  # list DIRSTACK
-          dirs -l -v               # must use two distinct switches, not "-lv"
-          return 0
-        elif [ "$d" = "!" ]; then  # clear DIRSTACK
-          dirs -c
-          return 0
-        else
-          pushd >/dev/null "$d"    # using DIRSTACK as "permanent stack"
-        fi
-      done
-    fi
-  }
-export -f cd
-
-where()
-  {
-    echo -en "\033[0;34m---- $( pwd ) ----\033[0m"
-  }
-export -f where
 # =========================
 
 # =========================

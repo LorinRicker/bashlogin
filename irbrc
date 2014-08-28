@@ -1,4 +1,4 @@
-# .irbrc --> irbrc -- v0.8 - 07/14/2014 LMR
+# .irbrc --> irbrc -- v0.9 - 08/27/2014 LMR
 
 require 'pp'
 require 'irb/completion'
@@ -114,7 +114,7 @@ def cmdhelp
     cmdhelp                      # generates this help-text
 
     fl 'rubymodule[.rb]'         # "file load", loads a Ruby module
-    rl 'rubymodule[.rb]'         # "re-load", reloads a Ruby module
+    rl                           # "re-load", reloads last-loaded Ruby module
     rql 'rubymodule'             # "require", requires a Ruby module
 
     elapsed { block }            # benchmark-time a Ruby code block
