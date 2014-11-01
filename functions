@@ -4,7 +4,7 @@
 # Lorin Ricker: bash functions
 
 shF="$( basename ${0#-} ) - functions"
-Ident="${shF}  # (LMR version 4.33 of 08/23/2014)"
+Ident="${shF}  # (LMR version 4.34 of 10/31/2014)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
 
 # -----
@@ -444,6 +444,13 @@ export -f logicals
 
 # =========================
 
+# A simple line-numbered text-file lister with pagination:
+list()
+  {
+    cat -vn $1 | less
+  }
+export -f list
+
 # Start a text-editor as sudo/root --
 sysed()
   {
@@ -534,7 +541,7 @@ fdir()
     # TO-DO: Add options-parse for cmd-line -opt for datetime, size, owner, prot-mask
     #        and detection/sensitivity to current terminal screen width...
     #        Could also sort by-date, by-size, reverse (etc)
-    fstr="%-36f %10s·%-6b %Td-%Tb-%TY %Tk:%TM  %u:%g %M"
+    fstr="%-32f %10s·%-6b %Td-%Tb-%TY %Tk:%TM %u:%g %M"
     find "${path}" -maxdepth 1 -type f ${fname} -printf "${fstr}\n" | sort
   }
 export -f fdir
