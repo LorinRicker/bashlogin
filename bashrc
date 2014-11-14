@@ -12,7 +12,7 @@
 # ==========================================================================================
 
 shF="$HOME/bin/login/bashrc"
-Ident="${shF}  # (LMR version 4.12 of 08/23/2014)"
+Ident="${shF}  # (LMR version 4.15 of 11/13/2014)"
 [ "$DEBUGMODE" = "1" ] && echo "%bashrc:login-I, ${Ident}"
 
 # If not running interactively, don't do anything
@@ -88,37 +88,37 @@ case "$TERM" in
 # Functions (2) to initialize and manage debug and trace modes:
 [ -z "$DEBUGMODE" ] && declare -ix DEBUGMODE=0
 f="$HOME/bin/login/debugmode"
-[ -f "$f" ] && . $f
+[ -f "$f" ] && source $f
 
 # Function definitions:
 f="$HOME/bin/login/functions"
-[ -f "$f" ] && . $f
+[ -f "$f" ] && source $f
 
 # DCLfunction definitions:
 f="$HOME/bin/login/DCLfunctions"
-[ -f "$f" ] && . $f
+[ -f "$f" ] && source $f
 
 # Logical-name definitions:
 f="$HOME/bin/login/logicals"
-[ -f "$f" ] && . $f
+[ -f "$f" ] && source $f
 
 # doc function:
 f="$HOME/bin/login/doc_function"
-[ -f "$f" ] && . $f
+[ -f "$f" ] && source $f
 
 # tweak_path functions:
 f="$HOME/bin/login/tweak_path"
-[ -f "$f" ] && . $f
+[ -f "$f" ] && source $f
 
 # Alias definitions:
 f="$HOME/bin/login/aliases"
-[ -f "$f" ] && . $f
+[ -f "$f" ] && source $f
 
 # -----------------------------
 # Enable programmable completion features (you don't need to enable this, if it's
 # already enabled in /etc/bash.bashrc and /etc/profile sources /etc/bash.bashrc).
 f="/etc/bash_completion"
-[ -f "$f" ] && . $f
+[ -f "$f" ] && source $f
 
 # -----------------------------
 # Disable/modify laptop's touchpad (tpad & distouchpad defined in functions):
@@ -160,6 +160,8 @@ tpad OFF 1>/dev/null 2>/dev/null ; tpad show 1>/dev/null 2>/dev/null
 
 # Ruby Version Manager -- RVM setup:
 f="$HOME/.rvm/scripts/rvm"
+alias  rvmsetup="source $f"
+alias rvmupdate="rvm get stable"
 [ -f "$f" ] && source $f && \
   echo "Using Ruby version: $( rvm current )   # (rvm current/RUBY_VERSION)"
 
@@ -170,7 +172,7 @@ f="$HOME/.rvm/scripts/rvm"
 #      breaks things like Atom.io's package manager)
 # cd and where functions:
 f="$HOME/bin/login/cd"
-[ -f "$f" ] && . $f
+[ -f "$f" ] && source $f
 
 # cleanpath is defined in aliases; exeucte it to remove any
 # accumulated duplicates from PATH, and show the PATH here:

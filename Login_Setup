@@ -4,7 +4,7 @@
 # Lorin Ricker: set up bash-login environment & commands
 
 shF=$( basename $0 )
-Ident="${shF}  # (LMR version 1.24 of 08/23/2014)"
+Ident="${shF}  # (LMR version 1.25 of 11/13/2014)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
 
 DST="$HOME/bin/login"
@@ -13,17 +13,28 @@ STASH="$HOME/projects/login/stash"
 BCKSYM="~"
 RELEASED=""
 
+function symlink()
+  {
+  # Create a sym-link for each bash login script in $HOME:
+  local fnam=$1
+  if [ ! -L "$HOME/.${fnam}" ]; then   # not a sym-link?
+    mv "$HOME/.${fnam}" "$STASH/.${fnam}-original"
+    [ ! -e $SRC/${fnam} ] && cp "$STASH/.${fnam}-original" $SRC/${fnam}
+    ln -s $DST/${fnam} $HOME/.${fnam}
+  fi
+  }
+
 function copylogin()
   {
   local fnam=$1
   local rel=$RELEASED
-  if ! $( cmp --quiet $SRC/$fnam $DST/$fnam ); then
+  if ! $( cmp --quiet $SRC/${fnam} $DST/${fnam} ); then
     # rename previous version as backup...
-    [ -e $DST/$fnam ]            && mv $DST/$fnam $DST/${fnam}${BCKSYM}
+    [ -e $DST/${fnam} ]            && mv $DST/${fnam} $DST/${fnam}${BCKSYM}
     [ -e $DST/${fnam}${BCKSYM} ] && chmod 600 $DST/${fnam}${BCKSYM}
     # copy the new...
-    cp $SRC/$fnam $DST/$fnam
-    chmod 700 $DST/$fnam
+    cp $SRC/${fnam} $DST/${fnam}
+    chmod 700 $DST/${fnam}
     # account for the release...
     FCNT=$((FCNT + 1))
     if [ "$rel" = "" ]; then
@@ -38,16 +49,6 @@ function copylogin()
   #  see: http://www.linuxjournal.com/content/return-values-bash-functions
   # also: http://bash.cyberciti.biz/guide/Returning_from_a_function
   echo "${rel}"  # the return value...
-  }
-
-function symlink()
-  {
-  # Create a sym-link for each bash login script in $HOME:
-  local fnam=$1
-  if [ ! -L "$HOME/.$fnam" ]; then   # not a sym-link?
-    mv "$HOME/.$fnam" "$STASH/.${fnam}-original"
-    ln -s $DST/$fnam $HOME/.$fnam
-  fi
   }
 
 function list_binlogin()
@@ -70,8 +71,9 @@ function list_home()
  {
   # Show the hidden sym-link files in $HOME:
   echo -e "\n[ \033[1m\033[4m$HOME\033[0m ]"
-  ls -lA ~/.bashrc ~/.bash_profile ~/.emacs ~/.inputrc ~/.bash_logout \
-         ~/.pryrc ~/.irbrc ~/.rdebugrc
+  ls -goA ~/.bash_profile ~/.profile ~/.bashrc \
+         ~/.inputrc ~/.bash_logout \
+         ~/.pryrc ~/.irbrc ~/.rdebugrc ~/.emacs
   }
 
 # ======================================================================
@@ -136,36 +138,41 @@ EOD
     ;;
 
   sym* | lin* | ln* )  # create or replace sym-links...
-    symlink bashrc
     symlink bash_profile
+    symlink profile    # not used (with bash_profile), but included/completeness
+    symlink bashrc
     symlink inputrc
-    symlink emacs
     symlink bash_logout
     symlink pryrc
     symlink irbrc
     symlink rdebugrc
+    symlink emacs
 
     list_home
     ;;
 
   rel* | * )  # default: copy bash-core login files
               #          from edit-dir to ~/bin/login/
+    # these are sym-linked:
     RELEASED=$( copylogin bash_profile $FCNT )
+    RELEASED=$( copylogin profile      $FCNT )
     RELEASED=$( copylogin bashrc       $FCNT )
-    RELEASED=$( copylogin aliases      $FCNT )
-    RELEASED=$( copylogin NetCommands  $FCNT )
-    RELEASED=$( copylogin functions    $FCNT )
-    RELEASED=$( copylogin cd           $FCNT )
-    RELEASED=$( copylogin logicals     $FCNT )
-    RELEASED=$( copylogin ruby_setup   $FCNT )
-    RELEASED=$( copylogin doc_function $FCNT )
-    RELEASED=$( copylogin debugmode    $FCNT )
     RELEASED=$( copylogin inputrc      $FCNT )
-    RELEASED=$( copylogin emacs        $FCNT )
     RELEASED=$( copylogin bash_logout  $FCNT )
     RELEASED=$( copylogin pryrc        $FCNT )
     RELEASED=$( copylogin irbrc        $FCNT )
     RELEASED=$( copylogin rdebugrc     $FCNT )
+    RELEASED=$( copylogin emacs        $FCNT )
+
+    # these are .-sourced (mostly from bashrc):
+    RELEASED=$( copylogin aliases      $FCNT )
+    RELEASED=$( copylogin cd           $FCNT )
+    RELEASED=$( copylogin debugmode    $FCNT )
+    RELEASED=$( copylogin doc_function $FCNT )
+    RELEASED=$( copylogin functions    $FCNT )
+    RELEASED=$( copylogin logicals     $FCNT )
+    RELEASED=$( copylogin NetCommands  $FCNT )
+    RELEASED=$( copylogin ruby_setup   $FCNT )
 
     list_binlogin $FCNT
     list_home
