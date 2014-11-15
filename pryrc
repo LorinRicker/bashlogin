@@ -1,4 +1,4 @@
-# ~/.pryrc -> ~/bin/login/pryrc -- version 1.2 of 11/13/2014
+# ~/.pryrc -> ~/bin/login/pryrc -- version 1.3 of 11/14/2014
 
 Pry.config.editor = "subl"
 Pry.commands.alias_command 'q', 'exit'
@@ -11,6 +11,7 @@ Pry.commands.alias_command 'q', 'exit'
 #     ...
 #     binding.pry if options[:debug] >= 3
 #
+Pry.commands.alias_command 'b', 'break'
 Pry.commands.alias_command 'c', 'continue'
 Pry.commands.alias_command 's', 'step'
 Pry.commands.alias_command 'n', 'next'
