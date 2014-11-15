@@ -12,7 +12,7 @@
 # ==========================================================================================
 
 shF="$HOME/bin/login/bashrc"
-Ident="${shF}  # (LMR version 4.15 of 11/13/2014)"
+Ident="${shF}  # (LMR version 4.18 of 11/14/2014)"
 [ "$DEBUGMODE" = "1" ] && echo "%bashrc:login-I, ${Ident}"
 
 # If not running interactively, don't do anything
@@ -35,44 +35,9 @@ shopt -s checkwinsize
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
 # -----------------------------
-# Identify the chroot you work in (used in the prompt below):
-if [ -z "$dchroot" ] && [ -r /etc/dchroot ]; then
-  dchroot=$(cat /etc/dchroot)
-  echo "dchroot: '$dchroot'"
-else
-  dchroot=""
-fi
-
-# Set a fancy prompt (non-color, unless we know we "want" color)
-case "$TERM" in
-  xterm-color) color_prompt=yes;;
-esac
-
-# Uncomment for a colored prompt, if the terminal has the capability;
-# turned off by default to not distract the user: the focus in a terminal
-# window should be on the output of commands, not on the prompt.
-#force_color_prompt=yes
-
-if [ -n "$force_color_prompt" ]; then
-    if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-  # We have color support; assume it's compliant with Ecma-48 (ISO/IEC-6429).
-  # (Lack of such support is extremely rare, and such a case would tend to
-  #  support setf rather than setaf.)
-      color_prompt=yes
-    else
-      color_prompt=
-    fi
-fi
-
-# Setup prompt string -- I like simple "node$ " style (LMR):
-if [ "$color_prompt" = yes ]; then
-# PS1='${dchroot:+($dchroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
-  PS1='${dchroot:+($dchroot)}\[\033[01;32m\]\h\[\033[00m\]\$ '  #LMR
-else
-# PS1='${dchroot:+($dchroot)}\u@\h:\w\$ '
-  PS1='${dchroot:+($dchroot)}\[\033[35m\]\ndir: \w\[\033[00m\]\n\[\033[31m\]\h\[\033[00m\]\$ '  #LMR
-fi
-unset color_prompt force_color_prompt dchroot
+# 'red-host$ ' prompt, plus leading 'where' info on preceding line:
+export PS1='\[\033[35m\]\ndir: \w\[\033[00m\]\n\[\033[0;31m\]\h\[\033[00m\]\$ '  #LMR
+export PS2='_\$ '
 
 # If this is an xterm set the TITLE-BAR to user@host:dir
 case "$TERM" in
@@ -160,11 +125,19 @@ tpad OFF 1>/dev/null 2>/dev/null ; tpad show 1>/dev/null 2>/dev/null
 
 # Ruby Version Manager -- RVM setup:
 f="$HOME/.rvm/scripts/rvm"
-alias  rvmsetup="source $f"
-alias rvmupdate="rvm get stable"
-[ -f "$f" ] && source $f && \
-  echo "Using Ruby version: $( rvm current )   # (rvm current/RUBY_VERSION)"
-
+if [ -f "$f" ]; then
+  source $f
+  curRuby=$( rvm current )
+  echo "Using Ruby version: ${curRuby}   # (rvm current/RUBY_VERSION)"
+  alias rvmset="source $f"
+  alias rvmupd='rvm get stable'
+  alias rvmrel='rvm reload'
+  # Use '' for rvmgem, not ""a, want to do $GEM_HOME at cmd-runtime:
+  alias rvmgem='GEM_PATH=$GEM_HOME gem list'
+  # 'red-host$ ' prompt, plus leading 'where' and 'current-ruby' info on preceding line:
+  export PS1='\[\033[35m\]\ndir: \w `rvm current`\[\033[00m\]\n\[\033[0;31m\]\h\[\033[00m\]\$ ' #LMR
+  export PS2='_\$ '
+fi
 # -----------------------------
 
 # --- Supercede RVM's cd function here...
