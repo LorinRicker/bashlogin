@@ -12,7 +12,7 @@
 # ==========================================================================================
 
 shF="$HOME/bin/login/bashrc"
-Ident="${shF}  # (LMR version 4.18 of 11/14/2014)"
+Ident="${shF}  # (LMR version 4.20 of 11/17/2014)"
 [ "$DEBUGMODE" = "1" ] && echo "%bashrc:login-I, ${Ident}"
 
 # If not running interactively, don't do anything
@@ -127,6 +127,7 @@ tpad OFF 1>/dev/null 2>/dev/null ; tpad show 1>/dev/null 2>/dev/null
 f="$HOME/.rvm/scripts/rvm"
 if [ -f "$f" ]; then
   source $f
+  rvm gemset use bootcamp     # just to get started...
   curRuby=$( rvm current )
   echo "Using Ruby version: ${curRuby}   # (rvm current/RUBY_VERSION)"
   alias rvmset="source $f"
@@ -135,7 +136,7 @@ if [ -f "$f" ]; then
   # Use '' for rvmgem, not ""a, want to do $GEM_HOME at cmd-runtime:
   alias rvmgem='GEM_PATH=$GEM_HOME gem list'
   # 'red-host$ ' prompt, plus leading 'where' and 'current-ruby' info on preceding line:
-  export PS1='\[\033[35m\]\ndir: \w `rvm current`\[\033[00m\]\n\[\033[0;31m\]\h\[\033[00m\]\$ ' #LMR
+  export PS1='\[\033[35m\]\ndir: \w {`rvm current`}\[\033[00m\]\n\[\033[0;31m\]\h\[\033[00m\]\$ ' #LMR
   export PS2='_\$ '
 fi
 # -----------------------------

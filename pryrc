@@ -1,27 +1,38 @@
-# ~/.pryrc -> ~/bin/login/pryrc -- version 1.3 of 11/14/2014
+# ~/.pryrc -> ~/bin/login/pryrc -- version 1.4 of 11/17/2014
 
 Pry.config.editor = "subl"
-Pry.commands.alias_command 'q', 'exit'
 
+# Ruby debugger --> pry and byebug...
 # Requires gems "pry", "pry-nav" and "pry-byebug"
 # (if pry-nav and pry-byebug are installed, pry uses them) --
 #
-# Use in a Ruby script/program is:
-#     require 'pry'
-#     ...
-#     binding.pry if options[:debug] >= 3
+# Use in a Ruby script/program is (typically after):
 #
-Pry.commands.alias_command 'b', 'break'
-Pry.commands.alias_command 'c', 'continue'
-Pry.commands.alias_command 's', 'step'
-Pry.commands.alias_command 'n', 'next'
-Pry.commands.alias_command 'f', 'finish'
-Pry.commands.alias_command '$', 'exit-program'  # back to $-prompt, same as '!!!'
+#    optparse = OptionParser.new { |opts|
+#      opts.on ...
+#    }.parse!  # leave residue-args in ARGV
+#
+#####################################
+#    if options[:debug] >= DBGLVL3  #
+#      require 'pry'                #
+#      binding.pry                  #
+#    end                            #
+#####################################
+#
+
+Pry.commands.alias_command 'b', 'break'        # set a breakpoint line# [--condition]
+Pry.commands.alias_command 'w', 'watch'        # set a watchpoint [EXPRESSION]
+Pry.commands.alias_command 'c', 'continue'     # continue to next breakpoint or end-of-program
+Pry.commands.alias_command 'n', 'next'         # execute current line (step-over methods/blocks)
+Pry.commands.alias_command 's', 'step'         # execute into current method or block
+Pry.commands.alias_command 'f', 'finish'       # run to end-of-program (no breakpoints)
+Pry.commands.alias_command 'q', 'exit'         # Pops the previous binding (does not exit program)
+Pry.commands.alias_command '$', 'exit-program' # exit back to $-prompt, same as '!!!'
 
 # Hit <Enter> to repeat last command
 Pry::Commands.command /^$/, "Repeat last command" do
   _pry_.run_command Pry.history.to_a.last
 end
 
-Pry.config.prompt = [proc { "pry> " },
+Pry.config.prompt = [proc { "pry> " },  # byebug overrides this with its own "input> "
                      proc { "   | " }]
