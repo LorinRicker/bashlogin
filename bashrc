@@ -12,7 +12,7 @@
 # ==========================================================================================
 
 shF="$HOME/bin/login/bashrc"
-Ident="${shF}  # (LMR version 4.20 of 11/17/2014)"
+Ident="${shF}  # (LMR version 4.22 of 11/18/2014)"
 [ "$DEBUGMODE" = "1" ] && echo "%bashrc:login-I, ${Ident}"
 
 # If not running interactively, don't do anything
@@ -23,8 +23,6 @@ f="$HOME/.bash_profile"
 [ -f "$f" ] && source $f
 
 # -----------------------------
-
-# -----------------------------
 set -o emacs
 
 # Check the window size after each command and, if necessary,
@@ -33,11 +31,6 @@ shopt -s checkwinsize
 
 # Make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
-
-# -----------------------------
-# 'red-host$ ' prompt, plus leading 'where' info on preceding line:
-export PS1='\[\033[35m\]\ndir: \w\[\033[00m\]\n\[\033[0;31m\]\h\[\033[00m\]\$ '  #LMR
-export PS2='_\$ '
 
 # If this is an xterm set the TITLE-BAR to user@host:dir
 case "$TERM" in
@@ -135,9 +128,10 @@ if [ -f "$f" ]; then
   alias rvmrel='rvm reload'
   # Use '' for rvmgem, not ""a, want to do $GEM_HOME at cmd-runtime:
   alias rvmgem='GEM_PATH=$GEM_HOME gem list'
-  # 'red-host$ ' prompt, plus leading 'where' and 'current-ruby' info on preceding line:
-  export PS1='\[\033[35m\]\ndir: \w {`rvm current`}\[\033[00m\]\n\[\033[0;31m\]\h\[\033[00m\]\$ ' #LMR
-  export PS2='_\$ '
+  # Add 'current-ruby' info to prompt's preceding-where line:
+  SetPrompt '`pwd`' ' {`rvm current`}'
+else
+  SetPrompt '`pwd`'
 fi
 # -----------------------------
 
