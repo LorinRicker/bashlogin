@@ -4,7 +4,7 @@
 # Lorin Ricker: "VMS logical names"
 
 shF="$( basename ${0#-} ) - logicals"
-Ident="${shF}  # (LMR version 4.12 of 10/27/2014)"
+Ident="${shF}  # (LMR version 4.14 of 12/03/2014)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
 
 case ${HOSTNAME} in  # /vm/Mirrors or /usr/Mirrors ...?
@@ -36,6 +36,8 @@ deflogical "cut"     "$HOME/anchor/Shortcuts"
 deflogical "shr"     "/home/share"
 deflogical "drp"     "$HOME/Dropbox"
 deflogical "dpj"     "$DRP/projects"
+deflogical "dry"     "$DRP/projects/ruby"
+deflogical "xfr"     "$DRP/Xfer"
 deflogical "cop"     "$HOME/Copy"
 
 deflogical "tpg"     "$HOME/ParsecGroup"
@@ -45,6 +47,7 @@ deflogical "arc"     "$MIRROR/Archives"
 deflogical "tar"     "$MIRROR/TArchives"
 deflogical "llb"     "$MIRROR/LorinLibrary"
 deflogical "dlb"     "$LLB/DocLibrary"
+deflogical "how"     "$DLB/Linux/HowTos"
 deflogical "mlb"     "$LLB/MusicLibrary"
 deflogical "kit"     "$LLB/SoftwareKits"
 deflogical "cat"     "$LLB/Photography/Catalog"
