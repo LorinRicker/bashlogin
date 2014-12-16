@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+# $HOME/bin/login/pygmentize-magik
+# Lorin Ricker: bash path functions
+
+shF="$( basename ${0#-} ) - pygmentize-magik"
+Ident="${shF}  # (LMR version 1.00 of 12/15/2014)"
+[ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
+
+# prototype_func()
+#   {  #stuff...
+#      # Make the function result echo as a string (the only echo)...
+#      echo "func_result"
+#   }
+# export -f prototype_func

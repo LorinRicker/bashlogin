@@ -12,7 +12,7 @@
 # ==========================================================================================
 
 shF="$HOME/bin/login/bashrc"
-Ident="${shF}  # (LMR version 4.22 of 11/18/2014)"
+Ident="${shF}  # (LMR version 4.23 of 12/15/2014)"
 [ "$DEBUGMODE" = "1" ] && echo "%bashrc:login-I, ${Ident}"
 
 # If not running interactively, don't do anything
@@ -50,6 +50,14 @@ f="$HOME/bin/login/debugmode"
 
 # Function definitions:
 f="$HOME/bin/login/functions"
+[ -f "$f" ] && source $f
+
+# Magic path* function definitions:
+f="$HOME/bin/login/path-magik"
+[ -f "$f" ] && source $f
+
+# Magic pygmentize function definitions:
+f="$HOME/bin/login/pygmentize-magik"
 [ -f "$f" ] && source $f
 
 # DCLfunction definitions:
@@ -139,7 +147,7 @@ fi
 #     (RVM's own cd supercedes bash built-in cd, and
 #      breaks things like Atom.io's package manager)
 # cd and where functions:
-f="$HOME/bin/login/cd"
+f="$HOME/bin/login/cd-magik"
 [ -f "$f" ] && source $f
 
 # cleanpath is defined in aliases; exeucte it to remove any

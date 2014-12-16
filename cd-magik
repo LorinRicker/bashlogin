@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
-# $HOME/bin/login/cd
+# $HOME/bin/login/cd-magik
 # Lorin Ricker: bash functions
 
 shF="$( basename ${0#-} ) - functions"
-Ident="${shF}  # (LMR version 1.00 of 08/23/2014)"
+Ident="${shF}  # (LMR version 1.01 of 12/15/2014)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
 
 # =========================

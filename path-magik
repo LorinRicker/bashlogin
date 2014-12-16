@@ -1,0 +1,216 @@
+#!/usr/bin/env bash
+
+# $HOME/bin/login/path-magik
+# Lorin Ricker: bash path functions
+
+shF="$( basename ${0#-} ) - path-magik"
+Ident="${shF}  # (LMR version 1.00 of 12/15/2014)"
+[ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
+
+# -----
+# Moved path* functions to separate path-magik source
+# file to refactor for easier distribution/sharing
+# -----
+
+# ===============================================================
+# Note: Each function definition includes an "export -f fname" so
+#       that these are "global", copied to forked sub-processes
+#       and can also be listed by Ruby script lsfunction.rb
+# ================================================================
+
+# ==========
+# Create the perfect PATH (in case of complete screwup) --
+# returns: A concatenated, ':'-separated pathlist value-string which is
+#          suitable for resetting environment variable PATH
+# use: $ PATH=$( perfectpath )       ## --> see also: alias fixpath
+perfectpath()
+  {
+    local p=""
+    p="/home/lorin/.rvm/gems/ruby-2.1.1/bin"
+    p="$p:/home/lorin/.rvm/gems/ruby-2.1.1@global/bin"
+    p="$p:/home/lorin/.rvm/rubies/ruby-2.1.1/bin"
+    p="$p:/home/lorin/bin"
+    p="$p:/usr/lib/lightdm/lightdm"
+    p="$p:/usr/local/sbin"
+    p="$p:/usr/local/bin"
+    p="$p:/usr/sbin"
+    p="$p:/usr/bin"
+    p="$p:/sbin"
+    p="$p:/bin"
+    p="$p:/usr/games"
+    p="$p:/home/lorin/.rvm/bin"
+    echo "$p"
+  }
+export -f perfectpath
+
+# # Pretty-print PATH environment:
+# # use: $ path
+# path() #1
+#   {
+#     oIFS="$IFS"
+#     echo "=== PATH is ==="
+#     IFS=':' ; printf "%s\n" $PATH
+#     IFS="$oIFS"
+#   }
+# export -f path
+
+# Pretty-print PATH environment (preferred alternative) --
+# equivalent output to path() #1 above,
+# just another way, but does not alter IFS:
+# use: $ path
+path() #2
+  {
+    echo "=== PATH is ==="
+    p=$PATH
+    until [ "$p" = "$d" ]; do
+      d=${p%%:*}
+      p=${p#*:}
+      echo "$d"
+    done
+    if [ "$1" != "" ]; then
+      echo -e "\n=== raw PATH is ==="
+      echo "$PATH"
+      echo "==================="
+    fi
+  }
+export -f path
+
+# Pretty-print path from root / down to current working directory:
+# returns: multiline listing of directory-tree
+# use: $ pathere
+pathere()
+  {
+    echo -e "=== path from / to here ===\n/"
+    p=$(pwd)
+    until [ "$p" = "$d" ]; do
+      p=${p#*/}
+      d=${p%%/*}
+      echo "$d/"
+    done
+  }
+export -f pathere
+
+# Determine if the path contains a given directory;
+# returns: 1 if target is contained within pattern,
+#          0 otherwise
+# use: $ pathcontains "$PATH" "/dir/to/check"
+function pathcontains()
+  {
+    local pattern=":$1:"
+    local target=$2
+    # Case-sensitive comparison unless nocasematch is set
+    case $pattern in
+      *:$target:* ) return 1 ;;
+      *           ) return 0 ;;
+    esac
+  }
+export -f pathcontains
+
+# Remove leading/trailing or duplicate ':', remove duplicate entries
+# returns:  echos the "cleaned up" path
+# use:  cleaned_path=$(pathclean "$PATH") ## --> see also: alias cleanpath
+function pathclean()
+  {
+    local path="$1"
+    local newpath
+    local dir
+
+    # Make sure we have something to work with
+    [ -z "$path" ] && return 1
+
+    # Remove duplicate directories, if any
+    for dir in ${path//:/ }; do
+      pathcontains "$newpath" "$dir" && newpath="${newpath}:${dir}"
+    done
+
+    # Remove any leading, trailing &/or duplicate ':' separators
+    newpath=$( echo "$newpath" | sed 's/^:*//; s/:*$//; s/::/:/g' )
+
+    # Return the new path
+    echo "$newpath"
+  }
+export -f pathclean
+
+# Concatenate a directory to the beginning or end of your path, as long as
+# it's not already present.  Does not take into account symbolic links.
+# returns:  sets the new $PATH, or 1 (error)
+# use: $ pathcat "/directory/to/add" [ pre (D) | post | before | after ]
+function pathcat()
+  {
+    local dir=$1
+    local loc=$( echo $2 | tr [A-Z] [a-z] )
+
+    # Make sure we have something to work with
+    if [ -z "$loc" -o  -z "$dir" ]; then
+      echo "$0:$FUNCNAME: requires a location and a directory to add to PATH" >&2
+      echo "e.g. $ pathcat pre $HOME/bin" >&2
+      return 1
+    fi
+
+    # Make sure the directory is not relative
+    if [ $( echo $dir | grep '^/' ) ]; then
+      : echo "$0:$FUNCNAME: '$dir' is absolute" >&2
+    else
+      echo "$0:$FUNCNAME: can't add relative directory '$dir' to PATH" >&2
+      return 1
+    fi
+
+    # Make sure the directory to add actually exists
+    if [ -d "$dir" ]; then
+      : echo "$0:$FUNCNAME: directory exists" >&2
+    else
+      echo "$0:$FUNCNAME: '$dir' does not exist" >&2
+      return 1
+    fi
+
+    # Make sure it's not already in the PATH
+    if [ $( pathcontains "$PATH" "$dir" ) ]; then
+      echo "$0:$FUNCNAME: '$dir' is already in PATH" >&2
+      return 1
+    else
+      echo "$0:$FUNCNAME: adding directory to PATH" >&2
+    fi
+
+    # Figure out what to do -- prepend (before) is the default:
+    case $loc in
+      post* | aft* ) PATH="$PATH:$dir" ;;
+      *            ) PATH="$dir:$PATH" ;;  # default
+    esac
+
+    # Clean up the new path, then set it
+    PATH=$( pathclean "$PATH" )
+  }
+export -f pathcat
+
+# add $1 to PATH, before/pre (default) or after/post:
+# returns:  sets the new $PATH
+# use: $ pathmunge "/directory/to/add" [ pre (D) | post | before | after ]
+function pathmunge()
+  {
+    local loc=$( echo $2 | tr [A-Z] [a-z] )
+    if ! echo $PATH | /bin/egrep -q "(^|:)$1($|:)" ; then
+      # Figure out what to do -- prepend (before) is the default:
+      case $loc in
+        post* | aft* ) PATH="$PATH:$1" ;;
+        *            ) PATH="$1:$PATH" ;;  # default
+      esac
+      PATH=$( pathclean "$PATH" )
+    fi
+  }
+export -f pathmunge
+
+# Remove a directory from your path, if present.
+# returns:  sets the new $PATH
+# use:  pathrm "/dir/to/remove"
+function pathrm()
+  {
+    local dir="$1"
+    # Remove all instances of $dir from $PATH
+    PATH=${PATH//$dir/}
+    # Clean up the new path, then set it
+    PATH=$( pathclean "$PATH" )
+  }
+export -f pathrm
+
+# =========================
+# exit 0
