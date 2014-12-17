@@ -1,28 +1,30 @@
-#!/usr/bin/env bash_profile
+#!/usr/bin/env bash
 
 # ~/bin/login/bash_profile
-# Referenced by SYMBOLIC LINK: $HOME/.bash_profile
-#  setup:  $ ln -sv $HOME/bin/login/bashrc $HOME/.bash_profile
-# Executed by bash(1) for non-login shells.
-
 # Lorin Ricker -- personal version
-# see /usr/share/doc/bash/examples/startup-files (in the package bash-doc) for examples
+
+# Referenced by SYMBOLIC LINK: << none! >>
+# Setup:  See $HOME/projects/logins/Login_Setup for details
 
 shF="$HOME/bin/login/bash_profile"
-Ident="${shF}  # (LMR version 1.01 of 03/25/2014)"
+Ident="${shF}  # (LMR version 1.02 of 12/16/2014)"
 [ "$DEBUGMODE" = "1" ] && echo "%bash_profile:login-I, ${Ident}"
 
-# PATH environment variable declared here --
-#   (see http://www.troubleshooters.com/linux/prepostpath.htm) --
+# ############################################################################
+# THIS FILE IS EMPTY AND NOT USED -- see ~/.profile -> $HOME/bin/login/profile
+# ############################################################################
 
-export CDPATH=.:~:~/anchor:~/scratch:~/projects  #LMR
-export PATH=~/bin:$PATH                          #LMR
-## echo $PATH                                       # (debug)
+# see /usr/share/doc/bash/examples/startup-files (in package bash-doc) for examples
 
-# Don't put duplicate lines in the history, and ignore same successive entries:
-export HISTCONTROL=ignoreboth
-export IGNOREEOF=2   # at least two Ctrl/D's to exit shell
+# A non-login (non-interactive) shell just sources ~/.bashrc directly
 
-# .bashrc is only read by a shell that's both interactive and non-login,
-# so force its execution here for a login/interactive shell...
-##[[ -r ~/.bashrc ]] && . ~/.bashrc
+# A login (interactive) shell first executes (sources):
+#   /etc/profile
+# and then searches/sources the following in this order:
+#   ~/.bash_profile
+#   ~/.bash_login
+#   ~/.profile
+
+# Personal (LMR) convention/practice is to remove (delete) both ~/.bash_* files
+# and to set ~/.profile as a symlink to point to $HOME/bin/login/profile --
+# see $HOME/projects/login/Login_Setup for details.

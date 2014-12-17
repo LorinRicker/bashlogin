@@ -4,7 +4,7 @@
 # Lorin Ricker: set up bash-login environment & commands
 
 shF=$( basename $0 )
-Ident="${shF}  # (LMR version 1.26 of 12/15/2014)"
+Ident="${shF}  # (LMR version 1.27 of 12/16/2014)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
 
 DST="$HOME/bin/login"
@@ -71,10 +71,20 @@ function list_home()
  {
   # Show the hidden sym-link files in $HOME:
   echo -e "\n[ \033[1m\033[4m$HOME\033[0m ]"
-  ls -goA ~/.bash_profile ~/.profile ~/.bashrc \
+  ls -goA ~/.profile ~/.bashrc \
          ~/.inputrc ~/.bash_logout \
          ~/.pryrc ~/.irbrc ~/.rdebugrc ~/.emacs
   }
+
+function remove_confusion()
+ {
+  # remove $HOME/.bash_{profile,login}, both actual files and/or symlinks:
+  f="$HOME/$1"
+  # Just a symlink?  delete it:
+  [ -L "$f" ] && ( echo "%${shF}-i, unnecessary symlink..." ; rm -v $f )
+  # A regular file?  prompt for deletion:
+  [ -f "$f" ] && ( echo "%${shF}-i, unnecessary file..." ; rm -iv $f )
+ }
 
 # ======================================================================
 
@@ -88,39 +98,39 @@ case "$opt" in
   abo* | hel* | inf* )  # spit out some documentation...
     echo -e "\n$Ident\n"
     cat <<EOD
-  Usage:  $ ./login_setup --[ release (D) | sym|link|ln | list | help|info|about ]
+  Usage:  $ ./Login_Setup --[ release (D) | sym|link|ln | list | help|info|about ]
 
   Summary: 1) Release (copy) bash-core login files
-              from ~/projects/login/ edit-directory
-              to   ~/bin/login/ operational directory
-           2) (re)Build ~/.bashrc as a sym-link which points
-              to $HOME/bin/login/bashrc, replacing any previous
-              .bashrc (renaming it to *-original)
+                from ~/projects/login/ edit-directory
+                to   ~/bin/login/ operational directory
+           2) (re)Create ~/.bashrc (etc.) as sym-link(s)
+              which point to $HOME/bin/login/*
 
   Using ideas from the "bash Cookbook" (Albing, Vossen & Newham, O'Reilly, 2007),
-  this script establishes a system of bashrc login script files which:
+  this script establishes a system of profile/bashrc login script files which:
 
-  a) Replaces the text/script file ~/.bashrc with a sym-link of the same name
-     which points at the actual script files in ~/bin/login/, including the
-     primary script file bashrc ...
+  a) Replaces the text/script file ~/.profile with a sym-link of the same name
+     which points at the actual script file in ~/bin/login/profile ...
 
-  b) That base ./bashrc file invokes other login component scripts, including
+  b) Replaces the text/script file ~/.bashrc with a sym-link of the same name
+     which points at the actual script file in ~/bin/login/bashrc ...
+
+  c) That base bashrc file invokes other login component scripts, including
      (but not limited to):
 
         ~/bin/login/{aliases,functions,logicals,...}
 
-  c) All of these bash-login scripts are to be edited in the working directory
+  d) All of these bash-login scripts are to be edited in the working directory
      ~/projects/login/ and, when ready, can be released to the operational
-     directory ~/bin/login/ ...
+     directory ~/bin/login/ using this Login_Setup script...
 
-  d) Sym-links also replace these regular files:
+  e) Sym-links also replace these regular files:
 
-        ~/.bash_profile
         ~/.bash_logout  ~/.inputrc  ~/.emacs
         ~/.pryrc        ~/.irbrc    ~/.rdebugrc
 
   This approach simplifies bash-login file development and maintenance, and
-  limits the clutter of files in a user's $HOME directory...
+  simplifies (some of) the clutter of files in a user's $HOME directory...
 
 EOD
     ;;
@@ -138,8 +148,7 @@ EOD
     ;;
 
   sym* | lin* | ln* )  # create or replace sym-links...
-    symlink bash_profile
-    symlink profile    # not used (with bash_profile), but included/completeness
+    symlink profile
     symlink bashrc
     symlink inputrc
     symlink bash_logout
@@ -148,13 +157,15 @@ EOD
     symlink rdebugrc
     symlink emacs
 
+    remove_confusion .bash_profile
+    remove_confusion .bash_login
+
     list_home
     ;;
 
   rel* | * )  # default: copy bash-core login files
               #          from edit-dir to ~/bin/login/
     # these are sym-linked:
-    RELEASED=$( copylogin bash_profile     $FCNT )
     RELEASED=$( copylogin profile          $FCNT )
     RELEASED=$( copylogin bashrc           $FCNT )
     RELEASED=$( copylogin inputrc          $FCNT )
@@ -175,6 +186,9 @@ EOD
     RELEASED=$( copylogin path-magik       $FCNT )
     RELEASED=$( copylogin pygmentize-magik $FCNT )
     RELEASED=$( copylogin ruby_setup       $FCNT )
+
+    # unused placeholder, just for documentation:
+    RELEASED=$( copylogin bash_profile     $FCNT )
 
     list_binlogin $FCNT
     list_home

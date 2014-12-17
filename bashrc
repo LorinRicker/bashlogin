@@ -1,35 +1,56 @@
 #!/usr/bin/env bash
 
 # ~/bin/login/bashrc
-# Referenced by SYMBOLIC LINK: $HOME/.bashrc
-#  setup:  $ ln -sv $HOME/bin/login/bashrc $HOME/.bashrc
-# Executed by bash(1) for non-login shells.
-
 # Lorin Ricker -- personal version
-# see /usr/share/doc/bash/examples/startup-files (in the package bash-doc) for examples
-# ==========================================================================================
-# To make PATH fix-ups stick, declare these in .bash_profile -> ~/bin/login/bash_profile ...
-# ==========================================================================================
+
+# Referenced by SYMBOLIC LINK: $HOME/.bashrc
+# Setup:  $ ln -sv $HOME/bin/login/bashrc $HOME/.bashrc
+# Non-interactive (non-login) shell: Sourced by bash(1).
+# Interactive (login) shell: Sourced by .profile (or .bash_profile or .bash_login).
+
+# A non-login (non-interactive) shell just sources ~/.bashrc directly
+
+# A login (interactive) shell first executes (sources):
+#   /etc/profile
+# and then searches/sources the following in this order:
+#   ~/.bash_profile
+#   ~/.bash_login
+#   ~/.profile
+
+# Personal (LMR) convention/practice is to remove (delete) both ~/.bash_* files
+# and to set ~/.profile as a symlink to point to $HOME/bin/login/profile --
+# see $HOME/projects/login/Login_Setup for details.
+# see /usr/share/doc/bash/examples/startup-files (in package bash-doc) for examples
+# =================================================================================
+# To make PATH fix-ups stick, declare these in .profile -> ~/bin/login/profile ...
+# =================================================================================
 
 shF="$HOME/bin/login/bashrc"
-Ident="${shF}  # (LMR version 4.23 of 12/15/2014)"
+Ident="${shF}  # (LMR version 4.24 of 12/16/2014)"
 [ "$DEBUGMODE" = "1" ] && echo "%bashrc:login-I, ${Ident}"
 
 # If not running interactively, don't do anything
-[ -z "$PS1" ] && return
+##[ -z "$PS1" ] && return
 
-# Establish PATH *before* doing RVM Ruby setup:
-f="$HOME/.bash_profile"
-[ -f "$f" ] && source $f
+case $- in
+  *i* ) # Interactive... (continue)
+   ;;
+  * )   # Not interactive (or login), nothing else to do...
+   return
+   ;;
+esac
 
 # -----------------------------
 set -o emacs
+export EDITOR='subl'
+export VISUAL='subl'
 
 # Check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
 
 # Make less more friendly for non-text input files, see lesspipe(1)
+export LESS='mi'
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
 # If this is an xterm set the TITLE-BAR to user@host:dir

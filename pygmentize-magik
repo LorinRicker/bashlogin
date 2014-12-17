@@ -3,13 +3,38 @@
 # $HOME/bin/login/pygmentize-magik
 # Lorin Ricker: bash path functions
 
-shF="$( basename ${0#-} ) - pygmentize-magik"
-Ident="${shF}  # (LMR version 1.00 of 12/15/2014)"
+shF=$( basename ${0#-} )
+Ident="${shF}  # (LMR version 1.00 of 12/16/2014)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
 
-# prototype_func()
-#   {  #stuff...
-#      # Make the function result echo as a string (the only echo)...
-#      echo "func_result"
-#   }
-# export -f prototype_func
+# use: $ pyg sourcefile [oformat] [style] [fontface] [fontsize]
+pyg()
+  {
+    local f=$( basename $1 )   # strip path
+          f=${f%.*}            # and strip file extension
+    local ofmt='rtf'
+    if [ "$2" != "" ] ; then ofmt="$2" ; fi ;
+    local styl='default'
+    if [ "$3" != "" ] ; then styl=$3 ; fi
+    local fface='DejaVu Sans Mono'
+    if [ "$4" != "" ] ; then fface=$4 ; fi
+    local fsiz='18'
+    if [ "$5" != "" ] ; then fsiz=$5 ; fi
+      echo "$f - $1"
+    pygmentize -O style="${styl}",fontface="${fface}",fontsize=${fsiz} \
+      -f ${ofmt} "$1" >./${f}_${styl}.${ofmt}
+  }
+export -f pyg
+
+# use: $ pygspectrum sourcefile [format (d=rtf)]
+pygspectrum()
+  {
+    local sty=''
+    # Edit/update this style list as new color styles become available:
+    for sty in \
+    autumn borland bw colorful default emacs friendly fruity manni \
+    monokai murphy native pastie perldoc rrt tango trac vim vs ; do
+      pyg "$1" "$2" "${sty}" 'DejaVu Sans Mono' '18'
+    done
+  }
+export -f pygspectrum
