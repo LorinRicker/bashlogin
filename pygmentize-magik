@@ -3,26 +3,57 @@
 # $HOME/bin/login/pygmentize-magik
 # Lorin Ricker: bash path functions
 
-shF=$( basename ${0#-} )
-Ident="${shF}  # (LMR version 1.00 of 12/16/2014)"
+shF=$( basename $0 )
+Ident="${shF}  # (LMR version 1.01 of 12/17/2014)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
 
 # use: $ pyg sourcefile [oformat] [style] [fontface] [fontsize]
+#
+# Output formatters (oformat) - see $ pygmentize -L formatters --
+#   bbcode (bb), bmp (bitmap), gif, html, png (img), jpg (jpeg), latex (tex),
+#   raw (tokens), rtf, svg, terminal (console), terminal256 (console256, 256)
+#   with 'term' as short-hand for 256, text (null)
+#
+# Styles (styl) - see $ pygmentize -L styles --
+#   autumn, borland, bw, colorful, default, emacs, friendly, fruity, manni,
+#   monokai, murphy, native, pastie, perldoc, rrt, tango, trac, vim, vs
+#
+# Filters (not implemented here) - see $ pygmentize -L filters --
+#   codetagify, gobble, highlight, keywordcase,
+#   raiseonerror, tokenmerge, whitespace
+#
+# Lexers - see $ pygmentize -L lexers -- lists ~141 languages and syntaxes,
+#   including Ruby (rb), Python (py), Perl, yaml, awk, bash (sh), C/C++/cpp,
+#   various Lisps, Erlang, Factor, Go, Haskell, Scala, Io, Java, JavaScript,
+#   JSON, Julia, Lua, make (variants), Pascal, Modula, SQL (dialects), Tcl,
+#   TeX/LaTeX, Sass/CSS, XML and HTML (variants), and many more...
+#
 pyg()
   {
     local f=$( basename $1 )   # strip path
           f=${f%.*}            # and strip file extension
     local ofmt='rtf'
-    if [ "$2" != "" ] ; then ofmt="$2" ; fi ;
+    if [ "$2" != "" ] ; then ofmt="$2" ; fi
+    # 'terminal256' is much more readable than 'terminal',
+    # so use 'term' as short-hand for 'terminal256':
+    if [ "$ofmt" = 'term' ] ; then ofmt='256' ; fi
     local styl='default'
     if [ "$3" != "" ] ; then styl=$3 ; fi
     local fface='DejaVu Sans Mono'
     if [ "$4" != "" ] ; then fface=$4 ; fi
     local fsiz='18'
     if [ "$5" != "" ] ; then fsiz=$5 ; fi
-      echo "$f - $1"
+    outf="${f}_${styl}.${ofmt}"
+    echo "%pyg-i-generating, $1 -> $outf"
     pygmentize -O style="${styl}",fontface="${fface}",fontsize=${fsiz} \
-      -f ${ofmt} "$1" >./${f}_${styl}.${ofmt}
+      -f ${ofmt} "$1" >./${outf}
+    case ${ofmt} in
+      *256* | *term* | *cons* )  # if output is ANSI-colored ASCII,
+        cat ./${outf}            # just admire it on-screen too...
+        ;;
+      * )
+        ;;
+    esac
   }
 export -f pyg
 
