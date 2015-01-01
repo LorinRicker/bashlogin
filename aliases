@@ -4,7 +4,7 @@
 # Lorin Ricker: personal aliases
 
 shF="$( basename ${0#-} ) - aliases"
-Ident="${shF}  # (LMR version 4.37 of 10/27/2014)"
+Ident="${shF}  # (LMR version 4.38 of 12/31/2014)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
 
 # Exports global variable DEBUGMODE (value 0|1):
@@ -56,6 +56,12 @@ alias lr='ls -lARh --file-type'
 alias la='ls -Ah --file-type'
 # alias l='ls -CF'
 # alias dir='ls -Aghlp'  # obsolete? write a Ruby DCL-dir function!
+
+# some verbose variants:
+alias cpv='cp -v'
+alias mvv='mv -v'
+alias rmv='rm -v'
+alias lnv='ln -v'
 
 # =========================
 # fine-tune some commands:

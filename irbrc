@@ -1,4 +1,4 @@
-# .irbrc --> irbrc -- v0.9 - 08/27/2014 LMR
+# .irbrc --> irbrc -- v1.0 - 12/31/2014 LMR
 
 require 'pp'
 require 'irb/completion'
@@ -84,17 +84,21 @@ end  # elapsed
 # -----
 # File load (fl) and reload (rl) and require-based reload (rql) --
 #   as suggested by www.themomorohoax.com/2009/03/27/irb-tip-load-files-faster
+#   ...but use a global $lastloaded variable rather than a class @@recentfname
 # e.g.   >> fl 'factr'
 #        => true
 def fl( fname, prfx = "" )
   fname += '.rb' unless fname =~ /\.rb/
-  @@recentfname = fname
-  load "#{fname}"
-  puts "fl - file #{prfx}load: #{fname}"
+  begin
+    $lastloaded = fname
+    load "#{fname}"
+    puts "fl - file #{prfx}load: #{fname}"
+  rescue Exception => e
+  end
 end
 
 def rl
-  fl( @@recentfname, "re" )
+  fl( $lastloaded, "re" )
 end
 
 def rql( fname )
