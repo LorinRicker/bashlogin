@@ -26,7 +26,7 @@
 # =================================================================================
 
 shF="$HOME/bin/login/bashrc"
-Ident="${shF}  # (LMR version 4.24 of 12/16/2014)"
+Ident="${shF}  # (LMR version 4.25 of 02/09/2015)"
 [ "$DEBUGMODE" = "1" ] && echo "%bashrc:login-I, ${Ident}"
 
 # If not running interactively, don't do anything
@@ -163,6 +163,10 @@ else
   SetPrompt '`pwd`'
 fi
 # -----------------------------
+
+# git support functions:
+f="$HOME/bin/login/git-magik"
+[ -f "$f" ] && source $f
 
 # --- Supercede RVM's cd function here...
 #     (RVM's own cd supercedes bash built-in cd, and
