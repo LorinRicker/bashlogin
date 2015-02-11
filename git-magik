@@ -4,7 +4,7 @@
 # Lorin Ricker: bash path functions
 
 shF=$( basename $0 )
-Ident="${shF}  # (LMR version 1.00 of 02/09/2015)"
+Ident="${shF}  # (LMR version 1.01 of 02/10/2015)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
 
 # use: $ gitremo
@@ -30,5 +30,7 @@ gitconf()
     /bin/cat ~/.gitconfig
     echo -e "\n\$ ${BOLD}git remote -v show${NORM}"
     gitremo
+    echo -e "\n\$ ${BOLD}git status${NORM}"
+    git status
   }
 export -f gitconf
