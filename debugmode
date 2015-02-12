@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 shF="$( basename ${0#-} ) - debugmode"
-Ident="${shF}  # (LMR version 2.00 of 09/12/2012)"
+Ident="${shF}  # (LMR version 2.01 of 02/12/2015)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
 
 dbgmode()
