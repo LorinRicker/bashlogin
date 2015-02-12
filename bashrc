@@ -26,7 +26,7 @@
 # =================================================================================
 
 shF="$HOME/bin/login/bashrc"
-Ident="${shF}  # (LMR version 4.25 of 02/09/2015)"
+Ident="${shF}  # (LMR version 4.26 of 02/11/2015)"
 [ "$DEBUGMODE" = "1" ] && echo "%bashrc:login-I, ${Ident}"
 
 # If not running interactively, don't do anything
@@ -112,10 +112,6 @@ f="/etc/bash_completion"
 tpad OFF 1>/dev/null 2>/dev/null ; tpad show 1>/dev/null 2>/dev/null
 
 # -----------------------------
-
-## Ruby setup:  <<<--- Now obsolete, using RVM (see below):
-## f="$HOME/bin/login/ruby_setup"
-## [ -f "$f" ] && . $f
 
 #  == RVM ===
 #    Note: For Ruby development work, install Ruby using the great
