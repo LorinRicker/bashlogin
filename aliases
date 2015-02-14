@@ -4,7 +4,7 @@
 # Lorin Ricker: personal aliases
 
 shF="$( basename ${0#-} ) - aliases"
-Ident="${shF}  # (LMR version 4.39 of 02/11/2015)"
+Ident="${shF}  # (LMR version 4.40 of 02/13/2015)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
 
 # Exports global variable DEBUGMODE (value 0|1):
@@ -128,6 +128,14 @@ alias   ping='ping -c5 -W1'
 alias pingtr='mtr -c5 -i3'  # mtr combines ping and tracert
 # Define a group of network monitoring commands:
 alias netcmd='source ~/bin/login/NetCommands'
+
+# -------------------------
+# bru --stats --progress --itemize --verbose
+#   defaults:     --use=/home/lorin/.config/bru/bru.yaml.rc
+#             --exclude=/home/lorin/.config/bru/common_rsync.excl
+alias homebru='bru -tpiv --source=/home/lorin'
+alias  libbru='bru -tpiv --source=/usr/Mirror/LorinLibrary'
+# -------------------------
 
 # -------------------------
 # rsync's --archive = --recursive --perms --links --times --owner --group --devices --specials

@@ -4,7 +4,7 @@
 # Lorin Ricker: "VMS logical names"
 
 shF="$( basename ${0#-} ) - logicals"
-Ident="${shF}  # (LMR version 4.15 of 02/11/2015)"
+Ident="${shF}  # (LMR version 4.16 of 02/13/2015)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
 
 case ${HOSTNAME} in  # /vm/Mirrors or /usr/Mirrors ...?
@@ -48,11 +48,15 @@ deflogical "vmscl"   "$HOME/ParsecGroup/VMSclasses"
 deflogical "arc"     "$MIRROR/Archives"
 deflogical "tar"     "$MIRROR/TArchives"
 deflogical "llb"     "$MIRROR/LorinLibrary"
+
 deflogical "dlb"     "$LLB/DocLibrary"
 deflogical "how"     "$DLB/Linux/HowTos"
 deflogical "mlb"     "$LLB/MusicLibrary"
 deflogical "kit"     "$LLB/SoftwareKits"
 deflogical "cat"     "$LLB/Photography/Catalog"
+
+deflogical "bharc"   "/media/lorin/usr/Mirrors/Archives/home/lorin"
+deflogical "blarc"   "/media/lorin/usr/Mirrors/LorinLibrary"
 
 deflogical "ssf"     "/media/sshfs"      # mount-point for SSH file systems
 
