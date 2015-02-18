@@ -12,7 +12,9 @@
 	co = checkout
 	com = commit -m
 	pom = push -u origin master
+	rfetch = fetch origin
 	rpush = push -u origin master
 	rpull = pull origin master
+	rshow = remote -v show
 	stat = status
 	wtf = whatchanged

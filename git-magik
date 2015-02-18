@@ -4,21 +4,13 @@
 # Lorin Ricker: bash path functions
 
 shF=$( basename $0 )
-Ident="${shF}  # (LMR version 1.01 of 02/10/2015)"
+Ident="${shF}  # (LMR version 1.02 of 02/18/2015)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
-
-# use: $ gitremo
-#
-# Returns a quick-but-full report of current project's remote GitHub repository
-gitremo()
-  {
-    git remote -v show
-  }
-export -f gitremo
 
 # use: $ gitconf
 #
-# Returns a report of local git ~/.gitconfig, including gitremo
+# Returns a report of local git ~/.gitconfig, including
+#  git remote -v show, git fetch origin and git status
 gitconf()
   {
     BOLD="\033[1m"
@@ -29,7 +21,9 @@ gitconf()
     echo -e "\n\$ ${BOLD}cat ~/bin/gitconfig${NORM}  # (~/.gitconfig -> ~/bin/gitconfig)"
     /bin/cat ~/.gitconfig
     echo -e "\n\$ ${BOLD}git remote -v show${NORM}"
-    gitremo
+    git remote -v show
+    echo -e "\n\$ ${BOLD}git fetch origin${NORM}"
+    git fetch origin
     echo -e "\n\$ ${BOLD}git status${NORM}"
     git status
   }
