@@ -4,20 +4,20 @@
 # Lorin Ricker: bash path functions
 
 shF=$( basename $0 )
-Ident="${shF}  # (LMR version 1.02 of 02/18/2015)"
+Ident="${shF}  # (LMR version 1.03 of 05/01/2015)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
 
 # use: $ gitconf
 #
 # Returns a report of local git ~/.gitconfig, including
-#  git remote -v show, git fetch origin and git status
+#   git remote -v show, git fetch origin and git status
 gitconf()
   {
     BOLD="\033[1m"
     NORM="\033[0m"
-    lsfunction -f git%
-    echo -e "\n\$ ${BOLD}git config --list${NORM}"
-    git config --list
+    # lsfunction -f git%
+    # echo -e "\n\$ ${BOLD}git config --list${NORM}"
+    # git config --list
     echo -e "\n\$ ${BOLD}cat ~/bin/gitconfig${NORM}  # (~/.gitconfig -> ~/bin/gitconfig)"
     /bin/cat ~/.gitconfig
     echo -e "\n\$ ${BOLD}git remote -v show${NORM}"
