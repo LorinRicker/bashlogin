@@ -26,7 +26,7 @@
 # =================================================================================
 
 shF="$HOME/bin/login/bashrc"
-Ident="${shF}  # (LMR version 4.26 of 02/11/2015)"
+Ident="${shF}  # (LMR version 5.00 of 05/01/2015)"
 [ "$DEBUGMODE" = "1" ] && echo "%bashrc:login-I, ${Ident}"
 
 # If not running interactively, don't do anything
