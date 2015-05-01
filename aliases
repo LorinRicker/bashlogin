@@ -4,7 +4,7 @@
 # Lorin Ricker: personal aliases
 
 shF="$( basename ${0#-} ) - aliases"
-Ident="${shF}  # (LMR version 5.00 of 05/01/2015)"
+Ident="${shF}  # (LMR version 5.01 of 05/01/2015)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
 
 # Exports global variable DEBUGMODE (value 0|1):
@@ -79,9 +79,12 @@ alias gconf='gconf-editor &'
 alias mntMusic='mount-sshfs lorin ; sleep 1 ; mount-sshfs mirrors'
 alias disMusic='mount-sshfs lorin dismount ; sleep 3 ; mount-sshfs mirrors dismount'
 
+# A demonstration of bash globbing-suppression with $rby/argvdemo.rb:
 alias noglobdemo="set -f ; ResetGlobbing $HOME/bin/argvdemo"
-# # Can this work with the symlink-form-command to ~/bin/dcl rename ???
-alias dclrename="set -f ; ResetGlobbing $HOME/bin/dclrename"
+
+# DCL commands that need bash globbing-suppression:
+alias  dclrename="set -f ; ResetGlobbing $HOME/bin/dclrename"
+alias     rename="set -f ; ResetGlobbing $HOME/bin/dcllinks/rename"
 
 # DCL.sh -- Implements selected VMS/DCL command capabilities, using aliases --
 #           invoke with "." (source) to inherit export/globals:
