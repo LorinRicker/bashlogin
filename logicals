@@ -4,7 +4,7 @@
 # Lorin Ricker: "VMS logical names"
 
 shF="$( basename ${0#-} ) - logicals"
-Ident="${shF}  # (LMR version 4.17 of 02/22/2015)"
+Ident="${shF}  # (LMR version 4.18 of 03/22/2015)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
 
 case ${HOSTNAME} in  # /vm/Mirrors or /usr/Mirrors ...?
@@ -58,8 +58,13 @@ deflogical "aascr"   "$MLB/CDRips/Working/aascratch"
 deflogical "kit"     "$LLB/SoftwareKits"
 deflogical "cat"     "$LLB/Photography/Catalog"
 
-deflogical "archome" "/media/lorin/usr/Mirrors/lorin"
-deflogical "arclib"  "/media/lorin/usr/Mirrors/LorinLibrary"
+# Archive disk - 500Gb (2-1/2"):
+deflogical "archome"   "/media/lorin/usr/Mirrors/lorin"
+deflogical "arclib"    "/media/lorin/usr/Mirrors/LorinLibrary"
+
+# Music's primary disk - 2Tb (5"):
+deflogical "musichome" "/media/lorin/c2148be6-73e0-42b7-a2aa-51ac2d8075b9/lorin"
+deflogical "musiclib"  "/media/lorin/ab00ef7a-1d01-49ad-85eb-9e5a8fb5081b/Mirrors/LorinLibrary"
 
 deflogical "ssf"     "/media/sshfs"      # mount-point for SSH file systems
 
