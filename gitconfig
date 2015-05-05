@@ -11,6 +11,7 @@
 	cl = config --list
 	co = checkout
 	com = commit -m
+	oops = rm --cached
 	pom = push -u origin master
 	rfetch = fetch origin
 	rpush = push -u origin master
