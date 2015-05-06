@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+
+# $HOME/bin/login/DCL-magik
+# Lorin Ricker: personal DCL aliases
+
+# Implementing a set of emulated DCL (OpenVMS) commands in a Linux/bash
+# environment requires a rather elaborate set of tricks, especially in
+# order to defeat aggressive bash/shell globbing of wildcard arguments.
+#
+# See "$dlb/Linux/HowTos/HowTo - Turn Off Bash Globbing for Application.txt"
+# for background experiments and implementation.
+#
+# See also "$tpg/MEP/3 - A Ruby DCL-Emulator (2015)/*.{doc,pdf}".
+#
+# See also $rby/dcl.rb and $rby/lib/DCLcommand.rb for full implementation,
+# including the use of sym-links in $bin/dcllinks/ for command dispatch.
+#
+
+shF="$( basename ${0#-} ) - DCL-magik"
+Ident="${shF}  # (LMR version 1.00 of 05/06/2015)"
+[ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
+
+RG='set -f ; ResetGlobbing'
+
+# A demonstration of bash globbing-suppression with $rby/argvdemo.rb:
+alias noglobdemo="$RG $HOME/bin/argvdemo"
+
+# This is a prototype DCL commands that requires bash globbing-suppression;
+# ultimately re-done in $rby/dcl.rb as "rename" command -- see below:
+alias  dclrename="$RG $HOME/bin/dclrename"
+
+# DCL commands that require bash globbing-suppression --
+# see $rby/dcl.rb and $rby/lib/DCLcommand.rb:
+alias       copy="$RG $HOME/bin/dcllinks/copy"
+alias     create="$RG $HOME/bin/dcllinks/create"
+alias     delete="$RG $HOME/bin/dcllinks/delete"
+alias  directory="$RG $HOME/bin/dcllinks/directory"
+# alias        dir="$directory"
+alias        del="$delete"
+alias      purge="$RG $HOME/bin/dcllinks/purge"
+alias     rename="$RG $HOME/bin/dcllinks/rename"
+alias     search="$RG $HOME/bin/dcllinks/search"
+alias       show="$RG $HOME/bin/dcllinks/show"
+
+# =========================
+
+# show all the DCL commands:
+alias dclshow="alias | grep ResetGlobbing"
+
+# =========================
+
+return 0  # don't: exit 0

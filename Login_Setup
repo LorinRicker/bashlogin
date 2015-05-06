@@ -4,7 +4,7 @@
 # Lorin Ricker: set up bash-login environment & commands
 
 shF=$( basename $0 )
-Ident="${shF}  # (LMR version 1.29 of 02/11/2015)"
+Ident="${shF}  # (LMR version 1.30 of 05/06/2015)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
 
 DST="$HOME/bin/login"
@@ -182,6 +182,7 @@ EOD
     # these are .-sourced (mostly from bashrc):
     RELEASED=$( copylogin aliases          $FCNT )
     RELEASED=$( copylogin cd-magik         $FCNT )
+    RELEASED=$( copylogin DCL-magik        $FCNT )
     RELEASED=$( copylogin debugmode        $FCNT )
     RELEASED=$( copylogin doc_function     $FCNT )
     RELEASED=$( copylogin functions        $FCNT )

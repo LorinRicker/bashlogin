@@ -4,7 +4,7 @@
 # Lorin Ricker: personal aliases
 
 shF="$( basename ${0#-} ) - aliases"
-Ident="${shF}  # (LMR version 5.01 of 05/01/2015)"
+Ident="${shF}  # (LMR version 5.02 of 05/06/2015)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
 
 # Exports global variable DEBUGMODE (value 0|1):
@@ -15,6 +15,15 @@ if [ -a $DMfile ]; then
 fi
 
 # =========================
+
+# Login setup tool:
+alias loginsetup="$lgi/Login_Setup"
+
+# reset bash login environment:
+alias relogin="source ~/.bashrc"
+
+# =========================
+
 # PATH fixups:
 alias cleanpath='PATH=$( pathclean "$PATH" )'
 alias   fixpath='PATH=$( perfectpath )'
@@ -42,12 +51,6 @@ alias syskill="sudo $HOME/bin/process --kill"  # note: requires at least Ruby v2
 # side/task-bar or to user's ~/Desktop; see also ~/bin/tomyDesktop script to copy
 # a sys-wide *.desktop to ~/Desktop) --
 alias sysLauncher='sudo gnome-desktop-item-edit /usr/share/applications/ --create-new'
-
-# Login setup tool:
-alias loginsetup="$lgi/Login_Setup"
-
-# reset bash login environment:
-alias relogin="source ~/.bashrc"
 
 # =========================
 
@@ -79,25 +82,7 @@ alias gconf='gconf-editor &'
 alias mntMusic='mount-sshfs lorin ; sleep 1 ; mount-sshfs mirrors'
 alias disMusic='mount-sshfs lorin dismount ; sleep 3 ; mount-sshfs mirrors dismount'
 
-# A demonstration of bash globbing-suppression with $rby/argvdemo.rb:
-alias noglobdemo="set -f ; ResetGlobbing $HOME/bin/argvdemo"
-
-# DCL commands that need bash globbing-suppression:
-alias  dclrename="set -f ; ResetGlobbing $HOME/bin/dclrename"
-alias     rename="set -f ; ResetGlobbing $HOME/bin/dcllinks/rename"
-
-# DCL.sh -- Implements selected VMS/DCL command capabilities, using aliases --
-#           invoke with "." (source) to inherit export/globals:
-# DCL="$HOME/bin/DCL"
-# if [ -e ${DCL} ]; then
-#   alias   copy=". $DCL copy"
-#   alias    del=". $DCL del"
-#   alias    dif=". $DCL dif"
-#   alias   move=". $DCL move"
-#   alias rename=". $DCL rename"
-# fi
-
-# more VMS-like stuff:
+# some VMS-like stuff:
 alias    cls='clear'
 alias    glo='alias | grep -i -e'
 alias   myps='ps -U lorin'

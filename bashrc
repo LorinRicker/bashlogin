@@ -26,7 +26,7 @@
 # =================================================================================
 
 shF="$HOME/bin/login/bashrc"
-Ident="${shF}  # (LMR version 5.00 of 05/01/2015)"
+Ident="${shF}  # (LMR version 5.01 of 05/06/2015)"
 [ "$DEBUGMODE" = "1" ] && echo "%bashrc:login-I, ${Ident}"
 
 # If not running interactively, don't do anything
@@ -76,17 +76,22 @@ f="$HOME/bin/login/functions"
 # Magic path* function definitions:
 f="$HOME/bin/login/path-magik"
 [ -f "$f" ] && source $f
-
-# Magic pygmentize function definitions:
-f="$HOME/bin/login/pygmentize-magik"
-[ -f "$f" ] && source $f
+export PATH=$( perfectpath )   # something has to establish this correctly!
 
 # DCLfunction definitions:
-f="$HOME/bin/login/DCLfunctions"
+f="$HOME/bin/login/DCL-magik"
 [ -f "$f" ] && source $f
 
 # Logical-name definitions:
 f="$HOME/bin/login/logicals"
+[ -f "$f" ] && source $f
+
+# Alias definitions:
+f="$HOME/bin/login/aliases"
+[ -f "$f" ] && source $f
+
+# Magic pygmentize function definitions:
+f="$HOME/bin/login/pygmentize-magik"
 [ -f "$f" ] && source $f
 
 # doc function:
@@ -95,10 +100,6 @@ f="$HOME/bin/login/doc_function"
 
 # tweak_path functions:
 f="$HOME/bin/login/tweak_path"
-[ -f "$f" ] && source $f
-
-# Alias definitions:
-f="$HOME/bin/login/aliases"
 [ -f "$f" ] && source $f
 
 # -----------------------------
