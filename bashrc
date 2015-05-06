@@ -26,7 +26,7 @@
 # =================================================================================
 
 shF="$HOME/bin/login/bashrc"
-Ident="${shF}  # (LMR version 5.01 of 05/06/2015)"
+Ident="${shF}  # (LMR version 5.02 of 05/06/2015)"
 [ "$DEBUGMODE" = "1" ] && echo "%bashrc:login-I, ${Ident}"
 
 # If not running interactively, don't do anything
@@ -155,9 +155,9 @@ if [ -f "$f" ]; then
   # Use '' for rvmgem, not ""a, want to do $GEM_HOME at cmd-runtime:
   alias rvmgem='GEM_PATH=$GEM_HOME gem list'
   # Add 'current-ruby' info to prompt's preceding-where line:
-  SetPrompt '`pwd`' ' {`rvm current`}'
+  SetPrompt '`pwd`' ' {`rvm current`}' ' [clock `date +%T`]'
 else
-  SetPrompt '`pwd`'
+  SetPrompt '`pwd`' ' [clock `date +%T`]'
 fi
 # -----------------------------
 
