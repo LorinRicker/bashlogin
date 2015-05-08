@@ -17,7 +17,7 @@
 #
 
 shF="$( basename ${0#-} ) - DCL-magik"
-Ident="${shF}  # (LMR version 1.01 of 05/06/2015)"
+Ident="${shF}  # (LMR version 1.02 of 05/08/2015)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
 
 RG='set -f ; ResetGlobbing'
@@ -36,11 +36,12 @@ alias     create="$RG $HOME/bin/dcllinks/create"
 alias     delete="$RG $HOME/bin/dcllinks/delete"
 alias        del="$RG $HOME/bin/dcllinks/delete"
 alias  directory="$RG $HOME/bin/dcllinks/directory"
-# alias        dir="$RG $HOME/bin/dcllinks/directory"
 alias      purge="$RG $HOME/bin/dcllinks/purge"
 alias     rename="$RG $HOME/bin/dcllinks/rename"
 alias     search="$RG $HOME/bin/dcllinks/search"
 alias       show="$RG $HOME/bin/dcllinks/show"
+
+alias        dir="$RG $HOME/bin/dir"
 
 # =========================
 
