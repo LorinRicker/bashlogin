@@ -26,7 +26,7 @@
 # =================================================================================
 
 shF="$HOME/bin/login/bashrc"
-Ident="${shF}  # (LMR version 5.02 of 05/06/2015)"
+Ident="${shF}  # (LMR version 5.03 of 05/12/2015)"
 [ "$DEBUGMODE" = "1" ] && echo "%bashrc:login-I, ${Ident}"
 
 # If not running interactively, don't do anything
@@ -146,7 +146,10 @@ tpad OFF 1>/dev/null 2>/dev/null ; tpad show 1>/dev/null 2>/dev/null
 f="$HOME/.rvm/scripts/rvm"
 if [ -f "$f" ]; then
   source $f
-  rvm gemset use bootcamp     # just to get started...
+  # Set "latest" ruby with corresponding gemsets --
+  # change this with new RVM installs --
+  rvm use ruby-2.1.0          # just to...
+  rvm gemset use bootcamp     # get started...
   curRuby=$( rvm current )
   echo "Using Ruby version: ${curRuby}   # (rvm current/RUBY_VERSION)"
   alias rvmset="source $f"
