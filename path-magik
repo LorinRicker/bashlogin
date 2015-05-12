@@ -4,7 +4,7 @@
 # Lorin Ricker: bash path functions
 
 shF="$( basename ${0#-} ) - path-magik"
-Ident="${shF}  # (LMR version 1.02 of 05/01/2015)"
+Ident="${shF}  # (LMR version 1.03 of 05/12/2015)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
 
 # -----
@@ -27,10 +27,15 @@ Ident="${shF}  # (LMR version 1.02 of 05/01/2015)"
 perfectpath()
   {
     local p=""
-    p="/home/lorin/.rvm/gems/ruby-2.1.0@bootcamp/bin"
-    p="$p:/home/lorin/.rvm/gems/ruby-2.1.1@global/bin"
-    p="$p:/home/lorin/.rvm/gems/ruby-2.1.1/bin"
-    p="$p:/home/lorin/.rvm/rubies/ruby-2.1.1/bin"
+    if [ -z "$1" ]; then
+      r=${RUBY_DEFAULT_VERSION}
+    else
+      r="$1"
+    fi
+    p="/home/lorin/.rvm/gems/${r}@bootcamp/bin"
+    p="$p:/home/lorin/.rvm/gems/${r}@global/bin"
+    p="$p:/home/lorin/.rvm/gems/${r}/bin"
+    p="$p:/home/lorin/.rvm/rubies/${r}/bin"
     p="$p:/home/lorin/.rvm/bin"
     p="$p:/home/lorin/bin/dcllinks"
     p="$p:/home/lorin/bin"

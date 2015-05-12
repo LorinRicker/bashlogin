@@ -73,11 +73,6 @@ f="$HOME/bin/login/debugmode"
 f="$HOME/bin/login/functions"
 [ -f "$f" ] && source $f
 
-# Magic path* function definitions:
-f="$HOME/bin/login/path-magik"
-[ -f "$f" ] && source $f
-export PATH=$( perfectpath )   # something has to establish this correctly!
-
 # DCLfunction definitions:
 f="$HOME/bin/login/DCL-magik"
 [ -f "$f" ] && source $f
@@ -142,14 +137,16 @@ tpad OFF 1>/dev/null 2>/dev/null ; tpad show 1>/dev/null 2>/dev/null
 #          $ rvm current   # to see/confirm
 #  == end RVM ===
 
+# Default RVM ruby version:
+export RUBY_DEFAULT_VERSION='ruby-2.1.0'
 # Ruby Version Manager -- RVM setup:
 f="$HOME/.rvm/scripts/rvm"
 if [ -f "$f" ]; then
   source $f
   # Set "latest" ruby with corresponding gemsets --
   # change this with new RVM installs --
-  rvm use ruby-2.1.0          # just to...
-  rvm gemset use bootcamp     # get started...
+  rvm use ${RUBY_DEFAULT_VERSION}          # just to...
+  rvm gemset use bootcamp                  # get started...
   curRuby=$( rvm current )
   echo "Using Ruby version: ${curRuby}   # (rvm current/RUBY_VERSION)"
   alias rvmset="source $f"
@@ -163,6 +160,11 @@ else
   SetPrompt '`pwd`' ' [clock `date +%T`]'
 fi
 # -----------------------------
+
+# Magic path* function definitions:
+f="$HOME/bin/login/path-magik"
+[ -f "$f" ] && source $f
+export PATH=$( perfectpath ${RUBY_DEFAULT_VERSION} )
 
 # git support functions:
 f="$HOME/bin/login/git-magik"
