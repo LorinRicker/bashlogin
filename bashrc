@@ -26,7 +26,7 @@
 # =================================================================================
 
 shF="$HOME/bin/login/bashrc"
-Ident="${shF}  # (LMR version 5.03 of 05/12/2015)"
+Ident="${shF}  # (LMR version 5.04 of 05/21/2015)"
 [ "$DEBUGMODE" = "1" ] && echo "%bashrc:login-I, ${Ident}"
 
 # If not running interactively, don't do anything
@@ -45,9 +45,33 @@ set -o emacs
 export EDITOR='subl'
 export VISUAL='subl'
 
-# Check the window size after each command and, if necessary,
-# update the values of LINES and COLUMNS.
-shopt -s checkwinsize
+# Shell Options --
+shopt -s checkwinsize    # Enable:  Check window size after each command and
+                         #          update values of LINES/COLUMNS if necessary.
+# Glob Shell Options --
+#   check these with: $ shopt | grep -i glob
+shopt -u dotglob         # Disable: Include filenames beginning with '.'
+                         #          in pathname expansion.
+shopt -s extglob         # Enable:  Extended pattern matching features are added
+                         #          to the default '*', '?' and '[...]' --
+                         #          ?(pattern-list) - match zero or one of
+                         #                            these given patterns
+                         #          *(pattern-list) - match zero or more of...
+                         #          +(pattern-list) - match one or more of...
+                         #          @(pattern-list) - match one of...
+                         #          !(pattern-list) - match anything except...
+shopt -u failglob        # Disable: Globs which fail to match file expansion
+                         #          report an expansion error.
+shopt -s globstar        # Enable:  Pattern '**' used in a pathname expansion
+                         #          will match all files and zero or more dirs
+                         #          and sub-dirs. If pattern is followed by '/',
+                         #          only directories and subdirectories match.
+shopt -u globasciiranges # Disable: Range expressions in globbing behave as if
+                         #          in the traditional C locale for comparisons.
+shopt -s nocaseglob      # Enable:  Matches filenames case-insensitively.
+shopt -u nullglob        # Disable: Allows patterns which match no files to
+                         #          expand to a null-string '', rather than
+                         #          returning the literal pattern string.
 
 # Make less more friendly for non-text input files, see lesspipe(1)
 export LESS='mi'
