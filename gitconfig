@@ -1,5 +1,5 @@
 [core]
-	editor = subl -n -w
+	editor = atom --wait
 [diff]
 	tool = meld
 [user]
