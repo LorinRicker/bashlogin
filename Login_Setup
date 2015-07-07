@@ -4,7 +4,7 @@
 # Lorin Ricker: set up bash-login environment & commands
 
 shF=$( basename $0 )
-Ident="${shF}  # (LMR version 1.30 of 05/06/2015)"
+Ident="${shF}  # (LMR version 2.00 of 07/07/2015)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
 
 DST="$HOME/bin/login"
@@ -71,7 +71,7 @@ function list_home()
  {
   # Show the hidden sym-link files in $HOME:
   echo -e "\n[ \033[1m\033[4m$HOME\033[0m ]"
-  ls -goA ~/.profile ~/.bashrc          \
+  ls -goA ~/.profile ~/.bashrc ~/.zshrc \
          ~/.inputrc ~/.bash_logout      \
          ~/.pryrc ~/.irbrc ~/.gitconfig \
          ~/.rdebugrc ~/.emacs
@@ -121,6 +121,8 @@ case "$opt" in
 
         ~/bin/login/{aliases,functions,logicals,...}
 
+     zshrc gets similar treatment.
+
   d) All of these bash-login scripts are to be edited in the working directory
      ~/projects/login/ and, when ready, can be released to the operational
      directory ~/bin/login/ using this Login_Setup script...
@@ -152,6 +154,7 @@ EOD
   sym* | lin* | ln* )  # create or replace sym-links...
     symlink profile
     symlink bashrc
+    symlink zshrc
     symlink inputrc
     symlink bash_logout
     symlink pryrc
@@ -171,6 +174,7 @@ EOD
     # these are sym-linked:
     RELEASED=$( copylogin profile          $FCNT )
     RELEASED=$( copylogin bashrc           $FCNT )
+    RELEASED=$( copylogin zshrc            $FCNT )
     RELEASED=$( copylogin inputrc          $FCNT )
     RELEASED=$( copylogin bash_logout      $FCNT )
     RELEASED=$( copylogin pryrc            $FCNT )
