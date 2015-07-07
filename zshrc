@@ -16,6 +16,9 @@ shF="$HOME/bin/login/zshrc"
 Ident="${shF}  # (LMR version 1.0 of 07/07/2015)"
 [ "$DEBUGMODE" = "1" ] && echo "%zshrc:login-I, ${Ident}"
 
+# Customizations directory --
+ZSH_CUSTOM=$HOME/bin/login    # export?
+
 # code goes here...
 
 # path adjustments, esp. for RVM --
