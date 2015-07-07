@@ -4,7 +4,7 @@
 # Lorin Ricker: bash functions
 
 shF="$( basename ${0#-} ) - functions"
-Ident="${shF}  # (LMR version 5.00 of 05/01/2015)"
+Ident="${shF}  # (LMR version 5.01 of 07/07/2015)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
 
 # -----
@@ -583,5 +583,25 @@ export -f netinfo
 ###   }
 ### export -f pg
 # =========================
+
+## Z Shell - zsh - functions only:
+
+# Is this shell a 'login shell'?
+loginshell()
+  {
+    local login
+    local inter
+    if [[ -o login ]]; then
+      login="Login"
+    else
+      login="Non-login"
+    fi
+    if [[ -o interactive ]]; then
+      inter="Interactive"
+    else
+      inter="Non-interactive"
+    fi
+    echo "Shell is ${login} ${inter}"
+  }
 
 # exit 0
