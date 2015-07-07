@@ -15,3 +15,8 @@ plugins=( ruby rvm git atom sublime sudo )
 shF="$HOME/bin/login/zshrc"
 Ident="${shF}  # (LMR version 1.0 of 07/07/2015)"
 [ "$DEBUGMODE" = "1" ] && echo "%zshrc:login-I, ${Ident}"
+
+# code goes here...
+
+# path adjustments, esp. for RVM --
+export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
