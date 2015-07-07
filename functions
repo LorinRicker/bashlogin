@@ -603,5 +603,6 @@ loginshell()
     fi
     echo "Shell is ${login} ${inter}"
   }
+  export -f loginshell
 
 # exit 0
