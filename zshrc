@@ -13,7 +13,7 @@
 plugins=( ruby rvm git atom sublime sudo )
 
 shF="$HOME/bin/login/zshrc"
-Ident="${shF}  # (LMR version 1.0 of 07/07/2015)"
+Ident="${shF}  # (LMR version 1.1 of 07/17/2015)"
 [ "$DEBUGMODE" = "1" ] && echo "%zshrc:login-I, ${Ident}"
 
 # Customizations directory --
@@ -22,7 +22,7 @@ ZSH_CUSTOM=$HOME/bin/login    # export?
 # code goes here...
 
 # export  PS1="%{${bg[white]}${fg[red]}%}%m:%1~/ %{${bg[white]}${fg[black]}%}·zsh·%# "
-export  PS1="%m:%1~/ ·zsh·$# "
+export  PS1="%m:%1~/ ·zsh·$ "
 export RPS1=" [%T]"
 
 unsetopt NOMATCH BAD_PATTERN

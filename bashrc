@@ -26,7 +26,7 @@
 # =================================================================================
 
 shF="$HOME/bin/login/bashrc"
-Ident="${shF}  # (LMR version 5.04 of 05/21/2015)"
+Ident="${shF}  # (LMR version 5.05 of 07/17/2015)"
 [ "$DEBUGMODE" = "1" ] && echo "%bashrc:login-I, ${Ident}"
 
 # If not running interactively, don't do anything
@@ -107,6 +107,10 @@ f="$HOME/bin/login/logicals"
 
 # Alias definitions:
 f="$HOME/bin/login/aliases"
+[ -f "$f" ] && source $f
+
+# Alias definitions:
+f="$HOME/bin/login/ANSI-magik"
 [ -f "$f" ] && source $f
 
 # Magic pygmentize function definitions:

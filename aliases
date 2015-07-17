@@ -4,7 +4,7 @@
 # Lorin Ricker: personal aliases
 
 shF="$( basename ${0#-} ) - aliases"
-Ident="${shF}  # (LMR version 5.04 of 05/30/2015)"
+Ident="${shF}  # (LMR version 5.05 of 07/17/2015)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
 
 # Exports global variable DEBUGMODE (value 0|1):
@@ -219,36 +219,6 @@ if [ "$TERM" != "dumb" ] && [ -x /usr/bin/dircolors ]; then
   # alias egrep='egrep --color=auto'
 fi
 # -------------------------
-
-# =========================
-# ANSI renditions:
-# (Would like to use echo -e "${BOLD} bold-string ${NORM}",
-#  but recursive string-substitution doesn't work for bash!)
-export   esc="\033"     # the "" (escape) character
-export  NORM="\e[0m"
-export  BOLD="\e[1m"
-export ULINE="\e[4m"
-export REVRS="\e[7m"
-
-## Some colors (but ditto...):
-export        NC="\e[0m"       # No Color
-export     WHITE="\e[1;37m"
-export     BLACK="\e[0;30m"
-export      BLUE="\e[0;34m"
-export     GREEN="\e[0;32m"
-export    YELLOW="\e[1;33m"
-export      CYAN="\e[0;36m"
-export       RED="\e[0;31m"
-export    PURPLE="\e[0;35m"
-export     BROWN="\e[0;33m"
-export LIGHTGRAY="\e[0;37m"
-export  DARKGRAY="\e[1;30m"
-# export LIGHTBLUE="\e[1;34m"
-# export LIGHTGREEN="\e[1;32m"
-# export LIGHTCYAN="\e[1;36m"
-# export LIGHTRED="\e[1;31m"
-# export LIGHTPURPLE="\e[1;35m"
-# =========================
 
 # =========================
 # Show your own aliases & logicals at login-time:
