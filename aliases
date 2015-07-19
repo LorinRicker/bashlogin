@@ -4,7 +4,7 @@
 # Lorin Ricker: personal aliases
 
 shF="$( basename ${0#-} ) - aliases"
-Ident="${shF}  # (LMR version 5.05 of 07/17/2015)"
+Ident="${shF}  # (LMR version 5.06 of 07/18/2015)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
 
 # Exports global variable DEBUGMODE (value 0|1):
@@ -103,6 +103,9 @@ alias recall='history | grep '     # needs argument
 # Just be sure that my "main printer" is named "sysprint"
 # (not something printer-model-number-specific):
 alias sysprint='lpr -P sysprint'
+
+# audiocat shortcut:
+alias acat="audiocat -vr -t ogg"
 
 # aptitude/Synaptic package management:
 # List installed packages, CSV-formatted for spreadsheet uptake:
