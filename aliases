@@ -4,7 +4,7 @@
 # Lorin Ricker: personal aliases
 
 shF="$( basename ${0#-} ) - aliases"
-Ident="${shF}  # (LMR version 5.06 of 07/18/2015)"
+Ident="${shF}  # (LMR version 5.07 of 07/20/2015)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
 
 # Exports global variable DEBUGMODE (value 0|1):
@@ -130,6 +130,7 @@ alias netcmd='source ~/bin/login/NetCommands'
 #             --exclude=/home/lorin/.config/bru/common_rsync.excl
 alias bruhome='bru -tpiv --source=/home/lorin'
 alias  brulib='bru -tpiv --source=/usr/Mirrors/LorinLibrary'
+alias howtobru='logicals | grep "arc\|music" ; alias | grep bru'
 # -------------------------
 
 # -------------------------
