@@ -126,10 +126,6 @@ f="$HOME/bin/login/pygmentize-magik"
 f="$HOME/bin/login/doc_function"
 [ -f "$f" ] && source $f
 
-# tweak_path functions:
-f="$HOME/bin/login/tweak_path"
-[ -f "$f" ] && source $f
-
 # -----------------------------
 # Enable programmable completion features (you don't need to enable this, if it's
 # already enabled in /etc/bash.bashrc and /etc/profile sources /etc/bash.bashrc).
