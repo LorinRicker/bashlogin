@@ -114,6 +114,10 @@ f="$HOME/bin/login/logicals"
 f="$HOME/bin/login/aliases"
 [ -f "$f" ] && source $f
 
+# git support functions:
+f="$HOME/bin/login/git-magik"
+[ -f "$f" ] && source $f
+
 # Alias definitions:
 f="$HOME/bin/login/ANSI-magik"
 [ -f "$f" ] && source $f
@@ -190,10 +194,6 @@ else
 fi
 # -----------------------------
 
-# git support functions:
-f="$HOME/bin/login/git-magik"
-[ -f "$f" ] && source $f
-
 # --- Supercede RVM's cd function here...
 #     (RVM's own cd supercedes bash built-in cd, and
 #      breaks things like Atom.io's package manager)
@@ -211,8 +211,10 @@ export PATH=$( perfectpath ${RUBY_DEFAULT_VERSION} )
 cleanpath ; path
 
 # =========================
-# Show your own aliases & logicals at login-time:
-if [ "$DEBUGMODE" = 1 ]; then
+# Show your own aliases & logicals at login-time --
+# currently, would have to export DEBUGMODE='2' manually,
+# as script debugmode doesn't know how to set this value yet...
+if [ "$DEBUGMODE" >= "2" ]; then
   alias -p   # display aliases
   logicals   # display logical names
   echo -e "\n%Ruby-I, aliases set for [1mRuby v${RUBY_DEFAULT_VERSION}[0m"
