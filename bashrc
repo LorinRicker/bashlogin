@@ -27,6 +27,11 @@
 
 shF="$HOME/bin/login/bashrc"
 Ident="${shF}  # (LMR version 5.06 of 07/22/2015)"
+# Exports global variable DEBUGMODE (value '0'|'1'):
+f="$HOME/bin/login/debugmode"
+if [ -f $f ]; then
+  [ -z "$DEBUGMODE" ] && source $f OFF
+fi
 [ "$DEBUGMODE" = "1" ] && echo "%bashrc:login-I, ${Ident}"
 
 # If not running interactively, don't do anything
@@ -208,5 +213,14 @@ f="$HOME/bin/login/path-magik"
 # accumulated duplicates from PATH, and show the PATH here:
 export PATH=$( perfectpath ${RUBY_DEFAULT_VERSION} )
 cleanpath ; path
+
+# =========================
+# Show your own aliases & logicals at login-time:
+if [ "$DEBUGMODE" = 1 ]; then
+  alias -p   # display aliases
+  logicals   # display logical names
+  echo -e "\n%Ruby-I, aliases set for [1mRuby v${RUBY_DEFAULT_VERSION}[0m"
+fi
+# =========================
 
 # exit 0
