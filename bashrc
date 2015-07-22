@@ -142,6 +142,14 @@ tpad OFF 1>/dev/null 2>/dev/null ; tpad show 1>/dev/null 2>/dev/null
 
 # -----------------------------
 
+# Default RVM ruby version:
+export RUBY_DEFAULT_VERSION='ruby-2.1.0'
+
+# Magic path* function definitions --
+# do this *before* RVM setup! ...
+f="$HOME/bin/login/path-magik"
+[ -f "$f" ] && source $f
+
 #  == RVM ===
 #    Note: For Ruby development work, install Ruby using the great
 #          Ruby enVironment Manager (RVM, http://rvm.io -- and see
@@ -170,8 +178,6 @@ tpad OFF 1>/dev/null 2>/dev/null ; tpad show 1>/dev/null 2>/dev/null
 #          $ rvm current   # to see/confirm
 #  == end RVM ===
 
-# Default RVM ruby version:
-export RUBY_DEFAULT_VERSION='ruby-2.1.0'
 # Ruby Version Manager -- RVM setup:
 f="$HOME/.rvm/scripts/rvm"
 if [ -f "$f" ]; then
@@ -201,10 +207,6 @@ fi
 f="$HOME/bin/login/cd-magik"
 [ -f "$f" ] && source $f
 
-# Magic path* function definitions:
-f="$HOME/bin/login/path-magik"
-[ -f "$f" ] && source $f
-
 # cleanpath is defined in aliases; exeucte it to remove any
 # accumulated duplicates from PATH, and show the PATH here:
 export PATH=$( perfectpath ${RUBY_DEFAULT_VERSION} )
@@ -214,7 +216,7 @@ cleanpath ; path
 # Show your own aliases & logicals at login-time --
 # currently, would have to export DEBUGMODE='2' manually,
 # as script debugmode doesn't know how to set this value yet...
-if [ "$DEBUGMODE" >= "2" ]; then
+if [ "$DEBUGMODE" \> "1" ]; then
   alias -p   # display aliases
   logicals   # display logical names
   echo -e "\n%Ruby-I, aliases set for [1mRuby v${RUBY_DEFAULT_VERSION}[0m"
