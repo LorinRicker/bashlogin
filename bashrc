@@ -26,7 +26,7 @@
 # =================================================================================
 
 shF="$HOME/bin/login/bashrc"
-Ident="${shF}  # (LMR version 5.05 of 07/17/2015)"
+Ident="${shF}  # (LMR version 5.06 of 07/22/2015)"
 [ "$DEBUGMODE" = "1" ] && echo "%bashrc:login-I, ${Ident}"
 
 # If not running interactively, don't do anything
@@ -189,11 +189,6 @@ else
 fi
 # -----------------------------
 
-# Magic path* function definitions:
-f="$HOME/bin/login/path-magik"
-[ -f "$f" ] && source $f
-export PATH=$( perfectpath ${RUBY_DEFAULT_VERSION} )
-
 # git support functions:
 f="$HOME/bin/login/git-magik"
 [ -f "$f" ] && source $f
@@ -205,8 +200,13 @@ f="$HOME/bin/login/git-magik"
 f="$HOME/bin/login/cd-magik"
 [ -f "$f" ] && source $f
 
+# Magic path* function definitions:
+f="$HOME/bin/login/path-magik"
+[ -f "$f" ] && source $f
+
 # cleanpath is defined in aliases; exeucte it to remove any
 # accumulated duplicates from PATH, and show the PATH here:
+export PATH=$( perfectpath ${RUBY_DEFAULT_VERSION} )
 cleanpath ; path
 
 # exit 0
