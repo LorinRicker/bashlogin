@@ -3,8 +3,8 @@
 # $HOME/bin/login/pygmentize-magik
 # Lorin Ricker: bash path functions
 
-shF=$( basename $0 )
-Ident="${shF}  # (LMR version 1.01 of 12/17/2014)"
+shF="$( basename ${0#-} ) - pygmentize-magik"
+Ident="${shF}  # (LMR version 1.01 of 07/22/2015)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
 
 # use: $ pyg sourcefile [oformat] [style] [fontface] [fontsize]
