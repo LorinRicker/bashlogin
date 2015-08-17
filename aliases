@@ -4,7 +4,7 @@
 # Lorin Ricker: personal aliases
 
 shF="$( basename ${0#-} ) - aliases"
-Ident="${shF}  # (LMR version 5.08 of 07/22/2015)"
+Ident="${shF}  # (LMR version 5.09 of 08/17/2015)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
 
 # =========================
@@ -71,6 +71,8 @@ alias lnv='ln -v'
 alias mkdir='mkdir -pv'
 alias gconf='gconf-editor &'
 
+alias xopen="xdg-open 2>/dev/null"  # open file or url
+
 # alias  mx='chmod a+x'   #make All eXecutable (UGO)
 
 # mount/dismount sshfs/fuse remote disks independently in one motion --
@@ -123,8 +125,8 @@ alias netcmd='source ~/bin/login/NetCommands'
 # bru --stats --progress --itemize --verbose
 #   defaults:     --use=/home/lorin/.config/bru/bru.yaml.rc
 #             --exclude=/home/lorin/.config/bru/common_rsync.excl
-alias bruhome='bru -tpiv --source=/home/lorin'
-alias  brulib='bru -tpiv --source=/usr/Mirrors/LorinLibrary'
+alias bruhome='bru -tpiv --source=/home/lorin \$archome'
+alias  brulib='bru -tpiv --source=/usr/Mirrors/LorinLibrary \$arclib'
 alias howtobru='logicals | grep "arc\|music" ; alias | grep bru'
 # -------------------------
 
