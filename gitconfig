@@ -1,16 +1,17 @@
 [core]
 	editor = atom --wait
-[diff]
-	tool = meld
 [user]
 	name = Lorin Ricker
 	email = Lorin@RickerNet.us
+[diff]
+		tool = meld
 [color]
 	ui = true
 [alias]
 	cl = config --list
 	co = checkout
 	com = commit -m
+	df = diff --no-color
 	oops = rm --cached
 	pom = push -u origin master
 	rfetch = fetch origin
