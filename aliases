@@ -4,7 +4,7 @@
 # Lorin Ricker: personal aliases
 
 shF="$( basename ${0#-} ) - aliases"
-Ident="${shF}  # (LMR version 5.10 of 09/02/2015)"
+Ident="${shF}  # (LMR version 5.11 of 12/15/2015)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
 
 # =========================
@@ -86,9 +86,7 @@ alias   myps='ps -U lorin'
 alias   ssys='ps -ef | less'
 alias   dwho='who -HbdprtTu'
 alias   duck='du -skch * | sort -rn'  # Top-level totals
-alias    du='du -h'
-alias    df='df -hT'
-alias  disk='df -hT -t ext3 -t ext4 -t fuse.sshfs -t cifs'
+alias  disk='df -hT -t ext3 -t ext4 -t fuse.sshfs -t cifs ; echo "" ; lsblk'
 alias    di='di -f SbcvpTM'
 alias  freek='free -ktl'
 alias  freem='free -mtl'
