@@ -4,7 +4,7 @@
 # Lorin Ricker: personal aliases
 
 shF="$( basename ${0#-} ) - aliases"
-Ident="${shF}  # (LMR version 5.11 of 12/15/2015)"
+Ident="${shF}  # (LMR version 5.12 of 12/16/2015)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
 
 # =========================
@@ -81,13 +81,18 @@ alias mntMusic='mount-sshfs lorin ; sleep 1 ; mount-sshfs mirrors'
 alias disMusic='mount-sshfs lorin dismount ; sleep 3 ; mount-sshfs mirrors dismount'
 
 # some VMS-like stuff:
+di >/dev/null 2>/dev/null  # test this command
+if [ $? == 0 ]; then        # di is available...
+  alias disk='di -f SbcvpTM ; echo "" ; lsblk'
+else                       # fallback to this...
+  alias disk='df -hT -t ext3 -t ext4 -t fuse.sshfs -t cifs ; echo "" ; lsblk'
+fi
+
 alias    cls='clear'
 alias   myps='ps -U lorin'
 alias   ssys='ps -ef | less'
 alias   dwho='who -HbdprtTu'
 alias   duck='du -skch * | sort -rn'  # Top-level totals
-alias  disk='df -hT -t ext3 -t ext4 -t fuse.sshfs -t cifs ; echo "" ; lsblk'
-alias    di='di -f SbcvpTM'
 alias  freek='free -ktl'
 alias  freem='free -mtl'
 # e2label /dev/sdb1 newLabel  # to "set volume /dev/sdb1 newLabel"
