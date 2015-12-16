@@ -243,13 +243,11 @@ alias cl2="ssh lricker@class2.parsec.com"
 alias cl6="ssh lricker@class6.parsec.com"
 alias cl8="ssh lricker@class8.parsec.com"
 
-if [ "$HOSTNAME" == "alikot" ]; then   # I'm at work...
-
-  # Be sure that the Denver Post VPN is up for these:
-  alias DRAX01="telnet 172.24.65.21"
-  alias DRAX02="telnet 172.24.65.22"
-
-fi
+# if [ "$HOSTNAME" == "alikot" ]; then   # I'm at work...
+#   # Be sure that the Denver Post VPN is up for these:
+#   alias DRAX01="telnet 172.24.65.21"
+#   alias DRAX02="telnet 172.24.65.22"
+# fi
 # =========================
 
 return 0  # don't: exit 0

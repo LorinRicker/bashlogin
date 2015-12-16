@@ -11,7 +11,7 @@
 	cl = config --list
 	co = checkout
 	com = commit -m
-	df = diff --no-color
+	diffnc = diff --no-color
 	lol = log --graph --decorate --oneline --all
 	oops = rm --cached
 	pom = push -u origin master
