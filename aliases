@@ -4,7 +4,7 @@
 # Lorin Ricker: personal aliases
 
 shF="$( basename ${0#-} ) - aliases"
-Ident="${shF}  # (LMR version 5.12 of 12/16/2015)"
+Ident="${shF}  # (LMR version 5.13 of 12/17/2015)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
 
 # =========================
@@ -83,7 +83,7 @@ alias disMusic='mount-sshfs lorin dismount ; sleep 3 ; mount-sshfs mirrors dismo
 # some VMS-like stuff:
 di >/dev/null 2>/dev/null  # test this command
 if [ $? == 0 ]; then        # di is available...
-  alias disk='di -f SbcvpTM ; echo "" ; lsblk'
+  alias disk='di -t -fSbcvpaTM -xtmpfs ; echo "" ; lsblk'
 else                       # fallback to this...
   alias disk='df -hT -t ext3 -t ext4 -t fuse.sshfs -t cifs ; echo "" ; lsblk'
 fi
