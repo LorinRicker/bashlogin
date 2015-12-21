@@ -4,7 +4,7 @@
 # Lorin Ricker: personal aliases
 
 shF="$( basename ${0#-} ) - aliases"
-Ident="${shF}  # (LMR version 5.13 of 12/17/2015)"
+Ident="${shF}  # (LMR version 5.14 of 12/21/2015)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
 
 # =========================
@@ -80,6 +80,9 @@ alias xopen="xdg-open 2>/dev/null"  # open file or url
 alias mntMusic='mount-sshfs lorin ; sleep 1 ; mount-sshfs mirrors'
 alias disMusic='mount-sshfs lorin dismount ; sleep 3 ; mount-sshfs mirrors dismount'
 
+# VMS/SimH -- boot a (VAX)VMS on Linux! --
+alias bootvms="sudo $HOME/simh/bin/vaxvms-exe $HOME/simh/VAXdisks1/vaxvms.ini"
+
 # some VMS-like stuff:
 di >/dev/null 2>/dev/null  # test this command
 if [ $? == 0 ]; then        # di is available...
@@ -103,6 +106,7 @@ alias recall='history | grep '     # needs argument
 # Just be sure that my "main printer" is named "sysprint"
 # (not something printer-model-number-specific):
 alias sysprint='lpr -P sysprint'
+alias    print='lpr -P sysprint'  # Careful: possible conflict with run-mailcap "print"
 
 # audiocat shortcut:
 alias acat="audiocat -vr -t ogg"
