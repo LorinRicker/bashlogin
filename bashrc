@@ -142,7 +142,7 @@ tpad OFF 1>/dev/null 2>/dev/null ; tpad show 1>/dev/null 2>/dev/null
 
 # -----------------------------
 
-# Default RVM ruby version:
+# Default RVM ruby version, system-wide install:
 export RUBY_DEFAULT_VERSION='ruby-2.3.0'
 
 # Magic path* function definitions --
