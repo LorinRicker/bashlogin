@@ -26,7 +26,7 @@
 # =================================================================================
 
 shF="$HOME/bin/login/bashrc"
-Ident="${shF}  # (LMR version 5.06 of 07/22/2015)"
+Ident="${shF}  # (LMR version 5.07 of 01/30/2016)"
 # Exports global variable DEBUGMODE (value '0'|'1'):
 f="$HOME/bin/login/debugmode"
 if [ -f $f ]; then
@@ -143,7 +143,7 @@ tpad OFF 1>/dev/null 2>/dev/null ; tpad show 1>/dev/null 2>/dev/null
 # -----------------------------
 
 # Default RVM ruby version:
-export RUBY_DEFAULT_VERSION='ruby-2.1.0'
+export RUBY_DEFAULT_VERSION='ruby-2.3.0'
 
 # Magic path* function definitions --
 # do this *before* RVM setup! ...
@@ -196,7 +196,7 @@ if [ -f "$f" ]; then
   # Add 'current-ruby' info to prompt's preceding-where line:
   SetPrompt '`pwd`' ' {`rvm current`}' ' [clock `date +%T`]'
 else
-  SetPrompt '`pwd`' ' [clock `date +%T`]'
+  SetPrompt '`pwd`' ' ${RUBY_DEFAULT_VERSION} [clock `date +%T`]'
 fi
 # -----------------------------
 
