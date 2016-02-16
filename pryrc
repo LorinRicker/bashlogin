@@ -1,11 +1,21 @@
-# ~/.pryrc -> ~/bin/login/pryrc -- version 1.5 of 02/03/2015
+# ~/.pryrc -> ~/bin/login/pryrc -- version 1.6 of 02/16/2016
 
-Pry.config.editor = "subl"
+Pry.config.editor = "atom"
 
 # Ruby debugger --> pry and byebug...
+
 # Requires gems "pry", "pry-nav" and "pry-byebug"
-# (if pry-nav and pry-byebug are installed, pry uses them) --
 #
+#    $ sudo gem install pry
+#    $ sudo gem install byebug
+#    $ sudo gem install pry-byebug
+#    $ sudo gem install pry-nav
+#    $ sudo chmod -Rv 755 /var/lib/gems
+#    $ sudo chmod -v  755 /usr/local/bin/pry
+#
+# When pry-nav and pry-byebug are installed, pry uses them --
+#
+
 # Use in a Ruby script/program is (typically after):
 #
 #    optparse = OptionParser.new { |opts|
