@@ -6,7 +6,7 @@
 #   now just using whatever is specified per casing.
 
 shF="$( basename ${0#-} ) - logicals"
-Ident="${shF}  # (LMR version 5.01 of 02/11/2016)"
+Ident="${shF}  # (LMR version 5.02 of 02/20/2016)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
 
 case ${HOSTNAME} in  # /vm/Mirrors or /usr/Mirrors ...?
@@ -53,7 +53,7 @@ deflogical "tar"     "$mirror/TArchives"
 deflogical "llb"     "$mirror/LorinLibrary"
 
 deflogical "dlb"     "$llb/DocLibrary"
-deflogical "how"     "$dlb/Linux/HowTos"
+deflogical "how"     "$dlb/COMPUTER TECHNOLOGY/HowTos"
 deflogical "mlb"     "$llb/MusicLibrary"
 deflogical "rlb"     "$llb/RipLibrary"
 deflogical "cdr"     "$mlb/CDRips"
