@@ -96,7 +96,7 @@ export -f SetPrompt
 setruby()
   { # Specify the parameter version# as '2.3', '2.2', etc.
     sudo ruby-switch --set ruby$1
-    export RUBY_DEFAULT_VERSION=$(ruby -e 'puts %x{ruby -v}.split[0..1].join(" ")')
+    export RUBY_DEFAULT_VERSION=$(ruby -e 'puts "ruby #{RUBY_VERSION}"')
     SetPrompt '`pwd`' ' -- ${RUBY_DEFAULT_VERSION} -- [clock `date +%T`]'
   }
 export -f setruby
