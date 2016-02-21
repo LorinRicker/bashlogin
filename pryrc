@@ -1,4 +1,4 @@
-# ~/.pryrc -> ~/bin/login/pryrc -- version 1.6 of 02/16/2016
+# ~/.pryrc -> ~/bin/login/pryrc -- version 1.7 of 02/20/2016
 
 Pry.config.editor = "atom"
 
@@ -7,14 +7,13 @@ Pry.config.editor = "atom"
 # Requires gems "pry", "pry-nav" and "pry-byebug"
 #
 #    $ sudo gem install pry
-#    $ sudo gem install byebug
-#    $ sudo gem install pry-byebug
 #    $ sudo gem install pry-nav
 #    $ sudo chmod -Rv 755 /var/lib/gems
 #    $ sudo chmod -v  755 /usr/local/bin/pry
 #
 # When pry-nav and pry-byebug are installed, pry uses them --
 #
+# Ruby v2.2 and v2.3 (and up): don't install gems pry-byebug or byebug
 
 # Use in a Ruby script/program is (typically after):
 #

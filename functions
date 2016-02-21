@@ -4,7 +4,7 @@
 # Lorin Ricker: bash functions
 
 shF="$( basename ${0#-} ) - functions"
-Ident="${shF}  # (LMR version 5.02 of 08/01/2015)"
+Ident="${shF}  # (LMR version 5.03 of 02/20/2016)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
 
 # -----
@@ -92,6 +92,14 @@ SetPrompt()
     export PS2="${ind}_\$ "
   }
 export -f SetPrompt
+
+setruby()
+  { # Specify the parameter version# as '2.3', '2.2', etc.
+    sudo ruby-switch --set ruby$1
+    export RUBY_DEFAULT_VERSION=$(ruby -e 'puts %x{ruby -v}.split[0..1].join(" ")')
+    SetPrompt '`pwd`' ' -- ${RUBY_DEFAULT_VERSION} -- [clock `date +%T`]'
+  }
+export -f setruby
 
 # =========================
 
