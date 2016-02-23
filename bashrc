@@ -26,7 +26,7 @@
 # =================================================================================
 
 shF="$HOME/bin/login/bashrc"
-Ident="${shF}  # (LMR version 5.08 of 02/20/2016)"
+Ident="${shF}  # (LMR version 5.09 of 02/23/2016)"
 # Exports global variable DEBUGMODE (value '0'|'1'):
 f="$HOME/bin/login/debugmode"
 if [ -f $f ]; then
@@ -197,8 +197,7 @@ else
   #    $ sudo apt-add-repository ppa:brightbox/ruby-ng
   #    $ sudo apt-get update
   #    $ sudo apt-get install ruby2.x ruby2.x-dev ruby-switch
-  setruby '2.3'  # function setruby is based on ruby-switch
-  ## sudo ruby-switch --list
+  setruby     # function setruby is based on ruby-switch
 fi
 # -----------------------------
 
