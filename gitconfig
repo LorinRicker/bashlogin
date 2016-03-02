@@ -10,6 +10,7 @@
 [alias]
   log1 = log --oneline
 	cl = config --list
+	cmp = difftool
 	co = checkout
 	com = commit -m
 	diffnc = diff --no-color
