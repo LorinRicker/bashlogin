@@ -4,7 +4,7 @@
 # Lorin Ricker: set up bash-login environment & commands
 
 shF=$( basename $0 )
-Ident="${shF}  # (LMR version 2.01 of 07/17/2015)"
+Ident="${shF}  # (LMR version 2.02 of 03/25/2016)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
 
 DST="$HOME/bin/login"
@@ -74,7 +74,7 @@ function list_home()
   ls -goA ~/.profile ~/.bashrc ~/.zshrc \
          ~/.inputrc ~/.bash_logout      \
          ~/.pryrc ~/.irbrc ~/.gitconfig \
-         ~/.rdebugrc ~/.emacs
+         ~/.netrc ~/.rdebugrc ~/.emacs
   }
 
 function remove_confusion()
@@ -131,7 +131,7 @@ case "$opt" in
 
         ~/.bash_logout  ~/.inputrc  ~/.emacs
         ~/.pryrc        ~/.irbrc    ~/.gitconfig
-        ~/.rdebugrc
+        ~/.netrc        ~/.rdebugrc
 
   This approach simplifies bash-login file development and maintenance, and
   simplifies (some of) the clutter of files in a user's $HOME directory...
@@ -160,6 +160,7 @@ EOD
     symlink pryrc
     symlink irbrc
     symlink gitconfig
+    symlink netrc
     symlink rdebugrc
     symlink emacs
 
@@ -180,6 +181,7 @@ EOD
     RELEASED=$( copylogin pryrc            $FCNT )
     RELEASED=$( copylogin irbrc            $FCNT )
     RELEASED=$( copylogin gitconfig        $FCNT )
+    RELEASED=$( copylogin netrc            $FCNT )
     RELEASED=$( copylogin rdebugrc         $FCNT )
     RELEASED=$( copylogin emacs            $FCNT )
 
