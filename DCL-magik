@@ -17,8 +17,26 @@
 #
 
 shF="$( basename ${0#-} ) - DCL-magik"
-Ident="${shF}  # (LMR version 1.02 of 05/08/2015)"
+Ident="${shF}  # (LMR version 2.00 of 07/20/2016)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
+
+# $ sudo mkdir /mnt/vms8 -v
+# [sudo] password for lorin:
+# mkdir: created directory ‘/mnt/vms8’
+#
+# alikot$ sudo sshfs lricker@class8: /mnt/vms8
+# The authenticity of host 'class8 (10.217.6.5)' can't be established.
+# DSA key fingerprint is f1:4d:57:bc:e4:c7:ef:73:5e:1e:56:40:5b:c8:9d:d0.
+# Are you sure you want to continue connecting (yes/no)? yes
+# lricker@class8's password:
+# alikot$ sudo chown lorin:rickernet -v /mnt/vms8
+# changed ownership of ‘/mnt/vms8’ from root:root to lorin:rickernet
+# alikot$ sshfs lricker@class8: /mnt/vms8
+# lricker@class8's password:
+
+echo "%bash-DCL-magik-I-SSHFS, mounting SSHFS connection to VMS class8,"
+echo "                         VMS password required --"
+sshfs lricker@class8: /mnt/vms8
 
 RG='set -f ; ResetGlobbing'
 
