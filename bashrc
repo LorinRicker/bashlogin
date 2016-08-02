@@ -46,10 +46,6 @@ case $- in
 esac
 
 # -----------------------------
-# Get less's handling of ANSI escape characters under control,
-# especially so that things like git diff will dispaly coherently:
-export LESS="-Rmi"  # --RAW-CONTROL-CHARS --ignore-case --long-prompt
-
 # Establish the right text editor defaults:
 export EDITOR='atom'
 export VISUAL='atom'
@@ -83,8 +79,10 @@ shopt -u nullglob        # Disable: Allows patterns which match no files to
                          #          expand to a null-string '', rather than
                          #          returning the literal pattern string.
 
-# Make less more friendly for non-text input files, see lesspipe(1)
-export LESS='mi'
+# Make less more friendly for non-text input files, see lesspipe(1);
+# also get less's handling of ANSI escape characters under control,
+# especially so that things like git diff will dispaly coherently:
+export LESS='Rmi'  # --RAW-CONTROL-CHARS --ignore-case --long-prompt
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
 # If this is an xterm set the TITLE-BAR to user@host:dir
