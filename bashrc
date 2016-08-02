@@ -26,7 +26,7 @@
 # =================================================================================
 
 shF="$HOME/bin/login/bashrc"
-Ident="${shF}  # (LMR version 5.09 of 02/23/2016)"
+Ident="${shF}  # (LMR version 5.10 of 08/01/2016)"
 # Exports global variable DEBUGMODE (value '0'|'1'):
 f="$HOME/bin/login/debugmode"
 if [ -f $f ]; then
@@ -46,9 +46,14 @@ case $- in
 esac
 
 # -----------------------------
+# Get less's handling of ANSI escape characters under control,
+# especially so that things like git diff will dispaly coherently:
+export LESS="-Rmi"  # --RAW-CONTROL-CHARS --ignore-case --long-prompt
+
+# Establish the right text editor defaults:
+export EDITOR='atom'
+export VISUAL='atom'
 set -o emacs
-export EDITOR='subl'
-export VISUAL='subl'
 
 # Shell Options --
 shopt -s checkwinsize    # Enable:  Check window size after each command and
