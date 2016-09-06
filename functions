@@ -4,7 +4,7 @@
 # Lorin Ricker: bash functions
 
 shF="$( basename ${0#-} ) - functions"
-Ident="${shF}  # (LMR version 5.05 of 09/06/2016)"
+Ident="${shF}  # (LMR version 5.06 of 09/06/2016)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
 
 # -----
@@ -47,6 +47,29 @@ Ident="${shF}  # (LMR version 5.05 of 09/06/2016)"
 #    IFS=$"\n"   <-- where the leading-$ forces control-char expansion
 # not:
 #    IFS="\n"    <-- which is just the string "<slash>n"
+
+# ref (reference) -- A thorough look through online help --
+#   "man" pages, shell builtin "help", with last-chance "apropos" --
+# usage:  $ ref <topic> [help|man|info|apropos] --
+ref()
+  { if [ "$2" != "" ]; then
+    case "$2" in
+      he* )
+        help "$1" || apropos "$1" ;;
+      ma* )
+        man "$1" || help "$1" || apropos "$1" ;;
+      in* )
+        info "$1" ;;
+      ap* )
+        apropos "$1" ;;
+      * )
+      info "$1" || man "$1" || help "$1" || apropos "$1" ;;
+    esac
+  else
+    info "$1" || man "$1" || help "$1" || apropos "$1"
+  fi
+  }
+export -f ref
 
 # Tests current bash status code value $? and displays that result
 # use: $ <some_command> ; ExitStatus
