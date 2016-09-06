@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+# $HOME/bin/login/functions-ResetGlobbing
+# Lorin Ricker: bash functions -- reset-globbing function for DCL Emulator
+
+shF="$( basename ${0#-} ) - functions-ResetGlobbing"
+Ident="${shF}  # (LMR version 1.00 of 09/06/2016)"
+[ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
+
+# =========================
+# Helper function to re-enable bash/shell globbing,
+# used with alias commands of this form:
+#
+#  $ alias noglobdemo="set -f ; ResetGlobbing $HOME/bin/argvdemo"
+#  $ alias rename="set -f ; ResetGlobbing $HOME/bin/rename"
+#
+ResetGlobbing()
+  { CMD="$1"
+    shift
+    $CMD "$@"
+    set +f
+  }
+export -f ResetGlobbing
+# =========================

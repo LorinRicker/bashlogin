@@ -4,7 +4,7 @@
 # Lorin Ricker: bash functions
 
 shF="$( basename ${0#-} ) - functions"
-Ident="${shF}  # (LMR version 5.04 of 02/23/2016)"
+Ident="${shF}  # (LMR version 5.05 of 09/06/2016)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
 
 # -----
@@ -42,20 +42,6 @@ Ident="${shF}  # (LMR version 5.04 of 02/23/2016)"
 ##     fi
 ##   }
 ## export -f superman
-
-# Helper function to re-enable bash/shell globbing,
-# used with alias commands of this form:
-#
-#  $ alias noglobdemo="set -f ; ResetGlobbing $HOME/bin/argvdemo"
-#  $ alias rename="set -f ; ResetGlobbing $HOME/bin/rename"
-#
-ResetGlobbing()
-  { CMD="$1"
-    shift
-    $CMD "$@"
-    set +f
-  }
-export -f ResetGlobbing
 
 # Correct way to set IFS to a newline is:
 #    IFS=$"\n"   <-- where the leading-$ forces control-char expansion
@@ -232,62 +218,6 @@ export -f distouchpad
 # =========================
 
 # =========================
-# After experience & consideration: Ditch the dual lower/UPPERcase versions,
-#   now just using whatever is specified per casing. (08/01/2015)
-# We can't have proper VMS logical names, but here's the next best:
-# analogous to $HOME, bash env-variables ('symbols') are close enough --
-# Don't add trailing '/', so symbols can be used as: $com, $com/, $com/filename, etc.
-deflogical()
-  { # Creates (an env-var to use as) a logical name...
-    if [ "$1" = "" ]; then
-      echo "%IDENT-I, function deflogical"
-      echo "usage:  $ deflogical \"logical\" \"path\""
-      return
-    fi
-    L1=$1
-    eval "export $L1=\"$2\""
-    if [ $( echo "$LNMList" | grep --count "\s$L1" ) = 0 ]; then
-      if [ "$LNMList" = "" ]; then
-        LNMList=" $L1"      # yes, the leading space is important!
-      else
-        LNMList="$LNMList $L1"
-      fi
-      export LNMList
-    fi
-  }
-export -f deflogical
-
-logicals()
-  { # List a logical name, or all of them...
-    local lnm
-    local ln
-    local lv
-    local lh
-    echo -e "\n%logicals-I-list, Logical names for user (process) \033[4m${HOME##/home/}\033[0m\n"
-    if [ "$1" = "" ]; then
-      lnm="$LNMList"
-    else
-      lnm="$@"
-    fi
-    for ln in $lnm ; do
-      # Note: ${!ln} produces the value of the symbol named by ln:
-      lv=${!ln}
-      if [ "$lv" = "" ]; then
-        lh=$( echo -n "$ln" )
-        lv="[undefined]"
-      else
-        # bold-rendition for defined logicals:
-        lh=$( echo -n "\033[1m$ln\033[0m" )
-        lv="\033[1m$lv\033[0m"
-      fi
-      echo -e "  $lh = \"$lv\""
-    done
-  }
-export -f logicals
-# =========================
-
-# =========================
-
 # A simple line-numbered text-file lister with pagination:
 list()
   {
