@@ -4,7 +4,7 @@
 # Lorin Ricker: bash functions
 
 shF="$( basename ${0#-} ) - functions"
-Ident="${shF}  # (LMR version 5.06 of 09/06/2016)"
+Ident="${shF}  # (LMR version 5.07 of 09/06/2016)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
 
 # -----
@@ -49,25 +49,29 @@ Ident="${shF}  # (LMR version 5.06 of 09/06/2016)"
 #    IFS="\n"    <-- which is just the string "<slash>n"
 
 # ref (reference) -- A thorough look through online help --
-#   "man" pages, shell builtin "help", with last-chance "apropos" --
-# usage:  $ ref <topic> [help|man|info|apropos] --
+#   "man" & "info" pages, shell builtin "help", with last-chance "apropos" --
+# usage:  $ ref <topic>
+#    or:  $ ref [help|man|info|apropos] <topic> --
 ref()
-  { if [ "$2" != "" ]; then
-    case "$2" in
-      he* )
-        help "$1" || apropos "$1" ;;
-      ma* )
-        man "$1" || help "$1" || apropos "$1" ;;
-      in* )
-        info "$1" ;;
-      ap* )
-        apropos "$1" ;;
-      * )
-      info "$1" || man "$1" || help "$1" || apropos "$1" ;;
+  {
+    local topic
+    if [ "$1" = "" ]; then
+      topic="XYZZY"
+    else
+      topic="$1"
+    fi
+    case "$topic" in
+      apropos)
+        apropos "$2" ;;
+      help)
+        help "$2" || apropos "$2" ;;
+      info)
+        info "$2" || help "$2" || apropos "$2" ;;
+      man)
+        man "$2" || help "$2" || apropos "$2" ;;
+      *)
+      man "$topic" || help "$topic" || apropos "$topic" ;;
     esac
-  else
-    info "$1" || man "$1" || help "$1" || apropos "$1"
-  fi
   }
 export -f ref
 
