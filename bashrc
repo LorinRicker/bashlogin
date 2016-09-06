@@ -26,7 +26,7 @@
 # =================================================================================
 
 shF="$HOME/bin/login/bashrc"
-Ident="${shF}  # (LMR version 5.10 of 08/01/2016)"
+Ident="${shF}  # (LMR version 5.11 of 09/06/2016)"
 # Exports global variable DEBUGMODE (value '0'|'1'):
 f="$HOME/bin/login/debugmode"
 if [ -f $f ]; then
@@ -103,6 +103,14 @@ f="$HOME/bin/login/debugmode"
 
 # Function definitions:
 f="$HOME/bin/login/functions"
+[ -f "$f" ] && source $f
+
+# Function definitions:
+f="$HOME/bin/login/functions-logicals"
+[ -f "$f" ] && source $f
+
+# Function definitions:
+f="$HOME/bin/login/functions-ResetGlobbing"
 [ -f "$f" ] && source $f
 
 # DCLfunction definitions:
