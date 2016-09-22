@@ -260,7 +260,8 @@ alias cl8="ssh lricker@class8.parsec.com"
 # PacMed now gives us a Pulse Secure Linux client for VPN access.
 #   See "~/ParsecGroup/Customer Network Connectivity, VPNs etc/Pulse Secure Linux VPN client/"
 #   for ps-pulse-linux-8.1r7.0-b41041-ubuntu-debian-installer.deb distro-file...
-alias psvpn='/usr/local/pulse/PulseClient.sh'
+# -p Oregon$2016  --  vpn.pacmed.org = 204.58.223.53
+alias pacmed='/usr/local/pulse/PulseClient.sh -h 204.58.223.53 -u lorinr -p Oregon\$2016 -U 204.58.223.53 -f ~/ParsecGroup/Customers/PacMed/vpn.pacmed.org.crt'
 # =========================
 
 return 0  # don't: exit 0
