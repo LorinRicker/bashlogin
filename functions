@@ -4,7 +4,7 @@
 # Lorin Ricker: bash functions
 
 shF="$( basename ${0#-} ) - functions"
-Ident="${shF}  # (LMR version 5.07 of 09/06/2016)"
+Ident="${shF}  # (LMR version 5.08 of 10/02/2016)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
 
 # -----
@@ -109,8 +109,11 @@ export -f SetPrompt
 setruby()
 {
     if [ "$1" != "" ] ; then
-      # Specify the parameter version# as '2.3', '2.2', etc.
-      sudo ruby-switch --set ruby$1
+      # Trim the parameter version# to '2.3', '2.2', etc.;
+      # that is, remove any leading 'ruby' string:
+      v=${1##ruby}
+      # Now, can safely specify the --set argument as 'ruby$v'
+      sudo ruby-switch --set ruby$v
     fi
     export RUBY_DEFAULT_VERSION=$(ruby -e 'puts "ruby #{RUBY_VERSION}"')
     SetPrompt '`pwd`' ' -- ${RUBY_DEFAULT_VERSION} -- [clock `date +%T`]'
