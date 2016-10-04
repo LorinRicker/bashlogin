@@ -1,10 +1,11 @@
-# ~/.pryrc -> ~/bin/login/pryrc -- version 1.7 of 02/20/2016
+# ~/.pryrc -> ~/bin/login/pryrc -- version 1.8 of 10/03/2016
 
 Pry.config.editor = "atom"
 
 # Ruby debugger --> pry and byebug...
 
-# Requires gems "pry", "pry-nav" and "pry-byebug"
+# Requires gems "pry", "pry-nav" and "pry-byebug" for Ruby v2.x (+)
+#  (pry-debugger is ONLY for Ruby versions <= 1.9.x)
 #
 #    $ sudo gem install pry
 #    $ sudo gem install pry-nav
@@ -12,8 +13,8 @@ Pry.config.editor = "atom"
 #    $ sudo chmod -v  755 /usr/local/bin/pry
 #
 # When pry-nav and pry-byebug are installed, pry uses them --
+# Ruby v2.2 and v2.3 (and up): DO NOT install gems pry-byebug or byebug
 #
-# Ruby v2.2 and v2.3 (and up): don't install gems pry-byebug or byebug
 
 # Use in a Ruby script/program is (typically after):
 #
@@ -29,14 +30,40 @@ Pry.config.editor = "atom"
 #####################################
 #
 
-Pry.commands.alias_command 'b',  'break'        # set a breakpoint line# [--condition]
-Pry.commands.alias_command 'w',  'watch'        # set a watchpoint [EXPRESSION]
-Pry.commands.alias_command 'go', 'continue'    # "go", continue to next breakpoint or end-of-program
-Pry.commands.alias_command 'n',  'next'         # execute current line (step-over methods/blocks)
-Pry.commands.alias_command 's',  'step'         # execute into current method or block
-Pry.commands.alias_command 'f',  'finish'       # run to end-of-program (no breakpoints)
-Pry.commands.alias_command 'q',  'exit'         # Pops the previous binding (does not exit program)
-Pry.commands.alias_command '$',  'exit-program' # exit back to $-prompt, same as '!!!'
+puts ".pryrc -- start..."
+
+# Load and execute a Ruby source file
+def fl(fn)
+  fn += '.rb' unless fn =~ /\.rb/
+  @@recent = fn
+  load "#{fn}"
+end
+
+# Reload and excute the most recently loaded ruby source file
+def rl
+  fl(@@recent)
+end
+
+# List all installed gems
+def glist
+  puts %x{ gem list }
+end
+
+# List gems matching search parameter
+def gl2(str)
+  puts %x{ gem list | sort | grep #{str} }
+end
+
+# if defined?(PryByebug)
+  Pry.commands.alias_command 'xb',  'break'        # set a breakpoint line# [--condition]
+  Pry.commands.alias_command 'xw',  'watch'        # set a watchpoint [EXPRESSION]
+  Pry.commands.alias_command 'xc',  'continue'     # "go", continue to next breakpoint or end-of-program
+  Pry.commands.alias_command 'xn',  'next'         # execute current line (step-over methods/blocks)
+  Pry.commands.alias_command 'xs',  'step'         # execute into current method or block
+  Pry.commands.alias_command 'xf',  'finish'       # run to end-of-program (no breakpoints)
+  Pry.commands.alias_command 'xq',  'exit'         # Pops the previous binding (does not exit program)
+  Pry.commands.alias_command '$',   'exit-program' # exit back to $-prompt, same as '!!!'
+# end
 
 # Hit <Enter> to repeat last command
 Pry::Commands.command /^$/, "Repeat last command" do
@@ -45,3 +72,5 @@ end
 
 Pry.config.prompt = [proc { "pry> " },  # byebug overrides this with its own "input> "
                      proc { "   | " }]
+
+puts ".pryrc -- finish..."
