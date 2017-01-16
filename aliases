@@ -4,7 +4,7 @@
 # Lorin Ricker: personal aliases
 
 shF="$( basename ${0#-} ) - aliases"
-Ident="${shF}  # (LMR version 5.16 of 09/07/2016)"
+Ident="${shF}  # (LMR version 5.17 of 01/26/2017)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
 
 # =========================
@@ -42,7 +42,20 @@ alias nologins='sudo shutdown -kv now'
 alias  killmy="$HOME/bin/process --kill"
 alias killsys="sudo $HOME/bin/process --kill"  # note: requires at least Ruby v2.0
                                                #       installed at system-level
-##alias   sysed="gksudo subl"
+
+f="/usr/bin/atom"
+if [ -f $f ]; then
+  alias    ed="atom"
+  alias sysed="gksudo atom"
+else
+  f="/usr/bin/subl"
+  if [ -f $f ]; then
+    alias    ed="subl"
+    alias sysed="gksudo subl"
+  else
+    echo "%${shF}-no_editor, Atom/Subl not found, aliases ed and sysed not defined"
+  fi
+fi
 
 # Create a new, system-wide application launcher (but does not add this to Unity's
 # side/task-bar or to user's ~/Desktop; see also ~/bin/tomyDesktop script to copy
