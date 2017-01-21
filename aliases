@@ -4,7 +4,7 @@
 # Lorin Ricker: personal aliases
 
 shF="$( basename ${0#-} ) - aliases"
-Ident="${shF}  # (LMR version 5.17 of 01/26/2017)"
+Ident="${shF}  # (LMR version 5.18 of 01/20/2017)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
 
 # =========================
@@ -88,17 +88,22 @@ alias xopen="xdg-open 2>/dev/null"  # open file or url
 
 # alias  mx='chmod a+x'   #make All eXecutable (UGO)
 
-# mount/dismount sshfs/fuse remote disks independently in one motion --
-# see ~/projects/com/mount-sshfs.sh (executed from ~/bin/):
-alias mntMusic='mount-sshfs lorin ; sleep 1 ; mount-sshfs mirrors'
-alias disMusic='mount-sshfs lorin dismount ; sleep 3 ; mount-sshfs mirrors dismount'
+# ssh/scp/sftp stuff --
+# for VMS scp restriction to only SCP1 protocol, use PuTTY scp
+alias   scp1="pscp"
+alias vmsscp="pscp"
 
 # sshfs mount of VMS resources --
-alias mntClass8="sshfs lricker@class8.parsec.com: ${class8}"
+alias  mntClass8="sshfs lricker@class8.parsec.com: ${class8}"
 alias umntClass8="sudo umount ${class8}"
 
 # VMS/SimH -- boot a (VAX)VMS on Linux! --
 alias bootvms="sudo $HOME/simh/bin/vaxvms-exe $HOME/simh/VAXdisks1/vaxvms.ini"
+
+# mount/dismount sshfs/fuse remote disks independently in one motion --
+# see ~/projects/com/mount-sshfs.sh (executed from ~/bin/):
+alias mntMusic='mount-sshfs lorin ; sleep 1 ; mount-sshfs mirrors'
+alias disMusic='mount-sshfs lorin dismount ; sleep 3 ; mount-sshfs mirrors dismount'
 
 # some VMS-like stuff:
 di >/dev/null 2>/dev/null  # test this command
