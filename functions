@@ -4,7 +4,7 @@
 # Lorin Ricker: bash functions
 
 shF="$( basename ${0#-} ) - functions"
-Ident="${shF}  # (LMR version 5.08 of 10/02/2016)"
+Ident="${shF}  # (LMR version 5.09 of 01/28/2017)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
 
 # -----
@@ -256,10 +256,11 @@ list()
 export -f list
 
 # Start a text-editor as sudo/root --
-sysed()
+sysedit()
   {
-    ed='subl'   # want to use Sublime Text...
-    dpkg-query --show 2>/dev/null 1>/dev/null sublime-text
+    ed='atom'   # want to use Atom...
+    ## ed='subl'   # want to use Sublime Text...
+    dpkg-query --show 2>/dev/null 1>/dev/null ${ed}
     if [ $? != 0 ]; then
       ed='gedit'  # ...but will settle for default editor
     fi
@@ -269,13 +270,15 @@ sysed()
       echo -n "System file to edit: "; read ans
     fi
     case $ed in
+      atom )
+        sudo atom ${ans} ;;
       subl )
         sudo subl ${ans} ;;
       gedit )
         gksudo -- gedit ${ans} ;;
     esac
   }
-export -f sysed
+export -f sysedit
 
 # Run ~/bin/autoinstall as sudo/root, prompting for PIF --
 # Use: $ sysintstall [-options] ['package']...
