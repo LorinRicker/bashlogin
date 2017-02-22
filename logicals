@@ -6,7 +6,7 @@
 #   now just using whatever is specified per casing.
 
 shF="$( basename ${0#-} ) - logicals"
-Ident="${shF}  # (LMR version 5.10 of 12/10/2016)"
+Ident="${shF}  # (LMR version 5.11 of 02/22/2017)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
 
 case ${HOSTNAME} in  # /vm/Mirrors or /usr/Mirrors ...?
@@ -18,53 +18,54 @@ case ${HOSTNAME} in  # /vm/Mirrors or /usr/Mirrors ...?
     ;;
 esac
 
-deflogical "anc"     "$HOME/anchor"
-deflogical "bin"     "$HOME/bin"
-deflogical "prj"     "$HOME/projects"
-deflogical "com"     "$HOME/projects/com"
-deflogical "lgi"     "$HOME/projects/login"
-deflogical "rby"     "$HOME/projects/ruby"
-deflogical "rbyimm"  "$HOME/projects/RubyImmersion"
-deflogical "vmscom"  "$HOME/projects/VMScomfiles"
-deflogical "dio"     "$HOME/projects/DesigningIO"
-deflogical "wrt"     "$HOME/anchor/writing"
-deflogical "resume"  "$HOME/anchor/Professional/Resumes"
+deflogical "anc"        "$HOME/anchor"
+deflogical "bin"        "$HOME/bin"
+deflogical "prj"        "$HOME/projects"
+deflogical "com"        "$HOME/projects/com"
+deflogical "lgi"        "$HOME/projects/login"
+deflogical "rby"        "$HOME/projects/ruby"
+deflogical "rbyimm"     "$HOME/projects/RubyImmersion"
+deflogical "vmscom"     "$HOME/projects/VMScomfiles"
+deflogical "vmsstash"   "$HOME/projects/VMSstash"
+deflogical "dio"        "$HOME/projects/DesigningIO"
+deflogical "wrt"        "$HOME/anchor/writing"
+deflogical "resume"     "$HOME/anchor/Professional/Resumes"
 
-deflogical "bck"     "$HOME/anchor/Backups"
-deflogical "bus"     "$HOME/anchor/Businesses"
-deflogical "waw"     "$bus/InternetRadio/WalkingAWalk"
-deflogical "prf"     "$HOME/anchor/Professional"
-deflogical "doc"     "$pro/Documents"
+deflogical "bck"        "$HOME/anchor/Backups"
+deflogical "bus"        "$HOME/anchor/Businesses"
+deflogical "waw"        "$bus/InternetRadio/WalkingAWalk"
+deflogical "prf"        "$HOME/anchor/Professional"
+deflogical "doc"        "$pro/Documents"
 
-deflogical "scr"     "$HOME/scratch"
-deflogical "cut"     "$HOME/anchor/Shortcuts"
+deflogical "scr"        "$HOME/scratch"
+deflogical "cut"        "$HOME/anchor/Shortcuts"
 
-deflogical "shr"     "/home/share"
-deflogical "drp"     "$HOME/Dropbox"
-deflogical "dpj"     "$drp/projects"
-deflogical "dry"     "$drp/projects/ruby"
-deflogical "xfr"     "$drp/Xfer"
+deflogical "shr"        "/home/share"
+deflogical "drp"        "$HOME/Dropbox"
+deflogical "dpj"        "$drp/projects"
+deflogical "dry"        "$drp/projects/ruby"
+deflogical "xfr"        "$drp/Xfer"
 
-deflogical "tpg"     "$HOME/ParsecGroup"
-deflogical "prb"     "$HOME/ParsecGroup/RubyBootcamp"
-deflogical "minam"   "$HOME/ParsecGroup/Minam"
-deflogical "mep"     "$HOME/ParsecGroup/Minam/MEP"
+deflogical "tpg"        "$HOME/ParsecGroup"
+deflogical "prb"        "$HOME/ParsecGroup/RubyBootcamp"
+deflogical "minam"      "$HOME/ParsecGroup/Minam"
+deflogical "mep"        "$HOME/ParsecGroup/Minam/MEP"
 
-deflogical "arc"     "$mirror/Archives"
-deflogical "tar"     "$mirror/TArchives"
-deflogical "llb"     "$mirror/LorinLibrary"
+deflogical "arc"        "$mirror/Archives"
+deflogical "tar"        "$mirror/TArchives"
+deflogical "llb"        "$mirror/LorinLibrary"
 
-deflogical "dlb"     "$llb/DocLibrary"
-deflogical "how"     "$dlb/COMPUTER TECHNOLOGY/HowTos"
-deflogical "mlb"     "$llb/MusicLibrary"
-deflogical "rlb"     "$llb/RipLibrary"
-deflogical "cdr"     "$mlb/CDRips"
-deflogical "rips"    "$HOME/scratch/RIPS"
-deflogical "kit"     "$llb/SoftwareKits"
-deflogical "cat"     "$llb/Photography/Catalog"
+deflogical "dlb"        "$llb/DocLibrary"
+deflogical "how"        "$dlb/COMPUTER TECHNOLOGY/HowTos"
+deflogical "mlb"        "$llb/MusicLibrary"
+deflogical "rlb"        "$llb/RipLibrary"
+deflogical "cdr"        "$mlb/CDRips"
+deflogical "rips"       "$HOME/scratch/RIPS"
+deflogical "kit"        "$llb/SoftwareKits"
+deflogical "cat"        "$llb/Photography/Catalog"
 
-deflogical "ssf"     "/media/sshfs"      # mount-point for SSH file systems
-deflogical "mymedia" "/media/lorin"
+deflogical "ssf"        "/media/sshfs"      # mount-point for SSH file systems
+deflogical "mymedia"    "/media/lorin"
 
 # VMS sshfs mount-point:
 deflogical "class8"     "/mnt/class8"
@@ -75,11 +76,11 @@ deflogical "usbarchive" "$mymedia/lmr/Archive"
 deflogical "usblorin"   "$mymedia/lmr/lorin"
 
 # Archive disk - 500Gb (2-1/2"):
-deflogical "archome"   "$mymedia/usr/Mirrors/lorin"
-deflogical "arclib"    "$mymedia/usr/Mirrors/LorinLibrary"
+deflogical "archome"    "$mymedia/usr/Mirrors/lorin"
+deflogical "arclib"     "$mymedia/usr/Mirrors/LorinLibrary"
 
 # Music's primary disk - 2Tb (5"):
-deflogical "musichome" "$mymedia/c2148be6-73e0-42b7-a2aa-51ac2d8075b9/lorin"
-deflogical "musiclib"  "$mymedia/ab00ef7a-1d01-49ad-85eb-9e5a8fb5081b/Mirrors/LorinLibrary"
+deflogical "musichome"  "$mymedia/c2148be6-73e0-42b7-a2aa-51ac2d8075b9/lorin"
+deflogical "musiclib"   "$mymedia/ab00ef7a-1d01-49ad-85eb-9e5a8fb5081b/Mirrors/LorinLibrary"
 
 # exit 0
