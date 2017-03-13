@@ -21,6 +21,7 @@
 	rpush = push -u origin master
 	rpull = pull origin master
 	rshow = remote -v show
+	addurl = remote add origin
 	rseturl = remote set-url origin
 	stat = status
 	wtf = whatchanged

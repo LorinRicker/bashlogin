@@ -1,0 +1,39 @@
+2-# /etc/sudoers
+3 #
+4 # This file MUST be edited with the 'visudo' command as root.
+ +#
+ +# Please consider adding local content in /etc/sudoers.d/ instead of
+ +# directly modifying this file.
+ +#
+5 # See the man page for details on how to write a sudoers file.
+6-
+7-Defaults env_reset,timestamp_timeout=-1
+8-Defaults secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+ +#
+ +Defaults	env_reset
+ +Defaults	mail_badpass
+ +Defaults	secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin"
+9 
+10 # Host alias specification
+11 
+[…]
+14 # Cmnd alias specification
+15 
+16 # User privilege specification
+17-root   ALL=(ALL) ALL
+18-lorin  ALL=(ALL) ALL
+19-system ALL=(ALL) ALL
+  +root	ALL=(ALL:ALL) ALL
+20 
+21 # Members of the admin group may gain root privileges
+22 %admin ALL=(ALL) ALL
+23 
+24 # Allow members of group sudo to execute any command
+25-%sudo ALL=(ALL:ALL) ALL
+  +%sudo	ALL=(ALL:ALL) ALL
+26 
+27-# See sudoers(5) for more informatin on "#include" directives:
+  +# See sudoers(5) for more information on "#include" directives:
+28 
+29 #includedir /etc/sudoers.d
+30-
