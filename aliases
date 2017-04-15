@@ -4,7 +4,7 @@
 # Lorin Ricker: personal aliases
 
 shF="$( basename ${0#-} ) - aliases"
-Ident="${shF}  # (LMR version 5.18 of 01/20/2017)"
+Ident="${shF}  # (LMR version 5.19 of 04/15/2017)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
 
 # =========================
@@ -160,6 +160,13 @@ alias bruhome="bru -ti --source=/home/lorin $archome"
 alias  brulib="bru -ti --source=/usr/Mirrors/LorinLibrary $arclib"
 alias howtobru='logicals | grep "arc\|music" ; alias | grep bru'
 # -------------------------
+# (re)Start Code42 CrashPlan
+f="/usr/local/crashplan/bin/CrashPlanDesktop"
+if [ -a $f ]; then
+  alias crashplan="sudo $f"
+else
+  echo "%${shF}-fnf, file not found \"$f\""
+fi
 
 # -------------------------
 # rsync's --archive = --recursive --perms --links --times --owner --group --devices --specials
