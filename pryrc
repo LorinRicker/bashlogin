@@ -1,4 +1,4 @@
-# ~/.pryrc -> ~/bin/login/pryrc -- version 1.8 of 10/03/2016
+# ~/.pryrc -> ~/bin/login/pryrc -- version 1.9 of 04/30/2017
 
 Pry.config.editor = "atom"
 
@@ -30,7 +30,7 @@ Pry.config.editor = "atom"
 #####################################
 #
 
-puts ".pryrc -- start..."
+## puts ".pryrc -- loading..."
 
 # Load and execute a Ruby source file
 def fl(fn)
@@ -54,16 +54,15 @@ def gl2(str)
   puts %x{ gem list | sort | grep #{str} }
 end
 
-# if defined?(PryByebug)
-  Pry.commands.alias_command 'xb',  'break'        # set a breakpoint line# [--condition]
-  Pry.commands.alias_command 'xw',  'watch'        # set a watchpoint [EXPRESSION]
-  Pry.commands.alias_command 'xc',  'continue'     # "go", continue to next breakpoint or end-of-program
-  Pry.commands.alias_command 'xn',  'next'         # execute current line (step-over methods/blocks)
-  Pry.commands.alias_command 'xs',  'step'         # execute into current method or block
-  Pry.commands.alias_command 'xf',  'finish'       # run to end-of-program (no breakpoints)
-  Pry.commands.alias_command 'xq',  'exit'         # Pops the previous binding (does not exit program)
-  Pry.commands.alias_command '$',   'exit-program' # exit back to $-prompt, same as '!!!'
-# end
+Pry.commands.alias_command 'xw',  'watch'        # set a watchpoint [EXPRESSION]
+Pry.commands.alias_command 'xc',  'continue'     # "go", continue to next breakpoint or end-of-program
+Pry.commands.alias_command 'xn',  'next'         # execute current line (step-over methods/blocks)
+Pry.commands.alias_command 'xs',  'step'         # execute into current method or block
+Pry.commands.alias_command 'xx',  'exit'         # Pops the previous binding (does not exit program)
+Pry.commands.alias_command 'xq',  'exit-program' # exit back to $-prompt, same as '!!!'
+## The following aliases no longer work(?!) - what changed in pry?
+## Pry.commands.alias_command 'xb',  'break'        # set a breakpoint line# [--condition]
+## Pry.commands.alias_command 'xf',  'finish'       # run to end-of-program (no breakpoints)
 
 # Hit <Enter> to repeat last command
 Pry::Commands.command /^$/, "Repeat last command" do
@@ -73,4 +72,4 @@ end
 Pry.config.prompt = [proc { "pry> " },  # byebug overrides this with its own "input> "
                      proc { "   | " }]
 
-puts ".pryrc -- finish..."
+puts ".pryrc -- loaded..."
