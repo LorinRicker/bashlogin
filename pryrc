@@ -9,8 +9,9 @@ Pry.config.editor = "atom"
 #
 #    $ sudo gem install pry
 #    $ sudo gem install pry-nav
-#    $ sudo chmod -Rv 755 /var/lib/gems
-#    $ sudo chmod -v  755 /usr/local/bin/pry
+#    $ sudo gem install pry-byebug
+#    $ sudo chmod -R 755 /var/lib/gems
+#    $ sudo chmod    755 /usr/local/bin/pry
 #
 # When pry-nav and pry-byebug are installed, pry uses them --
 # Ruby v2.2 and v2.3 (and up): DO NOT install gems pry-byebug or byebug
@@ -60,9 +61,9 @@ Pry.commands.alias_command 'xn',  'next'         # execute current line (step-ov
 Pry.commands.alias_command 'xs',  'step'         # execute into current method or block
 Pry.commands.alias_command 'xx',  'exit'         # Pops the previous binding (does not exit program)
 Pry.commands.alias_command 'xq',  'exit-program' # exit back to $-prompt, same as '!!!'
-## The following aliases no longer work(?!) - what changed in pry?
-## Pry.commands.alias_command 'xb',  'break'        # set a breakpoint line# [--condition]
-## Pry.commands.alias_command 'xf',  'finish'       # run to end-of-program (no breakpoints)
+## The following aliases require that pry-byebug gem is installed too:
+Pry.commands.alias_command 'xb',  'break'        # set a breakpoint line# [--condition]
+Pry.commands.alias_command 'xf',  'finish'       # run to end-of-program (no breakpoints)
 
 # Hit <Enter> to repeat last command
 Pry::Commands.command /^$/, "Repeat last command" do
