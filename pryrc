@@ -13,8 +13,9 @@ Pry.config.editor = "atom"
 #    $ sudo chmod -R 755 /var/lib/gems
 #    $ sudo chmod    755 /usr/local/bin/pry
 #
-# When pry-nav and pry-byebug are installed, pry uses them --
-# Ruby v2.2 and v2.3 (and up): DO NOT install gems pry-byebug or byebug
+# When pry-nav and pry-byebug are installed, pry uses them.
+#
+# Ruby v2.2 and v2.3 (and up): DO NOT install gem byebug
 #
 
 # Use in a Ruby script/program is (typically after):
@@ -55,15 +56,19 @@ def gl2(str)
   puts %x{ gem list | sort | grep #{str} }
 end
 
-Pry.commands.alias_command 'xw',  'watch'        # set a watchpoint [EXPRESSION]
-Pry.commands.alias_command 'xc',  'continue'     # "go", continue to next breakpoint or end-of-program
-Pry.commands.alias_command 'xn',  'next'         # execute current line (step-over methods/blocks)
-Pry.commands.alias_command 'xs',  'step'         # execute into current method or block
-Pry.commands.alias_command 'xx',  'exit'         # Pops the previous binding (does not exit program)
-Pry.commands.alias_command 'xq',  'exit-program' # exit back to $-prompt, same as '!!!'
-## The following aliases require that pry-byebug gem is installed too:
-Pry.commands.alias_command 'xb',  'break'        # set a breakpoint line# [--condition]
-Pry.commands.alias_command 'xf',  'finish'       # run to end-of-program (no breakpoints)
+if defined?(PryByebug)
+  Pry.commands.alias_command 'xw',  'watch'        # set a watchpoint [EXPRESSION]
+  Pry.commands.alias_command 'xc',  'continue'     # "go", continue to next breakpoint or end-of-program
+  Pry.commands.alias_command 'xn',  'next'         # execute current line (step-over methods/blocks)
+  Pry.commands.alias_command 'xs',  'step'         # execute into current method or block
+  Pry.commands.alias_command 'xx',  'exit'         # Pops the previous binding (does not exit program)
+  Pry.commands.alias_command 'xq',  'exit-program' # exit back to $-prompt, same as '!!!'
+  ## The following aliases require that pry-byebug gem is installed too:
+  Pry.commands.alias_command 'xb',  'break'        # set a breakpoint line# [--condition]
+  Pry.commands.alias_command 'xf',  'finish'       # run to end-of-program (no breakpoints)
+else
+  puts '%pryrc-w-missingGem, must install pry-byebug (with pry & pry-nav) for debugger commands'
+end
 
 # Hit <Enter> to repeat last command
 Pry::Commands.command /^$/, "Repeat last command" do
