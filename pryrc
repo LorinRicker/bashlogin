@@ -1,21 +1,26 @@
-# ~/.pryrc -> ~/bin/login/pryrc -- version 1.9 of 04/30/2017
+# ~/.pryrc -> ~/bin/login/pryrc -- version 2.0 of 04/30/2017
 
 Pry.config.editor = "atom"
 
 # Ruby debugger --> pry and byebug...
 
-# Requires gems "pry", "pry-nav" and "pry-byebug" for Ruby v2.x (+)
-#  (pry-debugger is ONLY for Ruby versions <= 1.9.x)
+# Requires gems "pry" and "pry-byebug" for Ruby v2.x (+)
 #
 #    $ sudo gem install pry
-#    $ sudo gem install pry-nav
 #    $ sudo gem install pry-byebug
 #    $ sudo chmod -R 755 /var/lib/gems
 #    $ sudo chmod    755 /usr/local/bin/pry
 #
-# When pry-nav and pry-byebug are installed, pry uses them.
+# When pry-byebug is installed, pry uses it.
 #
-# Ruby v2.2 and v2.3 (and up): DO NOT install gem byebug
+# Also note that, according to github.com/deivid-rodriguez/pry-byebug/issues/45
+#   pry-nav is obsolete on Ruby v2.x...
+#   so don't install it, or uninstall if necessary;
+#   e.g. -> $ sudo gem uninstall pry-nav --force)
+#
+# Ruby v2.2 and v2.3 (and up):
+#  DO NOT install Gems byebug, pry-debugger or pry-nav
+#  (pry-debugger and pry-nav are ONLY for Ruby versions <= 1.9.x)
 #
 
 # Use in a Ruby script/program is (typically after):
@@ -24,12 +29,12 @@ Pry.config.editor = "atom"
 #      opts.on ...
 #    }.parse!  # leave residue-args in ARGV
 #
-#####################################
-#    if options[:debug] >= DBGLVL3  #
-#      require 'pry'                #
-#      binding.pry                  #
-#    end                            #
-#####################################
+#  ####################################
+#      if options[:debug] >= DBGLVL3  #
+#        require 'pry'                #
+#        binding.pry                  #
+#      end                            #
+#  ####################################
 #
 
 ## puts ".pryrc -- loading..."
