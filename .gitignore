@@ -1,0 +1,5 @@
+# .gitignore -- ~/projects/ruby
+
+/stash
+/irbrc-stash
+*.tmp*
