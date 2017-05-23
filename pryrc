@@ -62,15 +62,24 @@ def gl2(str)
 end
 
 if defined?(PryByebug)
-  Pry.commands.alias_command 'xw',  'watch'        # set a watchpoint [EXPRESSION]
-  Pry.commands.alias_command 'xc',  'continue'     # "go", continue to next breakpoint or end-of-program
-  Pry.commands.alias_command 'xn',  'next'         # execute current line (step-over methods/blocks)
-  Pry.commands.alias_command 'xs',  'step'         # execute into current method or block
-  Pry.commands.alias_command 'xx',  'exit'         # Pops the previous binding (does not exit program)
-  Pry.commands.alias_command 'xq',  'exit-program' # exit back to $-prompt, same as '!!!'
+  ## Pry.commands.alias_command 'xw',  'watch'        # set a watchpoint [EXPRESSION]
+  Pry.commands.alias_command 'go', 'continue'     # "go", continue to next breakpoint or end-of-program
+  Pry.commands.alias_command 'n',  'next'         # execute current line (step-over methods/blocks)
+  Pry.commands.alias_command 's',  'step'         # execute into current method or block
+  Pry.commands.alias_command 'xx', 'exit'         # Pops the previous binding (does not exit program)
+  Pry.commands.alias_command 'q',  'exit-program' # exit back to $-prompt, same as '!!!'
+  Pry.commands.alias_command 'xf', 'finish'       # run to end-of-program (no breakpoints)
   ## The following aliases require that pry-byebug gem is installed too:
-  Pry.commands.alias_command 'xb',  'break'        # set a breakpoint line# [--condition]
-  Pry.commands.alias_command 'xf',  'finish'       # run to end-of-program (no breakpoints)
+  ## Pry.commands.alias_command 'xb',  'break'        # set a breakpoint line# [--condition]
+  puts "  ###################################################"
+  puts "  # Command aliases:                                #"
+  puts "  #   'n'=next (over), 's'=step (into),             #"
+  puts "  #   'go'=continue (to next breakpoint or end),    #"
+  puts "  #   'xf'=finish, 'q'|'xx'=exit-program            #"
+  puts "  #   '$'=show-source, '@'=whereami, '?'=show-doc   #"
+  puts "  # Use native byebug for:                          #"
+  puts "  #   'break', 'watch', 'backtrace' (etc.)          #"
+  puts "  ###################################################"
 else
   puts '%pryrc-w-missingGem, must install pry-byebug (with pry & pry-nav) for debugger commands'
 end
