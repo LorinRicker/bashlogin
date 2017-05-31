@@ -14,6 +14,8 @@
 	co = checkout
 	com = commit -m
 	diffnc = diff --no-color
+  logauthor = log --pretty=format:'%h %ad | %s%d [%an]'--graph --date=short
+  logsummary = log --pretty=format:'%h %ad | %s%d' --graph --date=short
 	lol = log --graph --decorate --oneline --all
 	oops = rm --cached
 	pom = push -u origin master
