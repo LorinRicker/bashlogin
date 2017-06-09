@@ -1,4 +1,4 @@
-# ~/.pryrc -> ~/bin/login/pryrc -- version 2.0 of 04/30/2017
+# ~/.pryrc -> ~/bin/login/pryrc -- version 2.1 of 06/09/2017
 
 Pry.config.editor = "atom"
 
@@ -92,4 +92,5 @@ end
 Pry.config.prompt = [proc { "pry> " },  # byebug overrides this with its own "input> "
                      proc { "   | " }]
 
+puts "ppstrnum loaded... (ignore 'class variable' warning)" if fl('/home/lorin/projects/ruby/lib/ppstrnum')
 puts ".pryrc -- loaded..."
