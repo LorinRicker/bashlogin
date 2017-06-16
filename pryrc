@@ -1,6 +1,6 @@
-# ~/.pryrc -> ~/bin/login/pryrc -- version 2.1 of 06/09/2017
+# ~/.pryrc -> ~/bin/login/pryrc --
 
-Pry.config.editor = "atom"
+MYPRYRC = "version 2.2 - 06/16/2017"
 
 # Ruby debugger --> pry and byebug...
 
@@ -38,6 +38,8 @@ Pry.config.editor = "atom"
 #
 
 ## puts ".pryrc -- loading..."
+
+Pry.config.editor = "atom"
 
 # Load and execute a Ruby source file
 def fl(fn)
@@ -93,4 +95,4 @@ Pry.config.prompt = [proc { "pry> " },  # byebug overrides this with its own "in
                      proc { "   | " }]
 
 puts "ppstrnum loaded... (ignore 'class variable' warning)" if fl('/home/lorin/projects/ruby/lib/ppstrnum')
-puts ".pryrc -- loaded..."
+puts ".pryrc (LMR #{MYPRYRC}) -- loaded..."
