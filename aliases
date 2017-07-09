@@ -4,7 +4,7 @@
 # Lorin Ricker: personal aliases
 
 shF="$( basename ${0#-} ) - aliases"
-Ident="${shF}  # (LMR version 5.19 of 04/15/2017)"
+Ident="${shF}  # (LMR version 5.20 of 07/08/2017)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
 
 # =========================
@@ -178,6 +178,13 @@ fi
 # alias  backupsys="sudo ${bup}"
 # alias backupsysv="sudo ${bup} --progress --itemize-changes"
 # =========================
+
+f="$HOME/standard-notes/standard-notes-1.1.1-x86_64.AppImage"
+if [ -a $f ]; then
+  alias stdnote="$f &"
+else
+  echo "%${shF}-fnf, file not found \"$f\""
+fi
 
 # -------------------------
 # Note: In order for these scripts, bash: mkssf[.sh] and ruby: mkssfpath[.rb]
