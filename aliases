@@ -4,7 +4,7 @@
 # Lorin Ricker: personal aliases
 
 shF="$( basename ${0#-} ) - aliases"
-Ident="${shF}  # (LMR version 5.20 of 07/08/2017)"
+Ident="${shF}  # (LMR version 5.21 of 07/29/2017)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
 
 # =========================
@@ -164,6 +164,14 @@ alias howtobru='logicals | grep "arc\|music" ; alias | grep bru'
 f="/usr/local/crashplan/bin/CrashPlanDesktop"
 if [ -a $f ]; then
   alias crashplan="sudo $f"
+else
+  echo "%${shF}-fnf, file not found \"$f\""
+fi
+
+# Eskil file/directory diff tool:
+f="/usr/local/bin/eskil"   # this is a sym-link
+if [ -a $f ]; then
+  alias eskil="$f &"
 else
   echo "%${shF}-fnf, file not found \"$f\""
 fi
