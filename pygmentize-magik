@@ -4,7 +4,7 @@
 # Lorin Ricker: pygmentize functions
 
 shF="$( basename ${0#-} ) - pygmentize-magik"
-Ident="${shF}  # (LMR version 1.02 of 08/07/2017)"
+Ident="${shF}  # (LMR version 1.03 of 08/08/2017)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
 
 # use: $ pyg sourcefile [oformat] [style] [fontface] [fontsize]
@@ -30,45 +30,65 @@ Ident="${shF}  # (LMR version 1.02 of 08/07/2017)"
 #
 pyg()
   {
-    local f=$( basename $1 )   # strip path
-          f=${f%.*}            # and strip file extension
-    local ofmt='rtf'
-    if [ "$2" != "" ] ; then ofmt="$2" ; fi
-    # 'terminal256' is much more readable than 'terminal',
-    # so use 'term' as short-hand for 'terminal256':
-    if [ "$ofmt" = 'term' ] ; then ofmt='256' ; fi
-    local styl='default'
-    if [ "$3" != "" ] ; then styl=$3 ; fi
-    local fface='Hack'
-    if [ "$4" != "" ] ; then fface=$4 ; fi
-    local fsiz='18'
-    if [ "$5" != "" ] ; then fsiz=$5 ; fi
-    outf="${f}_${styl}.${ofmt}"
-    echo "%pyg-i-generating, $1 -> $outf"
-    pygmentize -O style="${styl}",fontface="${fface}",fontsize=${fsiz} \
-      -f ${ofmt} "$1" >./${outf}
-    case ${ofmt} in
-      *256* | *term* | *cons* )  # if output is ANSI-colored ASCII,
-        cat ./${outf}            # just admire it on-screen too...
-        ;;
-      * )
-        ;;
-    esac
+    if [ "$1" = '' ] || [ "$1" = '-h' ] || [ "$1" == '-?' ] ; then
+      cat <<helptext
+use: pyg file [ofmt] [styl] [fface] [fsiz]
+        file  = filename to pygment
+        ofmt  = output format (default 'rtf')
+        styl  = output style (default 'vs')
+        fface = fontface (default 'Hack')
+        fsiz  = fontsize (default 9pt)
+helptext
+    else
+      local f=$( basename $1 )   # strip path
+            f=${f%.*}            # and strip file extension
+      local ofmt='rtf'
+      if [ "$2" != "" ] ; then ofmt="$2" ; fi
+      # 'terminal256' is much more readable than 'terminal',
+      # so use 'term' as short-hand for 'terminal256':
+      if [ "$ofmt" = 'term' ] ; then ofmt='256' ; fi
+      local styl='vs'
+      if [ "$3" != "" ] ; then styl=$3 ; fi
+      local fface='Hack'
+      if [ "$4" != "" ] ; then fface=$4 ; fi
+      local fsiz='9'
+      if [ "$5" != "" ] ; then fsiz=$5 ; fi
+      outf="${f}_${styl}.${ofmt}"
+      echo "%pyg-i-generating, $1 -> $outf : '${fface}' - '${fsiz}'"
+      pygmentize -O style="${styl}",fontface="${fface}",fontsize=${fsiz} \
+        -f ${ofmt} "$1" >./${outf}
+      case ${ofmt} in
+        *256* | *term* | *cons* )  # if output is ANSI-colored ASCII,
+          cat ./${outf}            # just admire it on-screen too...
+          ;;
+        * )
+          ;;
+      esac
+    fi
   }
 export -f pyg
 
 # use: $ pygspectrum sourcefile [format (d=rtf)]
 pygspectrum()
   {
-    # $1 = filename
-    # $2 = output format (default 'term' or 'terminal256')
-    # $3 = fontface (default 'Hack')
-    local sty=''
-    # Edit/update this style list as new color styles become available:
-    for sty in \
-    autumn borland bw colorful default emacs friendly fruity manni \
-    monokai murphy native pastie perldoc rrt tango trac vim vs ; do
-      pyg "$1" "$2" "${sty}" "$3" '18'
+    if [ "$1" = '' ] || [ "$1" = '-h' ] || [ "$1" == '-?' ] ; then
+      cat <<helptext
+use: pygspectrum file [ofmt] [fface] [fsiz]
+        file  = filename to pygment
+        ofmt  = output format (default 'rtf')
+        fface = fontface (default 'Hack')
+        fsiz  = fontsize (default 9pt)
+helptext
+    else
+      local sty=''
+      # Edit/update this style list as new color styles become available:
+      #   Unusable for paper/print: monokai fruity native rrt vim
+      #   (these are light-text on dark-background)
+      for sty in \
+      autumn borland bw colorful default emacs friendly manni \
+      murphy pastie perldoc tango trac vs ; do
+        pyg "$1" "$2" "${sty}" "$3" "$4"
     done
+    fi
   }
 export -f pygspectrum
