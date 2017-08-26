@@ -6,7 +6,7 @@
 #   now just using whatever is specified per casing.
 
 shF="$( basename ${0#-} ) - logicals"
-Ident="${shF}  # (LMR version 5.13 of 07/31/2017)"
+Ident="${shF}  # (LMR version 5.14 of 08/26/2017)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
 
 case ${HOSTNAME} in  # /vm/Mirrors or /usr/Mirrors ...?
@@ -58,7 +58,7 @@ deflogical "tar"        "$mirror/TArchives"
 deflogical "llb"        "$mirror/LorinLibrary"
 
 deflogical "dlb"        "$llb/DocLibrary"
-deflogical "how"        "$dlb/COMPUTER TECHNOLOGY/HowTos"
+deflogical "how"        "$dlb/HowTos"
 deflogical "mlb"        "$llb/MusicLibrary"
 deflogical "rlb"        "$llb/RipLibrary"
 deflogical "cdr"        "$mlb/CDRips"
@@ -66,11 +66,11 @@ deflogical "rips"       "$HOME/scratch/RIPS"
 deflogical "kit"        "$llb/SoftwareKits"
 deflogical "cat"        "$llb/Photography/Catalog"
 
+# sshfs mount-points:
+deflogical "class8"     "/mnt/class8"
+deflogical "alikot"     "/mnt/alikot"
 deflogical "ssf"        "/media/sshfs"      # mount-point for SSH file systems
 deflogical "mymedia"    "/media/lorin"
-
-# VMS sshfs mount-point:
-deflogical "class8"     "/mnt/class8"
 
 # USB-stick Archive
 deflogical "usbmirror"  "$mymedia/lmr/Mirrors"
