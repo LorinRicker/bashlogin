@@ -18,6 +18,7 @@
   logsummary = log --pretty=format:'%h %ad | %s%d' --graph --date=short
 	lol = log --graph --decorate --oneline --all
 	oops = rm --cached
+	subtract = rm --cached
 	pom = push -u origin master
 	rfetch = fetch origin
 	rpush = push -u origin master
