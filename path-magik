@@ -33,19 +33,27 @@ perfectpath()
     else
       r="$1"
     fi
-    f="$HOME/.rvm/scripts/rvm"
+    # Use rbenv (https://github.com/rbenv/rbenv) in preference to rvm --
+    f="$HOME/.rbenv/libexec/rbenv"
     if [ -f "$f" ]; then
-      p="/home/lorin/.rvm/gems/${r}@bootcamp/bin"
-      p="$p:/home/lorin/.rvm/gems/${r}@global/bin"
-      p="$p:/home/lorin/.rvm/gems/${r}/bin"
-      p="$p:/home/lorin/.rvm/rubies/${r}/bin"
-      p="$p:/home/lorin/.rvm/bin"
-      p="$p:/home/lorin/bin/dcllinks"
+      p="$HOME/.rbenv/bin"
+      p="$p:$HOME/bin/dcllinks"
     else
-      p="/home/lorin/bin/dcllinks"
+      # rvm (https://rvm.io/)
+      f="$HOME/.rvm/scripts/rvm"
+      if [ -f "$f" ]; then
+        p="$HOME/.rvm/gems/${r}@bootcamp/bin"
+        p="$p:$HOME/.rvm/gems/${r}@global/bin"
+        p="$p:$HOME/.rvm/gems/${r}/bin"
+        p="$p:$HOME/.rvm/rubies/${r}/bin"
+        p="$p:$HOME/.rvm/bin"
+        p="$p:$HOME/bin/dcllinks"
+      else
+        p="$HOME/bin/dcllinks"
+      fi
     fi
-    p="$p:/home/lorin/bin"
-    p="$p:/usr/lib/lightdm/lightdm"
+    p="$p:$HOME/bin"
+    # p="$p:/usr/lib/lightdm/lightdm"
     p="$p:/usr/local/sbin"
     p="$p:/usr/local/bin"
     p="$p:/usr/sbin"
