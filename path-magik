@@ -34,7 +34,7 @@ perfectpath()
       r="$1"
     fi
     # Use rbenv (https://github.com/rbenv/rbenv) in preference to rvm --
-    f="$HOME/.rbenv/libexec/rbenv"
+    f="$HOME/.rbenv/bin/rbenv"
     if [ -f "$f" ]; then
       p="$HOME/.rbenv/bin"
       p="$p:$HOME/bin/dcllinks"
