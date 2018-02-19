@@ -12,10 +12,10 @@ mkdir .rbenv/
 git clone https://github.com/rbenv/rbenv.git ~/.rbenv
 
 # Optionally, try to compile dynamic bash extension to speed up rbenv.
-# Don't worry if it fails; rbenv will still work normally:
+# Don't worry if it fails; rbenv will still work normally --
 cd ~/.rbenv && src/configure && make -C src
 
-# Add ruby-build as an rbenv plugin
+# Add ruby-build as an rbenv plugin --
 $ mkdir -p "$(rbenv root)"/plugins
 $ git clone https://github.com/rbenv/ruby-build.git "$(rbenv root)"/plugins/ruby-build
 
@@ -27,6 +27,9 @@ $ git clone https://github.com/rbenv/ruby-build.git "$(rbenv root)"/plugins/ruby
 # Then --
 #   Run ~/.rbenv/bin/rbenv init and follow the instructions to set up rbenv integration with your shell.
 #   This is the step that will make running ruby "see" the Ruby version that you choose with rbenv.
+
+# To check the overall rbenv installation, use the rbenv-doctor script --
+# $ curl -fsSL https://github.com/rbenv/rbenv-installer/raw/master/bin/rbenv-doctor | bash
 
 # To install a Ruby version -- using the rbenv plugin ruby-build --
 # $ rbenv install --list                 # lists all available versions of Ruby
