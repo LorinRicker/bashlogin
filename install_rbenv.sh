@@ -19,10 +19,13 @@ cd ~/.rbenv && src/configure && make -C src
 $ mkdir -p "$(rbenv root)"/plugins
 $ git clone https://github.com/rbenv/ruby-build.git "$(rbenv root)"/plugins/ruby-build
 
-
 # Edit .bashrc to include "$HOME/.rbenv/bin" and ".../shims" at the beginning of PATH --
 #   $ echo 'export PATH="$HOME/.rbenv/shims:$PATH"' >> ~/.bash_profile
 #   $ echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bash_profile
+
+# In your .bashrc sequencing, *be sure* that all PATH elements, including those
+#  for rbenv, are established correctly *before executing* eval "$(rbenv init -)"
+#  in this script...
 
 # Then --
 #   Run ~/.rbenv/bin/rbenv init and follow the instructions to set up rbenv integration with your shell.
