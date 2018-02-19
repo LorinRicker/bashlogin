@@ -42,3 +42,10 @@ $ git clone https://github.com/rbenv/ruby-build.git "$(rbenv root)"/plugins/ruby
 # Installing ruby-2.5.0...
 # Installed ruby-2.5.0 to /home/lorin/.rbenv/versions/2.5.0
 # $
+
+# If the above Ruby build throws lib-dependency errors, it's likely that
+#  one or more of the following will fix the problem:
+#
+#    apt-get install autoconf bison build-essential        \
+#       libssl-dev libyaml-dev libreadline6-dev zlib1g-dev \
+#       libncurses5-dev libffi-dev libgdbm3 libgdbm-dev
