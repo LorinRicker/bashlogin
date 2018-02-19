@@ -49,3 +49,7 @@ $ git clone https://github.com/rbenv/ruby-build.git "$(rbenv root)"/plugins/ruby
 #    apt-get install autoconf bison build-essential        \
 #       libssl-dev libyaml-dev libreadline6-dev zlib1g-dev \
 #       libncurses5-dev libffi-dev libgdbm3 libgdbm-dev
+
+# Trouble with irb or pry?  Try installing readline and recompiling Ruby"
+#
+#     Ubuntu: apt-get install libreadline-dev
