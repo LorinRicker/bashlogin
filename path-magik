@@ -29,7 +29,7 @@ perfectpath()
     local p=""
     local r=""
     if [ -z "$1" ]; then
-      r=${RUBY_DEFAULT_VERSION}
+      r=${RUBY_CURRENT_VERSION}
     else
       r="$1"
     fi

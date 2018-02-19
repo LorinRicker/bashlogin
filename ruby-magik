@@ -21,8 +21,8 @@ if [ -f "$f" ]; then
   echo "%ruby-magik-I, rbenv setup..."
   eval "$(rbenv init -)"
   rbenv local ${rubydefversion}
-  export RUBY_TOOLS="rbenv"
-  setruby
+  export RUBY_VERTOOLS="rbenv"
+  setruby  # sets multi-line PS1 prompt-string including Ruby version#
 else
   # Ruby Version Manager -- RVM setup:
   # === RVM ===
@@ -67,8 +67,8 @@ else
     alias rvmrel='rvm reload'
     # Use '' for rvmgem, not ""a, want to do $GEM_HOME at cmd-runtime:
     alias rvmgem='GEM_PATH=$GEM_HOME gem list'
-    export RUBY_TOOLS="rvm"
-    setruby
+    export RUBY_VERTOOLS="rvm"
+    setruby  # sets multi-line PS1 prompt-string including Ruby version#
   else
     # Default Ruby version, system-wide install --
     #    $ sudo apt-add-repository ppa:brightbox/ruby-ng
@@ -77,8 +77,8 @@ else
     f="/usr/bin/ruby-switch"  # where it's installed...
     if [ -f "$f" ]; then
       sudo ruby-switch --set ${rubydefversion}
-      export RUBY_TOOLS="ruby-switch"
-      setruby
+      export RUBY_VERTOOLS="ruby-switch"
+      setruby  # sets multi-line PS1 prompt-string including Ruby version#
     fi
   fi
 fi

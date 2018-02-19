@@ -172,7 +172,7 @@ f="$HOME/bin/login/cd-magik"
 
 # cleanpath is defined in aliases; exeucte it to remove any
 # accumulated duplicates from PATH, and show the PATH here:
-export PATH=$( perfectpath ${RUBY_DEFAULT_VERSION} )
+export PATH=$( perfectpath ${RUBY_CURRENT_VERSION} )
 cleanpath ; path
 
 # =========================
@@ -182,7 +182,7 @@ cleanpath ; path
 if [ "$DEBUGMODE" \> "1" ]; then
   alias -p   # display aliases
   logicals   # display logical names
-  echo -e "\n%Ruby-I, aliases set for [1mRuby v${RUBY_DEFAULT_VERSION}[0m"
+  echo -e "\n%Ruby-I, aliases set for [1mRuby v${RUBY_CURRENT_VERSION}[0m"
 fi
 # =========================
 
