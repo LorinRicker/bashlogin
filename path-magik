@@ -4,7 +4,7 @@
 # Lorin Ricker: bash path functions
 
 shF="$( basename ${0#-} ) - path-magik"  # generates: 'bash - path-magik'
-Ident="${shF}  # (LMR version 1.05 of 01/30/2016)"
+Ident="${shF}  # (LMR version 1.06 of 02/18/2018)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
 
 # -----
