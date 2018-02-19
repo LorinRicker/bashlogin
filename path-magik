@@ -37,6 +37,7 @@ perfectpath()
     f="$HOME/.rbenv/bin/rbenv"
     if [ -f "$f" ]; then
       p="$HOME/.rbenv/bin"
+      p="$p:$HOME/.rbenv/shims"
       p="$p:$HOME/bin/dcllinks"
     else
       # rvm (https://rvm.io/)

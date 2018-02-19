@@ -16,9 +16,19 @@ $ mkdir -p "$(rbenv root)"/plugins
 $ git clone https://github.com/rbenv/ruby-build.git "$(rbenv root)"/plugins/ruby-build
 
 
-# Edit .bashrc to include "$HOME/.rbenv/bin" at the beginning of PATH --
+# Edit .bashrc to include "$HOME/.rbenv/bin" and ".../shims" at the beginning of PATH --
+#   $ echo 'export PATH="$HOME/.rbenv/shims:$PATH"' >> ~/.bash_profile
 #   $ echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bash_profile
 
 # Then --
 #   Run ~/.rbenv/bin/rbenv init and follow the instructions to set up rbenv integration with your shell.
 #   This is the step that will make running ruby "see" the Ruby version that you choose with rbenv.
+
+# To install a Ruby version -- using the rbenv plugin ruby-build --
+# $ rbenv install --list                 # lists all available versions of Ruby
+# $ rbenv install 2.5.0                  # installs Ruby 2.5.0 to ~/.rbenv/versions
+# Downloading ruby-2.5.0.tar.bz2...
+# -> https://cache.ruby-lang.org/pub/ruby/2.5/ruby-2.5.0.tar.bz2
+# Installing ruby-2.5.0...
+# Installed ruby-2.5.0 to /home/lorin/.rbenv/versions/2.5.0
+# $

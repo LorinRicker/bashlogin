@@ -4,7 +4,7 @@
 # Lorin Ricker: set up bash-login environment & commands
 
 shF=$( basename $0 )
-Ident="${shF}  # (LMR version 2.03 of 09/06/2016)"
+Ident="${shF}  # (LMR version 2.04 of 02/18/2018)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
 
 DST="$HOME/bin/login"
@@ -198,6 +198,7 @@ EOD
     RELEASED=$( copylogin git-magik               $FCNT )
     RELEASED=$( copylogin logicals                $FCNT )
     RELEASED=$( copylogin NetCommands             $FCNT )
+    RELEASED=$( copylogin ruby-magik              $FCNT )
     RELEASED=$( copylogin path-magik              $FCNT )
     RELEASED=$( copylogin pygmentize-magik        $FCNT )
 

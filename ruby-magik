@@ -1,0 +1,84 @@
+#!/usr/bin/env bash
+
+# $HOME/bin/login/ruby-magik
+# Lorin Ricker: bash Ruby support
+
+shF="$( basename ${0#-} ) - ruby-magik"  # generates: 'bash - ruby-magik'
+Ident="${shF}  # (LMR version 1.00 of 02/18/2018)"
+[ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
+
+# -----
+# Moved Ruby functions to separate ruby-magik source
+# file to refactor for easier distribution/sharing
+# -----
+
+rubydefversion="2.5.0"
+# Ruby Environment Manager -- RBENV setup:
+# === RBENV ====
+# Use rbenv (https://github.com/rbenv/rbenv) in preference to rvm --
+f="$HOME/.rbenv/bin/rbenv"
+if [ -f "$f" ]; then
+  echo "%ruby-magik-I, rbenv setup..."
+  eval "$(rbenv init -)"
+  rbenv local ${rubydefversion}
+  export RUBY_TOOLS="rbenv"
+  setruby
+else
+  # Ruby Version Manager -- RVM setup:
+  # === RVM ===
+  #    Note: For Ruby development work, install Ruby using the great
+  #          Ruby enVironment Manager (RVM, http://rvm.io -- and see
+  #          http://rvm.io/rvm/install for help):
+  #
+  #          $ \curl -L https://get.rvm.io | bash -s stable
+  #
+  #          Be sure that .bashrc -> ~bin/login/bashrc contains this
+  #          line at its end, or execute this command interactively:
+  #
+  #            source $HOME/.rvm/scripts/rvm
+  #
+  #          Logout and then login to activate rvm commands, then
+  #          install Ruby version(s) of your choice:
+  #
+  #          $ rvm install 1.9.3     # Note! These Ruby installs may
+  #          $ rvm install 2.1       #       take 'a long time'!
+  #
+  #          Don't forget Ruby online documentation:
+  #
+  #          $ rvm docs generate-ri
+  #
+  #          Finally, set your desired Ruby version for use:
+  #
+  #          $ rvm use --default 2.1
+  #          $ rvm current   # to see/confirm
+  #  == end RVM ===
+  f="$HOME/.rvm/scripts/rvm"
+  if [ -f "$f" ]; then
+    echo "%ruby-magik-I, rvm setup..."
+    source $f
+    # Set "latest" ruby with corresponding gemsets --
+    # change this with new RVM installs --
+    rvm use ${rubydefversion}          # just to...
+    rvm gemset use bootcamp            # get started...
+    curRuby=$( rvm current )
+    echo "Using Ruby version: ${curRuby}   # (rvm current/RUBY_VERSION)"
+    alias rvmset="source $f"
+    alias rvmupd='rvm get stable'
+    alias rvmrel='rvm reload'
+    # Use '' for rvmgem, not ""a, want to do $GEM_HOME at cmd-runtime:
+    alias rvmgem='GEM_PATH=$GEM_HOME gem list'
+    export RUBY_TOOLS="rvm"
+    setruby
+  else
+    # Default Ruby version, system-wide install --
+    #    $ sudo apt-add-repository ppa:brightbox/ruby-ng
+    #    $ sudo apt-get update
+    #    $ sudo apt-get install ruby2.x ruby2.x-dev ruby-switch
+    f="/usr/bin/ruby-switch"  # where it's installed...
+    if [ -f "$f" ]; then
+      sudo ruby-switch --set ${rubydefversion}
+      export RUBY_TOOLS="ruby-switch"
+      setruby
+    fi
+  fi
+fi

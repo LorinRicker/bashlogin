@@ -158,66 +158,9 @@ tpad OFF 1>/dev/null 2>/dev/null ; tpad show 1>/dev/null 2>/dev/null
 f="$HOME/bin/login/path-magik"
 [ -f "$f" ] && source $f
 
-# Use rbenv (https://github.com/rbenv/rbenv) in preference to rvm --
-f="$HOME/.rbenv/bin/rbenv"
-if [ -f "$f" ]; then
-  eval "$(rbenv init -)"
-else
-  # Ruby Version Manager -- RVM setup:
-  #  == RVM ===
-  #    Note: For Ruby development work, install Ruby using the great
-  #          Ruby enVironment Manager (RVM, http://rvm.io -- and see
-  #          http://rvm.io/rvm/install for help):
-  #
-  #          $ \curl -L https://get.rvm.io | bash -s stable
-  #
-  #          Be sure that .bashrc -> ~bin/login/bashrc contains this
-  #          line at its end, or execute this command interactively:
-  #
-  #            source $HOME/.rvm/scripts/rvm
-  #
-  #          Logout and then login to activate rvm commands, then
-  #          install Ruby version(s) of your choice:
-  #
-  #          $ rvm install 1.9.3     # Note! These Ruby installs may
-  #          $ rvm install 2.1       #       take 'a long time'!
-  #
-  #          Don't forget Ruby online documentation:
-  #
-  #          $ rvm docs generate-ri
-  #
-  #          Finally, set your desired Ruby version for use:
-  #
-  #          $ rvm use --default 2.1
-  #          $ rvm current   # to see/confirm
-  #  == end RVM ===
-  f="$HOME/.rvm/scripts/rvm"
-  if [ -f "$f" ]; then
-    source $f
-    # Set "latest" ruby with corresponding gemsets --
-    # change this with new RVM installs --
-    rvm use ${RUBY_DEFAULT_VERSION}          # just to...
-    rvm gemset use bootcamp                  # get started...
-    curRuby=$( rvm current )
-    echo "Using Ruby version: ${curRuby}   # (rvm current/RUBY_VERSION)"
-    alias rvmset="source $f"
-    alias rvmupd='rvm get stable'
-    alias rvmrel='rvm reload'
-    # Use '' for rvmgem, not ""a, want to do $GEM_HOME at cmd-runtime:
-    alias rvmgem='GEM_PATH=$GEM_HOME gem list'
-    # Add 'current-ruby' info to prompt's preceding-where line:
-    SetPrompt '`pwd`' ' -- {`rvm current`}' ' -- [clock `date +%T`]'
-  else
-    # Default Ruby version, system-wide install --
-    #    $ sudo apt-add-repository ppa:brightbox/ruby-ng
-    #    $ sudo apt-get update
-    #    $ sudo apt-get install ruby2.x ruby2.x-dev ruby-switch
-    f="/usr/bin/ruby-switch"  # where it's installed...
-    if [ -f "$f" ]; then
-      setruby     # function setruby is based on ruby-switch
-    fi
-  fi
-fi
+# Magic ruby* function definitions --
+f="$HOME/bin/login/ruby-magik"
+[ -f "$f" ] && source $f
 # -----------------------------
 
 # --- Supercede RVM's cd function here...
