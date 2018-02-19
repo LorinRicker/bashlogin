@@ -4,7 +4,7 @@
 # Lorin Ricker: bash Ruby support
 
 shF="$( basename ${0#-} ) - ruby-magik"  # generates: 'bash - ruby-magik'
-Ident="${shF}  # (LMR version 1.00 of 02/18/2018)"
+Ident="${shF}  # (LMR version 1.01 of 02/19/2018)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
 
 # -----
@@ -12,7 +12,11 @@ Ident="${shF}  # (LMR version 1.00 of 02/18/2018)"
 # file to refactor for easier distribution/sharing
 # -----
 
-rubydefversion="2.5.0"
+# Set the desired default version of Ruby (as installed):
+# ------------------------#
+   rubydefversion="2.5.0" #
+# ------------------------#
+
 # Ruby Environment Manager -- RBENV setup:
 # === RBENV ====
 # Use rbenv (https://github.com/rbenv/rbenv) in preference to rvm --
@@ -23,6 +27,10 @@ if [ -f "$f" ]; then
   rbenv local ${rubydefversion}
   export RUBY_VERTOOLS="rbenv"
   setruby  # sets multi-line PS1 prompt-string including Ruby version#
+  # Also, set-up alias command for the rbenv-doctor script,
+  # and for on-the-fly rbenv initialization --
+  alias dr-rbenv="curl -fsSL https://github.com/rbenv/rbenv-installer/raw/master/bin/rbenv-doctor | bash"
+  alias initrbenv='eval "$(~/.rbenv/bin/rbenv init -)"'
 else
   # Ruby Version Manager -- RVM setup:
   # === RVM ===

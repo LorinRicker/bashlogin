@@ -26,7 +26,7 @@
 # =================================================================================
 
 shF="$HOME/bin/login/bashrc"
-Ident="${shF}  # (LMR version 6.00 of 02/18/2018)"
+Ident="${shF}  # (LMR version 6.01 of 02/19/2018)"
 # Exports global variable DEBUGMODE (value '0'|'1'):
 f="$HOME/bin/login/debugmode"
 if [ -f $f ]; then
@@ -157,8 +157,23 @@ tpad OFF 1>/dev/null 2>/dev/null ; tpad show 1>/dev/null 2>/dev/null
 # do this *before* RVM setup! ...
 f="$HOME/bin/login/path-magik"
 [ -f "$f" ] && source $f
+# Diagnostic:
+# echo "Original PATH = $PATH"
+# path
+# cleanpath is defined in aliases; exeucte it to remove any
+# accumulated duplicates from PATH, and show the PATH here:
+export PATH=$( perfectpath ${RUBY_CURRENT_VERSION} )
+cleanpath ; path
+
+# Get the correct PATH straightened out and established
+#   *before* setting-up rbenv (or others)...
 
 # Magic ruby* function definitions --
+# f="$HOME/.rbenv/bin/rbenv"
+# if [ -f "$f" ]; then
+#   echo "%bashrc-I, rbenv init..."
+#   eval "$(rbenv init -)"
+# fi
 f="$HOME/bin/login/ruby-magik"
 [ -f "$f" ] && source $f
 # -----------------------------
@@ -169,11 +184,6 @@ f="$HOME/bin/login/ruby-magik"
 # cd and where functions:
 f="$HOME/bin/login/cd-magik"
 [ -f "$f" ] && source $f
-
-# cleanpath is defined in aliases; exeucte it to remove any
-# accumulated duplicates from PATH, and show the PATH here:
-export PATH=$( perfectpath ${RUBY_CURRENT_VERSION} )
-cleanpath ; path
 
 # =========================
 # Show your own aliases & logicals at login-time --
