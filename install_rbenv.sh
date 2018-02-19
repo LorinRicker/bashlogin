@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+# First, clean out any previous Ruby environment/managers:
+#   a) sudo apt-get purge ruby-switch
+#   b) "deltree" the whole ~/.rvm... subdirectory tree
+
 # install_rbenv.sh
 # See https://github.com/rbenv/rbenv
 
