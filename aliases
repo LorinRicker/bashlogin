@@ -4,7 +4,7 @@
 # Lorin Ricker: personal aliases
 
 shF="$( basename ${0#-} ) - aliases"
-Ident="${shF}  # (LMR version 5.22 of 02/12/2018)"
+Ident="${shF}  # (LMR version 5.23 of 02/20/2018)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
 
 # =========================
@@ -120,6 +120,7 @@ alias   dwho='who -HbdprtTu'
 alias   duck='du -skch * | sort -rn'  # Top-level totals
 alias  freek='free -ktl'
 alias  freem='free -mtl'
+alias  treed='tree -aphD --du'
 # e2label /dev/sdb1 newLabel  # to "set volume /dev/sdb1 newLabel"
 alias initx3='sudo mke2fs -t ext3 -L'
 alias initx4='sudo mke2fs -t ext4 -L'
