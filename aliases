@@ -4,7 +4,7 @@
 # Lorin Ricker: personal aliases
 
 shF="$( basename ${0#-} ) - aliases"
-Ident="${shF}  # (LMR version 5.23 of 02/20/2018)"
+Ident="${shF}  # (LMR version 5.24 of 02/20/2018)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
 
 # =========================
@@ -18,8 +18,8 @@ alias relogin="source ~/.bashrc"
 # =========================
 
 # PATH fixups:
-alias cleanpath='PATH=$( pathclean "$PATH" )'
-alias   fixpath='PATH=$( perfectpath )'
+alias cleanpath='export PATH=$( pathclean "$PATH" )'
+alias   fixpath='export PATH=$( perfectpath )'
 
 # =========================
 

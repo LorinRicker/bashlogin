@@ -159,11 +159,11 @@ f="$HOME/bin/login/path-magik"
 [ -f "$f" ] && source $f
 # Diagnostic:
 # echo "Original PATH = $PATH"
-# path
-# cleanpath is defined in aliases; exeucte it to remove any
-# accumulated duplicates from PATH, and show the PATH here:
+# Initialize my own PATH, then remove any
+# accumulated duplicates, and show it here:
 export PATH=$( perfectpath ${RUBY_CURRENT_VERSION} )
-cleanpath ; path
+export PATH=$( pathclean "$PATH" )
+path
 
 # Get the correct PATH straightened out and established
 #   *before* setting-up rbenv (or others)...

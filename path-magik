@@ -4,7 +4,7 @@
 # Lorin Ricker: bash path functions
 
 shF="$( basename ${0#-} ) - path-magik"  # generates: 'bash - path-magik'
-Ident="${shF}  # (LMR version 1.06 of 02/18/2018)"
+Ident="${shF}  # (LMR version 1.07 of 02/20/2018)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
 
 # -----
@@ -36,8 +36,8 @@ perfectpath()
     # Use rbenv (https://github.com/rbenv/rbenv) in preference to rvm --
     f="$HOME/.rbenv/bin/rbenv"
     if [ -f "$f" ]; then
-      p="$HOME/.rbenv/bin"
-      p="$p:$HOME/.rbenv/shims"
+      p="$HOME/.rbenv/shims"
+      p="$p:$HOME/.rbenv/bin"
       p="$p:$HOME/bin/dcllinks"
     else
       # rvm (https://rvm.io/)
@@ -62,7 +62,7 @@ perfectpath()
     p="$p:/sbin"
     p="$p:/bin"
     p="$p:/usr/games"
-    echo "$p"
+    echo "$p"  # return the desired string to caller: PATH
   }
 export -f perfectpath
 
