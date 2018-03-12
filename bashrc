@@ -26,7 +26,7 @@
 # =================================================================================
 
 shF="$HOME/bin/login/bashrc"
-Ident="${shF}  # (LMR version 6.01 of 02/19/2018)"
+Ident="${shF}  # (LMR version 6.02 of 03/19/2018)"
 # Exports global variable DEBUGMODE (value '0'|'1'):
 f="$HOME/bin/login/debugmode"
 if [ -f $f ]; then
@@ -41,7 +41,7 @@ case $- in
   *i* ) # Interactive... (continue)
    ;;
   * )   # Not interactive (or login), nothing else to do...
-   return
+   # return
    ;;
 esac
 
