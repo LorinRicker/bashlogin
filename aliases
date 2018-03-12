@@ -4,7 +4,7 @@
 # Lorin Ricker: personal aliases
 
 shF="$( basename ${0#-} ) - aliases"
-Ident="${shF}  # (LMR version 5.24 of 02/20/2018)"
+Ident="${shF}  # (LMR version 5.25 of 03/09/2018)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
 
 # =========================
@@ -124,7 +124,9 @@ alias  treed='tree -aphD --du'
 # e2label /dev/sdb1 newLabel  # to "set volume /dev/sdb1 newLabel"
 alias initx3='sudo mke2fs -t ext3 -L'
 alias initx4='sudo mke2fs -t ext4 -L'
-alias recall='history | grep '     # needs argument
+
+# "recall" is now a bash function, not an alias --
+#alias recall='history | grep -i '     # needs argument
 
 # Just be sure that my "main printer" is named "sysprint"
 # (not something printer-model-number-specific):
