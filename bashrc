@@ -26,11 +26,7 @@
 # =================================================================================
 
 shF="$HOME/bin/login/bashrc"
-<<<<<<< HEAD
-Ident="${shF}  # (LMR version 6.02 of 03/19/2018)"
-=======
 Ident="${shF}  # (LMR version 6.02 of 03/12/2018)"
->>>>>>> 6ea9b8b9c59a96f81fd7388e2cf39bf4766c289f
 # Exports global variable DEBUGMODE (value '0'|'1'):
 f="$HOME/bin/login/debugmode"
 if [ -f $f ]; then
