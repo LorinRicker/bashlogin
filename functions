@@ -4,7 +4,7 @@
 # Lorin Ricker: bash functions
 
 shF="$( basename ${0#-} ) - functions"
-Ident="${shF}  # (LMR version 5.11 of 03/09/2018)"
+Ident="${shF}  # (LMR version 5.12 of 03/13/2018)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
 
 # -----
@@ -312,11 +312,13 @@ export -f lsppa
 
 # =========================
 
-recall()
+# apparently, "recall" is now a bash-reserved/used word,
+# so must rename my recall --> rcl
+rcl()
   {
-  history | egrep --color -i "$1"
+   history | egrep --color -i "$1"
   }
-export -f recall
+export -f rcl
 
 # Display only last field from squeezed-split-fields line:
 lastfield()
