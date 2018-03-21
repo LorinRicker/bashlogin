@@ -4,7 +4,7 @@
 # Lorin Ricker: personal aliases
 
 shF="$( basename ${0#-} ) - aliases"
-Ident="${shF}  # (LMR version 5.26 of 03/13/2018)"
+Ident="${shF}  # (LMR version 5.27 of 03/21/2018)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
 
 # =========================
@@ -299,9 +299,13 @@ alias cl8="ssh lricker@class8.parsec.com"
 
 if [ "$HOSTNAME" == "alikot" ]; then   # I'm at work...
   alias ftpmaint='ssh -p 23523 lricker@10.217.4.34'
+
+  alias swoca="/opt/cisco/anyconnect/bin/vpnui &"
+
   # # Be sure that the Denver Post VPN is up for these:
   # alias DRAX01="telnet 172.24.65.21"
   # alias DRAX02="telnet 172.24.65.22"
+
   # # PacMed now gives us a Pulse Secure Linux client for VPN access.
   # #   See "~/ParsecGroup/Customer Network Connectivity, VPNs etc/Pulse Secure Linux VPN client/"
   # #   for ps-pulse-linux-8.1r7.0-b41041-ubuntu-debian-installer.deb distro-file...
