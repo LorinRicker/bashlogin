@@ -6,7 +6,7 @@
 #   now just using whatever is specified per casing.
 
 shF="$( basename ${0#-} ) - logicals"
-Ident="${shF}  # (LMR version 5.19 of 03/31/2018)"
+Ident="${shF}  # (LMR version 5.20 of 04/07/2018)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
 
 # case ${HOSTNAME} in  # /vm/Mirrors or /usr/Mirrors ...?
@@ -80,9 +80,9 @@ deflogical "usbarchive" "$mymedia/lmr/Archive"
 deflogical "usblorin"   "$mymedia/lmr/lorin"
 
 # Archive disk - 500Gb (2-1/2"):
-deflogical "archome"    "$mymedia/home/lorin"
+deflogical "archome"    "$mymedia/bckup1/lorin"
 # deflogical "archome"    "$mymedia/usr/Mirrors/lorin"
-deflogical "arclib"     "$mymedia/usr/Mirrors/LorinLibrary"
+deflogical "arclib"     "$mymedia/bckup1/Mirrors/LorinLibrary"
 
 # Music's primary disk - 2Tb (5"):
 deflogical "musichome"  "$mymedia/c2148be6-73e0-42b7-a2aa-51ac2d8075b9/lorin"

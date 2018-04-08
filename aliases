@@ -4,7 +4,7 @@
 # Lorin Ricker: personal aliases
 
 shF="$( basename ${0#-} ) - aliases"
-Ident="${shF}  # (LMR version 5.27 of 03/21/2018)"
+Ident="${shF}  # (LMR version 5.28 of 04/07/2018)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
 
 # =========================
@@ -160,7 +160,7 @@ alias netcmd='source ~/bin/login/NetCommands'
 #   other options:  -t: statistics  -i: itemize-changes
 #                   -p: progress    -v: verbose
 alias bruhome="bru -ti --source=/home/lorin $archome"
-alias  brulib="bru -ti --source=/usr/Mirrors/LorinLibrary $arclib"
+alias  brulib="bru -ti --source=/home/Mirrors/LorinLibrary $arclib"
 alias howtobru='logicals | grep "arc\|music" ; alias | grep bru'
 # -------------------------
 
