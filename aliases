@@ -4,7 +4,7 @@
 # Lorin Ricker: personal aliases
 
 shF="$( basename ${0#-} ) - aliases"
-Ident="${shF}  # (LMR version 5.28 of 04/07/2018)"
+Ident="${shF}  # (LMR version 5.29 of 04/17/2018)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
 
 # =========================
@@ -13,7 +13,7 @@ Ident="${shF}  # (LMR version 5.28 of 04/07/2018)"
 alias loginsetup="$lgi/Login_Setup"
 
 # reset bash login environment:
-alias relogin="source ~/.bashrc"
+alias relogin="dbgmode ON && source ~/.bashrc && dbgmode OFF"
 
 # =========================
 
@@ -169,7 +169,7 @@ f="/usr/local/bin/eskil"   # this is a sym-link
 if [ -a $f ]; then
   alias eskil="$f &"
 else
-  echo "%${shF}-fnf, file not found \"$f\""
+  echo "%${shF}-w-fnf, file not found \"$f\""
 fi
 
 # -------------------------
@@ -187,7 +187,7 @@ f="$HOME/standard-notes/standard-notes-1.1.1-x86_64.AppImage"
 if [ -a $f ]; then
   alias stdnote="$f &"
 else
-  echo "%${shF}-fnf, file not found \"$f\""
+  echo "%${shF}-w-fnf, file not found \"$f\""
 fi
 
 # -------------------------
@@ -200,21 +200,21 @@ f="$HOME/bin/mkssf"
 if [ -a $f ]; then
   alias mkssf="source $f"   # same as ". $f"
 else
-  echo "%${shF}-fnf, file not found \"$f\""
+  echo "%${shF}-w-fnf, file not found \"$f\""
 fi
 
 #~ f="$HOME/bin/CopyLoginStash"
 #~ if [ -a $f ]; then
   #~ alias stashlog="$f"
 #~ else
-  #~ echo "%${shF}-fnf, file not found \"$f\""
+  #~ echo "%${shF}-w-fnf, file not found \"$f\""
 #~ fi
 
 #~ f="$HOME/bin/release2bin"
 #~ if [ -a $f ]; then
   #~ alias relbin="$f"
 #~ else
-  #~ echo "%${shF}-fnf, file not found \"$f\""
+  #~ echo "%${shF}-w-fnf, file not found \"$f\""
 #~ fi
 
 ### Don't need aliases for these, as the filename suffices as the command,
@@ -223,28 +223,28 @@ fi
 #~ if [ -a $f ]; then
   #~ alias essentials="$f"
 #~ else
-  #~ echo "%${shF}-fnf, file not found \"$f\""
+  #~ echo "%${shF}-w-fnf, file not found \"$f\""
 #~ fi
 
 #~ f="$HOME/bin/keepalive"
 #~ if [ -a $f ]; then
   #~ alias keepalive="$f"
 #~ else
-  #~ echo "%${shF}-fnf, file not found \"$f\""
+  #~ echo "%${shF}-w-fnf, file not found \"$f\""
 #~ fi
 
 #~ f="$HOME/bin/mping"
 #~ if [ -a $f ]; then
   #~ alias mping="$f"
 #~ else
-  #~ echo "%${shF}-fnf, file not found \"$f\""
+  #~ echo "%${shF}-w-fnf, file not found \"$f\""
 #~ fi
 
 #~ f="$HOME/bin/rollup"
 #~ if [ -a $f ]; then
   #~ alias rollup="$f"
 #~ else
-  #~ echo "%${shF}-fnf, file not found \"$f\""
+  #~ echo "%${shF}-w-fnf, file not found \"$f\""
 #~ fi
 
 # # support for personal backup logfile monitoring:
@@ -285,7 +285,7 @@ if [ "$HOSTNAME" == "burro" ]; then   # I'm at home...
   if [ -a $f ]; then
     alias crashplan="sudo $f"
   else
-    echo "%${shF}-fnf, file not found \"$f\""
+    echo "%${shF}-w-fnf, file not found \"$f\""
   fi
 fi
 

@@ -28,3 +28,5 @@
 	rseturl = remote set-url origin
 	stat = status
 	wtf = whatchanged
+[cola]
+	spellcheck = false
