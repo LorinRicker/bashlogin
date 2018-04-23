@@ -4,7 +4,7 @@
 # Lorin Ricker: personal aliases
 
 shF="$( basename ${0#-} ) - aliases"
-Ident="${shF}  # (LMR version 5.29 of 04/17/2018)"
+Ident="${shF}  # (LMR version 5.30 of 04/23/2018)"
 [ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
 
 # =========================
@@ -284,6 +284,13 @@ if [ "$HOSTNAME" == "burro" ]; then   # I'm at home...
   f="/usr/local/crashplan/bin/CrashPlanDesktop"
   if [ -a $f ]; then
     alias crashplan="sudo $f"
+  else
+    echo "%${shF}-w-fnf, file not found \"$f\""
+  fi
+  f="/usr/local/crashplan/bin/CrashPlanEngine"
+  if [ -a $f ]; then
+    alias  cplanstop="sudo $f stop"
+    alias cplanstart="sudo $f start"
   else
     echo "%${shF}-w-fnf, file not found \"$f\""
   fi
