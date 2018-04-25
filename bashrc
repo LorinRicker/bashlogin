@@ -46,7 +46,7 @@ case $- in
 esac
 
 # show Linux version, etc.
-uname -a
+uname -noprsv | grep Linux  # highlight...
 
 # -----------------------------
 # Establish the right text editor defaults:
