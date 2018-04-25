@@ -26,7 +26,7 @@
 # =================================================================================
 
 shF="$HOME/bin/login/bashrc"
-Ident="${shF}  # (LMR version 6.02 of 03/12/2018)"
+Ident="${shF}  # (LMR version 6.03 of 04/25/2018)"
 # Exports global variable DEBUGMODE (value '0'|'1'):
 f="$HOME/bin/login/debugmode"
 if [ -f $f ]; then
@@ -44,6 +44,9 @@ case $- in
    # return
    ;;
 esac
+
+# show Linux version, etc.
+uname -a
 
 # -----------------------------
 # Establish the right text editor defaults:
