@@ -17,8 +17,8 @@
 #
 
 shF="$( basename ${0#-} ) - DCL-magik"
-Ident="${shF}  # (LMR version 2.01 of 07/21/2016)"
-[ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
+Ident="${shF}  # (LMR version 2.02 of 05/01/2018)"
+[ "$DEBUGMODE" \> "0" ] && echo "%login-I, ${Ident}"
 
 # $ sudo mkdir /mnt/class8 -v
 # [sudo] password for lorin:

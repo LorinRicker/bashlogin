@@ -4,8 +4,8 @@
 # Lorin Ricker: bash functions
 
 shF="$( basename ${0#-} ) - functions"
-Ident="${shF}  # (LMR version 5.12 of 03/13/2018)"
-[ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
+Ident="${shF}  # (LMR version 5.13 of 05/01/2018)"
+[ "$DEBUGMODE" \> "0" ] && echo "%login-I, ${Ident}"
 
 # -----
 # Moved definition of function cd() to its own file cd

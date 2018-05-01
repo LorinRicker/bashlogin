@@ -4,8 +4,8 @@
 # Lorin Ricker: document functions (bash)
 
 shF="$( basename ${0#-} ) - doc_function"
-Ident="${shF}  # (LMR version 4.04 of 09/12/2012)"
-[ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
+Ident="${shF}  # (LMR version 4.05 of 05/01/2018)"
+[ "$DEBUGMODE" \> "0" ] && echo "%login-I, ${Ident}"
 
 dochandler()
   { # $1 - filename to display

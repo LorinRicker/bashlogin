@@ -4,8 +4,8 @@
 # Lorin Ricker: bash Ruby support
 
 shF="$( basename ${0#-} ) - ruby-magik"  # generates: 'bash - ruby-magik'
-Ident="${shF}  # (LMR version 1.01 of 02/19/2018)"
-[ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
+Ident="${shF}  # (LMR version 1.02 of 05/01/2018)"
+[ "$DEBUGMODE" \> "0" ] && echo "%login-I, ${Ident}"
 
 # -----
 # Moved Ruby functions to separate ruby-magik source
@@ -22,7 +22,7 @@ Ident="${shF}  # (LMR version 1.01 of 02/19/2018)"
 # Use rbenv (https://github.com/rbenv/rbenv) in preference to rvm --
 f="$HOME/.rbenv/bin/rbenv"
 if [ -f "$f" ]; then
-  echo "%ruby-magik-I, rbenv setup..."
+  [ "$DEBUGMODE" \> "0" ] && echo "%ruby-magik-I, rbenv setup..."
   eval "$(rbenv init -)"
   rbenv local ${rubydefversion}
   export RUBY_VERTOOLS="rbenv"
@@ -62,14 +62,14 @@ else
   #  == end RVM ===
   f="$HOME/.rvm/scripts/rvm"
   if [ -f "$f" ]; then
-    echo "%ruby-magik-I, rvm setup..."
+    [ "$DEBUGMODE" \> "0" ] && echo "%ruby-magik-I, rvm setup..."
     source $f
     # Set "latest" ruby with corresponding gemsets --
     # change this with new RVM installs --
     rvm use ${rubydefversion}          # just to...
     rvm gemset use bootcamp            # get started...
     curRuby=$( rvm current )
-    echo "Using Ruby version: ${curRuby}   # (rvm current/RUBY_VERSION)"
+    [ "$DEBUGMODE" \> "0" ] && echo "Using Ruby version: ${curRuby}   # (rvm current/RUBY_VERSION)"
     alias rvmset="source $f"
     alias rvmupd='rvm get stable'
     alias rvmrel='rvm reload'

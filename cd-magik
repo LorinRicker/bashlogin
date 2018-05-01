@@ -4,8 +4,8 @@
 # Lorin Ricker: bash functions
 
 shF="$( basename ${0#-} ) - cd-magik"
-Ident="${shF}  # (LMR version 1.02 of 07/22/2015)"
-[ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
+Ident="${shF}  # (LMR version 1.03 of 05/01/2018)"
+[ "$DEBUGMODE" \> "0" ] && echo "%login-I, ${Ident}"
 
 # =========================
 # Need a smart VMS-cd here...

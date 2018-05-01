@@ -26,13 +26,13 @@
 # =================================================================================
 
 shF="$HOME/bin/login/bashrc"
-Ident="${shF}  # (LMR version 6.03 of 04/25/2018)"
+Ident="${shF}  # (LMR version 6.04 of 05/01/2018)"
 # Exports global variable DEBUGMODE (value '0'|'1'):
 f="$HOME/bin/login/debugmode"
 if [ -f $f ]; then
   [ -z "$DEBUGMODE" ] && source $f OFF
 fi
-[ "$DEBUGMODE" = "1" ] && echo "%bashrc:login-I, ${Ident}"
+[ "$DEBUGMODE" \> "0" ] && echo "%bashrc:login-I, ${Ident}"
 
 # If not running interactively, don't do anything
 ##[ -z "$PS1" ] && return
@@ -46,7 +46,7 @@ case $- in
 esac
 
 # show Linux version, etc.
-uname -noprsv | grep Linux  # highlight...
+[ "$DEBUGMODE" \> "0" ] && uname -noprsv | grep --color=auto Linux  # highlight...
 
 # -----------------------------
 # Establish the right text editor defaults:
@@ -140,9 +140,9 @@ f="$HOME/bin/login/ANSI-magik"
 f="$HOME/bin/login/pygmentize-magik"
 [ -f "$f" ] && source $f
 
-# doc function:
-f="$HOME/bin/login/doc_function"
-[ -f "$f" ] && source $f
+# # doc function:
+# f="$HOME/bin/login/doc_function"
+# [ -f "$f" ] && source $f
 
 # -----------------------------
 # Enable programmable completion features (you don't need to enable this, if it's
@@ -166,7 +166,7 @@ f="$HOME/bin/login/path-magik"
 # accumulated duplicates, and show it here:
 export PATH=$( perfectpath ${RUBY_CURRENT_VERSION} )
 export PATH=$( pathclean "$PATH" )
-path
+[ "$DEBUGMODE" \> "0" ] && path
 
 # Get the correct PATH straightened out and established
 #   *before* setting-up rbenv (or others)...

@@ -6,8 +6,8 @@
 #   now just using whatever is specified per casing.
 
 shF="$( basename ${0#-} ) - logicals"
-Ident="${shF}  # (LMR version 5.20 of 04/07/2018)"
-[ "$DEBUGMODE" = "1" ] && echo "%login-I, ${Ident}"
+Ident="${shF}  # (LMR version 5.21 of 05/01/2018)"
+[ "$DEBUGMODE" \> "0" ] && echo "%login-I, ${Ident}"
 
 # case ${HOSTNAME} in  # /vm/Mirrors or /usr/Mirrors ...?
 #   music )
